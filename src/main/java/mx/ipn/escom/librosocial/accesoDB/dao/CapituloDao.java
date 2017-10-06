@@ -7,6 +7,7 @@ package mx.ipn.escom.librosocial.accesoDB.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import mx.ipn.escom.librosocial.accesoDB.mapeo.Capitulo;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Service;
  */
 @Service("capituloDao")
 @Scope(value = BeanDefinition.SCOPE_SINGLETON)
-public class Capitulo {
+public class CapituloDao {
     @Autowired
 	private SessionFactory sessionFactory;
     
