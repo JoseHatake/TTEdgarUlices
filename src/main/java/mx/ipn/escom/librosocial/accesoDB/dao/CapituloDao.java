@@ -39,13 +39,12 @@ public class CapituloDao {
         return capitulo;
     }
     
-    public void borrar(Capitulo capitulo){
+    public void eliminar(Capitulo capitulo){
         sessionFactory.getCurrentSession().delete(capitulo);
     }
     
-    public void borrar(Integer id){
-        Capitulo capitulo = this.buscarPorId(id);
-        this.borrar(capitulo);
+    public void eliminar(Integer id){
+        this.eliminar(this.buscarPorId(id));
     }
     
     public Capitulo buscarPorId(Integer id){

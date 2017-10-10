@@ -40,12 +40,12 @@ public class CapituloBs {
     
     @Transactional(rollbackFor = Exception.class)
     public void borrar(Capitulo capitulo){
-        capituloDao.borrar(capitulo);
+        capituloDao.eliminar(capitulo);
     }
     
     @Transactional(rollbackFor = Exception.class)
     public void borrar(Integer id){
-        capituloDao.borrar(id);
+        capituloDao.eliminar(id);
     }
     
     @Transactional(readOnly = true)
