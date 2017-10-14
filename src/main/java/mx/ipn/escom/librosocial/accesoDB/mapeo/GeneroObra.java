@@ -38,7 +38,7 @@ public class GeneroObra {
     
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "idGenero",referencedColumnName = "idGenero",insertable = false,updatable = false)
-    private List<Generos> generosObj;
+    private List<Genero> generosObj;
 
     public Integer getId() {
         return id;
@@ -72,11 +72,11 @@ public class GeneroObra {
         this.obraObj = obraObj;
     }
 
-    public List<Generos> getGenerosObj() {
+    public List<Genero> getGenerosObj() {
         return generosObj;
     }
 
-    public void setGenerosObj(List<Generos> generosObj) {
+    public void setGenerosObj(List<Genero> generosObj) {
         this.generosObj = generosObj;
     }
 }

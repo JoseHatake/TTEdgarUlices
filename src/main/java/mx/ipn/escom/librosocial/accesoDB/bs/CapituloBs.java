@@ -39,12 +39,12 @@ public class CapituloBs {
     }
     
     @Transactional(rollbackFor = Exception.class)
-    public void borrar(Capitulo capitulo){
+    public void eliminar(Capitulo capitulo){
         capituloDao.eliminar(capitulo);
     }
     
     @Transactional(rollbackFor = Exception.class)
-    public void borrar(Integer id){
+    public void eliminar(Integer id){
         capituloDao.eliminar(id);
     }
     

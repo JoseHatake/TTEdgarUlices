@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "generos")
-public class Generos {
+public class Genero {
     @Id
     @Column(name = "idGenero")
     private Integer id;
