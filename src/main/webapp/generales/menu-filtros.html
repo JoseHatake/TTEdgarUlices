@@ -1,0 +1,88 @@
+<form action="FiltradoLibros" class="opciones-menu">
+	<nav>
+		<ul>
+			<li>
+				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('idioma')">
+					<div class="texto-centro opciones-menu-altura izquierda">
+						<p>Idioma</p>
+					</div>
+				</div>
+				<ul>
+					<li class="subopcion-menu-margenes oculto" id="idioma">
+						<select name="idioma">
+							<option value="">Selecciona el idioma</option>
+							<option value="es">Español</option>
+							<option value="en">Inglés</option>
+						</select>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<div class="opciones-menu-altura padding-menu"  onclick="switchEstado('genero')">
+					<div class="texto-centro opciones-menu-altura izquierda">
+						<p>Género</p>
+					</div>
+				</div>
+				<ul>
+					<li class="subopcion-menu-margenes oculto" id="genero">
+						<select name="genero">
+							<option value="">Selecciona el género</option>
+							<option value="1">Terror</option>
+							<option value="2">Dráma</option>
+							<option value="3">Novela</option>
+						</select>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('ranking')">
+					<div class="texto-centro opciones-menu-altura izquierda">
+						<p>Ranking de autor</p>
+					</div>
+				</div>
+				<ul>
+					<li class="subopcion-menu-margenes oculto" id="ranking">
+						<input type="range" name="rankUsuario" value="0" min="0" max="5">
+					</li>
+				</ul>
+			</li>
+			<li>
+				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('fecha')">
+					<div class="texto-centro opciones-menu-altura izquierda">
+						<p>Fecha de publicación</p>
+					</div>
+				</div>
+				<ul>
+					<li class="subopcion-menu-margenes oculto" id="fecha">
+						<input type="date" name="fechaPublicacion" placeholder="2000-01-01">	
+					</li>
+				</ul>
+			</li>
+			<li>
+				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('capitulos')">
+					<div class="texto-centro opciones-menu-altura izquierda">
+						<p>Número de capítulos</p>
+					</div>
+				</div>
+				<ul>
+					<li class="subopcion-menu-margenes oculto" id="capitulos">
+						<input type="text" name="capitulos" placeholder="Número">	
+					</li>
+				</ul>
+			</li>
+			<li>
+				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('popularidad')">
+					<div class="texto-centro opciones-menu-altura izquierda">
+						<p>Popularidad</p>
+					</div>
+				</div>
+				<ul>
+					<li class="subopcion-menu-margenes oculto" id="popularidad">
+						<input type="range" name="popularidad" value="0" min="0" max="5">
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<input type="submit" class="vinculos boton-formulario centrar" value="Filtrar">
+</form>

@@ -1,0 +1,145 @@
+.centrar{
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	display: block;
+}
+.izquierda{
+	float: left;
+}
+.derecha{
+	float: right;
+}
+.texto-centro{
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	flex-direction: column;
+	vertical-align: middle;
+	overflow: hidden;
+}
+.contenedor{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+.perfil-altura{
+	height: 50px;
+}
+.perfil{
+	border-radius: 25px;
+	background-color: #FFFFFF;
+	overflow: hidden;
+	display: block;
+}
+.perfil:hover{
+	cursor: pointer;
+}
+.notificacion{
+	margin-right: 10px;
+	font-size: 18px;
+	color: white;
+}
+.img-circulo{
+	border-radius: 50%;
+}
+.img-perfil-icono{
+	width: 30px;
+	height: 30px;
+	margin-right: 10px;
+}
+.oculto{
+	display: none;
+}
+.menu-perfil{
+	top: 55px;
+	width: 300px;
+	position: absolute;
+	background-color: #FFFFFF;
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+	z-index: 100;
+}
+.boton-formulario{
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 4px;
+	padding-top: 4px;
+	border-radius: 4px;
+	font-size: 14px;
+}
+.boton-formulario:hover{
+	background-color: #DDDDDD;
+	cursor: pointer;
+}
+.vinculos{
+	margin-top: 10px;
+	margin-bottom: 20px;
+	text-align: left;
+	padding-right: 20px;
+	padding-left: 20px;
+}
+.vinculos a{
+	color: #7F7E7F;
+	border-radius: 10px;
+	background-color: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 3px;
+	padding-bottom: 2px;
+	line-height: 1.5em;
+}
+.vinculos a:hover{
+	color: white;
+	background-color: #A2A1A3;
+}
+.opciones-menu{
+	color: #000000;
+	text-align: left;
+}
+.contenedor-menu-perfil{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.contenedor-menu-perfil input{
+	border: solid 1px #DDDDDD;
+	font-size: 16px;
+	width: 120px;
+	margin-bottom: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.opciones-menu li{
+	overflow: hidden;
+	cursor: pointer;
+}
+.padding-menu{
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.opciones-menu a{
+	color: #7F7E7F;
+}
+.opciones-menu a:hover{
+	color: #000000;
+}
+.opciones-menu li:hover{
+	background-color: #DDDDDD;
+}
+.opciones-menu-altura{
+	height: 30px;
+}
+.subopcion-menu-margenes{
+	margin: 20px;
+	margin-top: 10px;
+}
+.menu-filtros{
+	width: 230px;
+	height: 100%;
+	font-size: 18px;
+	background-color: white;
+	position: fixed;
+}

@@ -1,0 +1,48 @@
+#logotipo{
+	width: 50px;
+	height: 50px;
+}
+#barraArriba{
+	width: 100%;
+}
+#cabecera{
+	height: 60px;
+}
+#formulario-busqueda{
+	width: 100%;
+	height: 30px;
+	margin-left: 30px;
+	overflow: hidden;
+}
+#input-buscar{
+	width: 90%;
+	min-width: 200px;
+	height: 100%;
+	font-size: 16px;
+}
+#button-buscar{
+	width: 10%;
+	min-width: 30px;
+	height: 100%;
+	font-size: 20px;
+	background-color: #EDECEC;
+}
+#button-buscar:hover{
+	background-color: #DDDDDD;
+	cursor: pointer;
+}
+#img-perfil{
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	float: left;
+}
+#nombre-perfil{
+	width: 100%;
+	min-width: 300px;
+}
+#menu-filtros{
+	color: white;
+	font-size: 30px;
+	cursor: pointer;
+}
