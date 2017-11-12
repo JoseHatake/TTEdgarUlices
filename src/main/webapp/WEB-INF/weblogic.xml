@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://xmlns.oracle.com/weblogic/weblogic-web-app http://xmlns.oracle.com/weblogic/weblogic-web-app/1.8/weblogic-web-app.xsd">
-  <jsp-descriptor>
-    <keepgenerated>true</keepgenerated>
-    <debug>true</debug>
-  </jsp-descriptor>
-  <context-root>/LibroSocial</context-root>
-</weblogic-web-app>
+<wls:weblogic-web-app
+	xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-web-app"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee">
+	<wls:weblogic-version>12.1.3.0.0</wls:weblogic-version>
+	<wls:context-root>STCM-LibroSocial</wls:context-root>
+	<wls:container-descriptor>
+		<wls:prefer-application-packages>
+			<wls:package-name>org.slf4j</wls:package-name>
+		</wls:prefer-application-packages>
+	</wls:container-descriptor>
+</wls:weblogic-web-app>

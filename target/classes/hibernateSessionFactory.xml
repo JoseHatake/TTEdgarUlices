@@ -43,8 +43,8 @@
 		<!-- Define dónde serán buscadas las clases anotadas definidas como entidades de JPA -->
 		<property name="packagesToScan">
 			<list>
-				<value>mx.ipn.escom.librosocial.accesoDB</value>
-				<value>mx.ipn.escom.librosocial.accesoDB.*</value>
+				<value>mx.ipn.escom.socialwriters.accesoDB</value>
+				<value>mx.ipn.escom.socialwriters.accesoDB.*</value>
 			</list>
 		</property>
 	</bean>

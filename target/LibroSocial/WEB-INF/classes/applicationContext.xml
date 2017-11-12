@@ -21,6 +21,15 @@
 			</list>
 		</property>
 	</bean>
+        
+        <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+            <property name="basename" value="/mensajes/messages"/>
+            <property name="defaultEncoding" value="UTF-8" />
+        </bean>
+        
+        <bean id="localeResolver"
+              class="org.springframework.web.servlet.i18n.SessionLocaleResolver">	
+        </bean>
 
 	<!-- Se importa el recurso dataSource.xml -->
 	<import resource="dataSource.xml" />
