@@ -34,7 +34,6 @@ public class RankingUsuarioBs {
         model.setEstrellas(rankingUsuario.getEstrellas());
         model.setIdUsuarioRankea(rankingUsuario.getIdUsuarioRankea());
         model.setIdUsuarioRankeado(rankingUsuario.getIdUsuarioRankeado());
-        model.setUsuariosRankeaObj(rankingUsuario.getUsuariosRankeaObj());
         model.setUsuarioRankeadoObj(rankingUsuario.getUsuarioRankeadoObj());
         return rankingUsuarioDao.actualizar(model);
     }

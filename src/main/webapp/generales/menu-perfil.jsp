@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div id="iniciar-sesion" class="menuSlide menu-perfil oculto">
     <form action="IniciarSesion" method="POST">
         <table class="contenedor-menu-perfil">
@@ -7,8 +8,8 @@
                     <td><input type="text" name="usuario" placeholder="Usuario" maxlength="20"></td>
                 </tr>
                 <tr>
-                    <td align="left"><label for="clave" style="margin-right: 10px;">ContraseÃ±a</label></td>
-                    <td><input type="password" name="clave" placeholder="Â·Â·Â·Â·Â·" maxlength="20"></td>
+                    <td align="left"><label for="clave" style="margin-right: 10px;">Contraseña</label></td>
+                    <td><input type="password" name="clave" placeholder="·····" maxlength="20"></td>
                 </tr>
             </tbody>
         </table>
@@ -17,7 +18,7 @@
     <div class="vinculos">
         <a href="NuevoUsuario">Registrarse</a>
         <br>
-        <a href="RecuperarCuenta">Â¿OlvidÃ³ su contraseÃ±a?</a>
+        <a href="RecuperarCuenta">Olvidó su contraseña?</a>
     </div>
 </div>
 <div id="usuario" class="menuSlide menu-perfil oculto">
@@ -26,9 +27,9 @@
             <ul>
                 <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Perfil</p></div></li></a>
                 <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ Obra</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ CapÃ­tulo</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cambiar contraseÃ±a</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cerrar sesiÃ³n</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ Capítulo</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cambiar contraseña</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cerrar sesión</p></div></li></a>
             </ul>
         </div>
         <hr>
@@ -51,13 +52,13 @@
     <nav class="contenedor-menu-perfil">
         <div class="opciones-menu">
             <ul>
-                <a href="index.jsp"><li><div class="texto-centro opcion-menu-altura izquierda"><p>Perfil</p></div></li></a>
-                <a href="index.jsp"><li><div class="texto-centro opcion-menu-altura izquierda"><p>Ver reportes</p></div></li></a>
-                <a href="index.jsp"><li><div class="texto-centro opcion-menu-altura izquierda"><p>Reportes pendientes</p></div></li></a>
-                <a href="index.jsp"><li><div class="texto-centro opcion-menu-altura izquierda"><p>Obras bloqueadas</p></div></li></a>
-                <a href="index.jsp"><li><div class="texto-centro opcion-menu-altura izquierda"><p>Usuarios bloqueados</p></div></li></a>
-                <a href="index.jsp"><li><div class="texto-centro opcion-menu-altura izquierda"><p>Cambiar contraseÃ±a</p></div></li></a>
-                <a href="index.jsp"><li><div class="texto-centro opcion-menu-altura izquierda"><p>Cerrar sesiÃ³n</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opcion-menu-altura izquierda"><p>Perfil</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opcion-menu-altura izquierda"><p>Ver reportes</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opcion-menu-altura izquierda"><p>Reportes pendientes</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opcion-menu-altura izquierda"><p>Obras bloqueadas</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opcion-menu-altura izquierda"><p>Usuarios bloqueados</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opcion-menu-altura izquierda"><p>Cambiar contraseña</p></div></li></a>
+                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opcion-menu-altura izquierda"><p>Cerrar sesión</p></div></li></a>
             </ul>
         </div>
     </nav>

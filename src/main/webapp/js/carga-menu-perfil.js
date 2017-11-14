@@ -1,11 +1,11 @@
 $(document).ready(function () {
 	/* Carga el menu correspondiente, dependiendo del contenedor asignado en al html */
 	if ($("#1").length)
-		$("#1").load('generales/menu-perfil.html #iniciar-sesion');
+		$("#1").load('generales/menu-perfil.jsp #iniciar-sesion');
 	else if($("#2").length)
-		$("#2").load('generales/menu-perfil.html #usuario');
+		$("#2").load('generales/menu-perfil.jsp #usuario');
 	else
-		$("#3").load('generales/menu-perfil.html #administrador');
+		$("#3").load('generales/menu-perfil.jsp #administrador');
 	/* Carga el menu correspondiente, dependiendo del contenedor asignado en al html */
 
 	var cont1 = 0;

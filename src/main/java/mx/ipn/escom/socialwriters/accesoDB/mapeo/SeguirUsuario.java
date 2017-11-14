@@ -5,13 +5,11 @@
  */
 package mx.ipn.escom.socialwriters.accesoDB.mapeo;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,48 +33,36 @@ public class SeguirUsuario {
     @OneToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "idUsuarioSigue",referencedColumnName = "idUsuario",insertable = false,updatable = false)
     private Usuario usuarioSigueObj;
-    
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idUsuarioSeguido",referencedColumnName = "idUsuario",insertable = false,updatable = false)
-    private List<Usuario> usuariosSeguidosObj;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getIdUsuarioSigue() {
-        return idUsuarioSigue;
-    }
+	public Integer getIdUsuarioSigue() {
+		return idUsuarioSigue;
+	}
 
-    public void setIdUsuarioSigue(Integer idUsuarioSigue) {
-        this.idUsuarioSigue = idUsuarioSigue;
-    }
+	public void setIdUsuarioSigue(Integer idUsuarioSigue) {
+		this.idUsuarioSigue = idUsuarioSigue;
+	}
 
-    public Integer getIdUsuarioSeguido() {
-        return idUsuarioSeguido;
-    }
+	public Integer getIdUsuarioSeguido() {
+		return idUsuarioSeguido;
+	}
 
-    public void setIdUsuarioSeguido(Integer idUsuarioSeguido) {
-        this.idUsuarioSeguido = idUsuarioSeguido;
-    }
+	public void setIdUsuarioSeguido(Integer idUsuarioSeguido) {
+		this.idUsuarioSeguido = idUsuarioSeguido;
+	}
 
-    public Usuario getUsuarioSigueObj() {
-        return usuarioSigueObj;
-    }
+	public Usuario getUsuarioSigueObj() {
+		return usuarioSigueObj;
+	}
 
-    public void setUsuarioSigueObj(Usuario usuarioSigueObj) {
-        this.usuarioSigueObj = usuarioSigueObj;
-    }
-
-    public List<Usuario> getUsuarioSeguidoObj() {
-        return usuariosSeguidosObj;
-    }
-
-    public void setUsuarioSeguidoObj(List<Usuario> usuarioSeguidoObj) {
-        this.usuariosSeguidosObj = usuarioSeguidoObj;
-    }
+	public void setUsuarioSigueObj(Usuario usuarioSigueObj) {
+		this.usuarioSigueObj = usuarioSigueObj;
+	}
 }

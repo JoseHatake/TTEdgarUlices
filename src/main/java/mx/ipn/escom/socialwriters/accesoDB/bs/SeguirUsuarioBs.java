@@ -34,7 +34,6 @@ public class SeguirUsuarioBs {
         model.setIdUsuarioSigue(seguirUsuario.getIdUsuarioSigue());
         model.setIdUsuarioSeguido(seguirUsuario.getIdUsuarioSeguido());
         model.setUsuarioSigueObj(seguirUsuario.getUsuarioSigueObj());
-        model.setUsuarioSeguidoObj(seguirUsuario.getUsuarioSeguidoObj());
         return seguirUsuarioDao.actualizar(model);
     }
     

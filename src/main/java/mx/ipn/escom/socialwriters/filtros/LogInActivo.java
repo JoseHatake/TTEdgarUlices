@@ -10,6 +10,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Persona;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 
 /**
@@ -33,19 +36,36 @@ public class LogInActivo implements Filter {
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+	 * Si el rol del usuario es true, entonces es administrador
+	 * Si el rol del usuario es false, entonces es usuario normal
+	 * 
+	 * perfil : es usado para indicar a la vista que menu cargar
+	 * nombre : inidca a la vista el nombre del usuario y de no exisstir solo coloca el mensaje de "Iniciar sesión"
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest requestCast = (HttpServletRequest) request;
-		HttpServletResponse responseCast = (HttpServletResponse) response;
 		HttpSession session = requestCast.getSession();
-		Usuario usuario = (Usuario) session.getAttribute("login");
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		Perfil perfilObj;
+		Persona personaObj;
+		Integer perfil = 1;
+		String nombre = "Iniciar sesión";
 		
-		if (usuario == null) {
-			responseCast.sendRedirect("index.jsp");
+		if (usuario != null) {
+			perfilObj = usuario.getPerfilObj();
+			personaObj = usuario.getPersonaObj();
+			nombre = personaObj.getNombre();
+			nombre += " " + personaObj.getPaterno();
+			nombre += " " + personaObj.getMaterno();
+			if (perfilObj.getRol())
+				perfil = 3;
+			else
+				perfil = 2;
 		}
-		else{
-			chain.doFilter(request, response);
-		}
+		session.setAttribute("perfil", perfil);
+		session.setAttribute("nombre", nombre);
+		
+		chain.doFilter(request, response);
 	}
 
 	/**

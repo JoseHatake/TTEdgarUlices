@@ -5,13 +5,11 @@
  */
 package mx.ipn.escom.socialwriters.accesoDB.mapeo;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -38,10 +36,6 @@ public class RankingUsuario {
     @OneToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "idUsuarioRankeado",referencedColumnName = "idUsuario",insertable = false,updatable = false)
     private Usuario usuarioRankeadoObj;
-    
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idUsuarioRankea",referencedColumnName = "idUsuario",insertable = false,updatable = false)
-    private List<Usuario> usuariosRankeadosObj;
 
     public Integer getId() {
         return id;
@@ -81,13 +75,5 @@ public class RankingUsuario {
 
 	public void setUsuarioRankeadoObj(Usuario usuarioRankeadoObj) {
 		this.usuarioRankeadoObj = usuarioRankeadoObj;
-	}
-
-	public List<Usuario> getUsuariosRankeaObj() {
-		return usuariosRankeadosObj;
-	}
-
-	public void setUsuariosRankeaObj(List<Usuario> usuariosRankeaObj) {
-		this.usuariosRankeadosObj = usuariosRankeaObj;
 	}
 }

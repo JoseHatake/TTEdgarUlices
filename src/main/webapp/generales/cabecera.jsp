@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <table id="barraArriba">
 	<tbody>
 		<tr>
@@ -22,10 +23,10 @@
 										<img src="img/default.jpg" class="img-circulo" alt="default">
 									</div>
 									<div id="nombre-perfil">
-										<div class="texto-centro perfil-altura"><p>Iniciar sesión</p></div>
+										<div class="texto-centro perfil-altura"><p>${nombre}</p></div>
 									</div>
 								</div>
-								<div id="3"></div>
+								<div id="${perfil}"></div>
 							</th>
 						</tr>
 					</tbody>
