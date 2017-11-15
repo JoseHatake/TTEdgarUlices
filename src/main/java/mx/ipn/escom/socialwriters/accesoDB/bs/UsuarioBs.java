@@ -34,9 +34,7 @@ public class UsuarioBs {
         model.setNick(usuario.getNick());
         model.setCorreo(usuario.getCorreo());
         model.setClave(usuario.getClave());
-        model.setIdPersona(usuario.getIdPersona());
         model.setIdPerfil(usuario.getIdPerfil());
-        model.setPersonaObj(usuario.getPersonaObj());
         model.setPerfilObj(usuario.getPerfilObj());
         return usuarioDao.actualizar(model);
     }
@@ -55,4 +53,14 @@ public class UsuarioBs {
     public Usuario buscarPorId(Integer id){
         return usuarioDao.buscarPorId(id);
     }
+    
+    @Transactional(readOnly = true)
+    public Boolean validaNick(String nickName) {
+    		return usuarioDao.validaNick(nickName);
+    }
+    
+    @Transactional(readOnly = true)
+	public Boolean validaCorreo(String correo) {
+		return usuarioDao.validaCorreo(correo);
+	}
 }

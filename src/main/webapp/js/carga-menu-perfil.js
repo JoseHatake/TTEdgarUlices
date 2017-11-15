@@ -40,7 +40,7 @@ $(document).ready(function () {
 			cont2 = 1;
 		}
 	});
-	$('.contenedor').click(function () {
+	$('.contenido').click(function () {
 		if (cont1 == 1) {
 			$('.menuSlide').slideUp("fast",function (){
 				bar.style.borderBottomLeftRadius = "25px";

@@ -6,7 +6,11 @@
 package mx.ipn.escom.socialwriters.accesoDB.dao;
 
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
+
+import java.util.List;
+
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +25,9 @@ import org.springframework.stereotype.Service;
 public class UsuarioDao {
     @Autowired
 	private SessionFactory sessionFactory;
+    
+    protected String QUERY1 = "select id from Usuario where nick = ?1";
+    protected String QUERY2 = "select id from Usuario where correo = ?1";
     
     public Usuario guardar(Usuario usuario){
         sessionFactory.getCurrentSession().save(usuario);
@@ -44,4 +51,18 @@ public class UsuarioDao {
     public Usuario buscarPorId(Integer id){
         return sessionFactory.getCurrentSession().load(Usuario.class, id);
     }
+    
+    public Boolean validaNick(String nickName) {
+    		Query<Integer> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,Integer.class);
+    		resultado.setParameter(1, nickName);
+    		List<Integer> identificados = resultado.list();
+    		return identificados.isEmpty();
+    }
+    
+    public Boolean validaCorreo(String correo) {
+		Query<Integer> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,Integer.class);
+		resultado.setParameter(1, correo);
+		List<Integer> identificados = resultado.list();
+		return identificados.isEmpty();
+}
 }

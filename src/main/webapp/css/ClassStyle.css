@@ -24,6 +24,15 @@
 	position: relative;
 	overflow: hidden;
 }
+.contenido{
+	right: -50px;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	padding: 50px;
+	margin: 0 auto;
+}
 .perfil-altura{
 	height: 50px;
 }
@@ -68,9 +77,10 @@
 	padding-top: 4px;
 	border-radius: 4px;
 	font-size: 14px;
+	background-color: #EAEAEA;
 }
 .boton-formulario:hover{
-	background-color: #DDDDDD;
+	background-color: #CFCFCF;
 	cursor: pointer;
 }
 .vinculos{
@@ -142,4 +152,27 @@
 	font-size: 18px;
 	background-color: white;
 	position: fixed;
+}
+.form-config{
+	width: 450px;
+	margin-top: 30px;
+	padding: 30px;
+	border-radius: 10px;
+	background-color: #FCFCFC;
+}
+.form-input-text{
+	width: 100%;
+	height: 100%;
+	border: solid 1px #DDDDDD;
+	font-size: 16px;
+	padding: 3px;
+	border-radius: 5px;
+}
+.form-espacio{
+	padding-bottom: 10px;
+	padding-right: 10px;
+}
+.form-input-fecha{
+	margin-right: 10px;
+	font-size: 14px;
 }

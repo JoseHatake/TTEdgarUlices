@@ -32,6 +32,23 @@ function styleDisplayItem(item,estado) {
 	else
 		elem.style.display = 'none';
 }
+function styleValidateInput(item,estado) {
+	var elem = id(item);
+	switch(estado){
+		case 1:
+			elem.style.borderColor = '#DDDDDD';
+			elem.style.borderWidth = '1px';
+			break;
+		case 2:
+			elem.style.borderColor = 'red';
+			elem.style.borderWidth = '2px';
+			break;
+		case 3:
+			elem.style.borderColor = 'green';
+			elem.style.borderWidth = '2px';
+			break;
+	}
+}
 function switchEstado(item) {
 	var elem = id(item);
 	var estado = elem.style.display;

@@ -9,8 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -19,7 +22,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+@Inheritance(strategy = InheritanceType.JOINED)
+@PrimaryKeyJoinColumn(name = "idUsuario", referencedColumnName = "idPersona")
+public class Usuario extends Persona{
     @Id
     @Column(name = "idUsuario")
     private Integer id;
@@ -36,16 +41,9 @@ public class Usuario {
     @Column(name = "idPerfil")
     private Integer idPerfil;
     
-    @Column(name = "idPersona")
-    private Integer idPersona;
-    
     @OneToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "idPerfil",referencedColumnName = "idPerfil",insertable = false,updatable = false)
     private Perfil perfilObj;
-    
-    @OneToOne(fetch = FetchType.EAGER,optional = false)
-    @JoinColumn(name = "idPersona",referencedColumnName = "idPersona",insertable = false,updatable = false)
-    private Persona personaObj;
 
     public Integer getId() {
         return id;
@@ -87,27 +85,11 @@ public class Usuario {
         this.idPerfil = idPerfil;
     }
 
-    public Integer getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(Integer idPersona) {
-        this.idPersona = idPersona;
-    }
-
     public Perfil getPerfilObj() {
         return perfilObj;
     }
 
     public void setPerfilObj(Perfil perfilObj) {
         this.perfilObj = perfilObj;
-    }
-
-    public Persona getPersonaObj() {
-        return personaObj;
-    }
-
-    public void setPersonaObj(Persona personaObj) {
-        this.personaObj = personaObj;
     }
 }

@@ -8,11 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
-import mx.ipn.escom.socialwriters.accesoDB.mapeo.Persona;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 
 /**
@@ -46,18 +43,14 @@ public class LogInActivo implements Filter {
 		HttpServletRequest requestCast = (HttpServletRequest) request;
 		HttpSession session = requestCast.getSession();
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
-		Perfil perfilObj;
-		Persona personaObj;
 		Integer perfil = 1;
 		String nombre = "Iniciar sesión";
 		
 		if (usuario != null) {
-			perfilObj = usuario.getPerfilObj();
-			personaObj = usuario.getPersonaObj();
-			nombre = personaObj.getNombre();
-			nombre += " " + personaObj.getPaterno();
-			nombre += " " + personaObj.getMaterno();
-			if (perfilObj.getRol())
+			nombre = usuario.getNombre();
+			nombre += " " + usuario.getPaterno();
+			nombre += " " + usuario.getMaterno();
+			if (usuario.getPerfilObj().getRol())
 				perfil = 3;
 			else
 				perfil = 2;

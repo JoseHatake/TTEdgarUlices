@@ -7,6 +7,7 @@ header{
 	width: 100%;
 	overflow: hidden;
 	background: -moz-linear-gradient(top, #1B3952, #2D5E87);
+	z-index: 30;
 }
 img{
 	width: 100%;
@@ -16,7 +17,7 @@ table{
 	padding: 0;
 	margin: 0 auto;
 }
-table tr,th,td{
+table tbody,thead,tr,th,td{
 	padding: 0;
 	margin: 0 auto;
 }

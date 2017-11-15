@@ -42,5 +42,5 @@
 
 	<!-- Indica los paquetes donde deben ser buscadas las clases anotadas que 
 		serán instanciadas como beans -->
-	<context:component-scan base-package="mx.ipn.escom.librosocial.accesoDB"/>
+	<context:component-scan base-package="mx.ipn.escom.socialwriters.accesoDB"/>
 </beans>
