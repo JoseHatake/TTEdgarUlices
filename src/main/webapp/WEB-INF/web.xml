@@ -60,6 +60,15 @@
   	<servlet-name>BuscarInformacionFormularios</servlet-name>
   	<url-pattern>/BuscarInformacionFormularios</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <display-name>RegistrarUsuario</display-name>
+    <servlet-name>RegistrarUsuario</servlet-name>
+    <servlet-class>mx.ipn.escom.socialwriters.accesoDB.control.usuario.RegistrarUsuario</servlet-class>
+  </servlet>
+ <servlet-mapping>
+  	<servlet-name>RegistrarUsuario</servlet-name>
+  	<url-pattern>/RegistrarUsuario</url-pattern>
+  </servlet-mapping>
   <session-config>
     <session-timeout>180</session-timeout>
   </session-config>

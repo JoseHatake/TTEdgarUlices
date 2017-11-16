@@ -16,7 +16,7 @@
         <input type="submit" class="boton-formulario" value="Iniciar">
     </form>
     <div class="vinculos">
-        <a href="NuevoUsuario.jsp">Registrarse</a>
+        <a href="BuscarInformacionFormularios?metodoDeBusqueda=3&esAjax=false&direccion=NuevoUsuario.jsp">Registrarse</a>
         <br>
         <a href="RecuperarCuenta">Olvidó su contraseña?</a>
     </div>

@@ -7,6 +7,8 @@ package mx.ipn.escom.socialwriters.accesoDB.mapeo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,7 +20,8 @@ import javax.persistence.Table;
 @Table(name = "paises")
 public class Paises {
     @Id
-    @Column(name = "idPais")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idPaises")
     private Integer id;
     
     @Column(name = "nombre")

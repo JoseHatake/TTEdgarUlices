@@ -26,8 +26,8 @@ public class UsuarioDao {
     @Autowired
 	private SessionFactory sessionFactory;
     
-    protected String QUERY1 = "select id from Usuario where nick = ?1";
-    protected String QUERY2 = "select id from Usuario where correo = ?1";
+    protected String QUERY1 = "select a from Usuario a where nick = ?1";
+    protected String QUERY2 = "select a from Usuario a where correo = ?1";
     
     public Usuario guardar(Usuario usuario){
         sessionFactory.getCurrentSession().save(usuario);
@@ -53,16 +53,16 @@ public class UsuarioDao {
     }
     
     public Boolean validaNick(String nickName) {
-    		Query<Integer> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,Integer.class);
+    		Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,Usuario.class);
     		resultado.setParameter(1, nickName);
-    		List<Integer> identificados = resultado.list();
+    		List<Usuario> identificados = resultado.list();
     		return identificados.isEmpty();
     }
     
     public Boolean validaCorreo(String correo) {
-		Query<Integer> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,Integer.class);
+		Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,Usuario.class);
 		resultado.setParameter(1, correo);
-		List<Integer> identificados = resultado.list();
+		List<Usuario> identificados = resultado.list();
 		return identificados.isEmpty();
 }
 }

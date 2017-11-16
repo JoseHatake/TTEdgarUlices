@@ -16,7 +16,7 @@
 				<table class="derecha">
 					<tbody>
 						<tr>
-							<th><span class="icon-bell notificacion centrar oculto"></span></th>
+							<th><span class="icon-bell notificacion centrar"></span></th>
 							<th>
 								<div class="perfil perfil-altura derecha" id="boton-perfil">
 									<div id="img-perfil">

@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="js/general.js"></script>
 	<script type="text/javascript" src="js/carga-cabecera.js"></script>
 	<script type="text/javascript" src="js/buscarInformacionAjax.js"></script>
+	<script type="text/javascript" src="js/codeHash.js"></script>
 	<script type="text/javascript" src="js/validaciones.js"></script>
 	<script type="text/javascript" src="js/fechas.js"></script>
 	<!-- JavaScript -->
@@ -43,30 +44,46 @@
 							<td class="form-espacio" colspan="2"><input type="text" name="nombre" class="form-input-text" placeholder="Nombre" maxlength="45" required></td>
 						</tr>
 						<tr>
-							<td class="form-espacio"><input type="text" name="apellidoPaterno" class="form-input-text" placeholder="Appelido Paterno" maxlength="30" required></td>
-							<td class="form-espacio"><input type="text" name="apellidoMaterno" class="form-input-text" placeholder="Appelido Materno" maxlength="30" required></td>
+							<td class="form-espacio"><input type="text" name="apellidoPaterno" class="form-input-text" placeholder="Apelido Paterno" maxlength="30" required></td>
+							<td class="form-espacio"><input type="text" name="apellidoMaterno" class="form-input-text" placeholder="Apelido Materno" maxlength="30" required></td>
 						</tr>
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="email" name="correo" id="correo1" class="form-input-text" placeholder="Correo electrónico" minlength="7" maxlength="80" onkeyup="validaCamposIguales('correo1','correo2','itemSubmit',1);" required></td>
+							<td class="form-espacio" colspan="2"><input type="email" name="correo" id="correo1" class="form-input-text" placeholder="Correo electrónico" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','itemSubmit');" required></td>
 						</tr>
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="email" id="correo2" class="form-input-text" placeholder="Confirmar correo" minlength="7" maxlength="80" onkeyup="validaCamposIguales('correo1','correo2','itemSubmit',1);" required></td>
+							<td class="form-espacio" colspan="2"><input type="email" id="correo2" class="form-input-text" placeholder="Confirmar correo" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','itemSubmit');" required></td>
 						</tr>
 						<tr>
-							<td class="form-espacio"><input type="password" name="clave" id="clave1" class="form-input-text" placeholder="Contraseña" minlength="5" maxlength="20" onkeyup="validaCamposIguales('clave1','clave2','itemSubmit',2);" required></td>
+							<td class="form-espacio">
+								<input type="password" id="clave1" class="form-input-text" placeholder="Contraseña" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required>
+								<input type="hidden" name="clave" id="claveHash">
+							</td>
 						</tr>
 						<tr>
-							<td class="form-espacio"><input type="password" id="clave2" class="form-input-text" placeholder="Confirmar contraseña" minlength="5" maxlength="20" onkeyup="validaCamposIguales('clave1','clave2','itemSubmit',3);" required></td>
+							<td class="form-espacio"><input type="password" id="clave2" class="form-input-text" placeholder="Confirmar contraseña" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required></td>
+						</tr>
+						<tr>
+							<td class="form-espacio" colspan="2">
+								<select class="form-input-lista" name="pais" required="required">
+									<option value="">Pais</option>
+									<c:forEach items="${paises}" var="pais">
+										<option value="${pais.id}">${pais.nombre}</option>
+									</c:forEach>
+								</select>
+							</td>
 						</tr>
 						<tr>
 							<td class="form-espacio" colspan="2"><h3>Fecha de nacimiento</h3></td>
 						</tr>
 						<tr>
 							<td class="form-espacio" colspan="2">
-								<select class="form-input-fecha" name="anio" id="anio" onmouseover="llenarSelectAnios('anio',1950,2017);" onchange="generarDias('anio','mes','dia');" required>
+								<select class="form-input-lista" name="anio" id="anio" onchange="generarDias('anio','mes','dia');" required>
 									<option value="">Año</option>
+									<c:forEach items="${anios}" var="anio">
+										<option value="${anio}">${anio}</option>
+									</c:forEach>
 								</select>
-								<select class="form-input-fecha" name="mes" id="mes" onchange="generarDias('anio','mes','dia');" required>
+								<select class="form-input-lista" name="mes" id="mes" onchange="generarDias('anio','mes','dia');" required>
 									<option value="">Mes</option>
 									<option value="01">Enero</option>
 									<option value="02">Febrero</option>
@@ -81,15 +98,15 @@
 									<option value="11">Noviembre</option>
 									<option value="12">Diciembre</option>
 								</select>
-								<select class="form-input-fecha" name="dia" id="dia" required>
+								<select class="form-input-lista" name="dia" id="dia" required>
 									<option value="">Día</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td class="form-espacio">
-								<input type="radio" name="sexo" value="1" required> Mujer
-								<input type="radio" name="sexo" value="2" required> Hombre
+								<input type="radio" name="sexo" value="M" required> Mujer
+								<input type="radio" name="sexo" value="H" required> Hombre
 							</td>
 						</tr>
 					</tbody>

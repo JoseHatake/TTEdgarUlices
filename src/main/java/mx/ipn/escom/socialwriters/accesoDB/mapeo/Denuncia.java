@@ -9,6 +9,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -22,6 +24,7 @@ import javax.persistence.Table;
 @Table(name = "denuncia")
 public class Denuncia {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idDenuncia")
     private Integer id;
     
@@ -43,7 +46,7 @@ public class Denuncia {
     @Column(name = "idObra")
     private Integer idObra;
     
-    @Column(name = "idPais")
+    @Column(name = "idPaises")
     private Integer idPais;
     
     @OneToOne(fetch = FetchType.EAGER,optional = false)
@@ -63,7 +66,7 @@ public class Denuncia {
     private Obra obraObj;
     
     @OneToOne(fetch = FetchType.EAGER,optional = false)
-    @JoinColumn(name = "idPais",referencedColumnName = "idPais",insertable = false,updatable = false)
+    @JoinColumn(name = "idPais",referencedColumnName = "idPaises",insertable = false,updatable = false)
     private Paises paisObj;
 
     public Integer getId() {

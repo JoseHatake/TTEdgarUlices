@@ -9,6 +9,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -27,6 +29,7 @@ import javax.persistence.TemporalType;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Persona {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPersona")
     private Integer id;
     
@@ -50,7 +53,7 @@ public class Persona {
     private Integer idPais;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPais", referencedColumnName = "idPais",insertable = false,updatable = false)
+    @JoinColumn(name = "idPais", referencedColumnName = "idPaises",insertable = false,updatable = false)
     private Paises paisObj;
 
     public Integer getId() {

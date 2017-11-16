@@ -7,6 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.PaisesDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -48,5 +51,10 @@ public class PaisesBs {
     @Transactional(readOnly = true)
     public Paises buscarPorId(Integer id){
         return paisesDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Paises> listaPaises(){
+    		return paisesDao.listaPaises();
     }
 }

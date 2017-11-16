@@ -35,7 +35,9 @@ public class UsuarioBs {
         model.setCorreo(usuario.getCorreo());
         model.setClave(usuario.getClave());
         model.setIdPerfil(usuario.getIdPerfil());
+        model.setIdPersona(usuario.getIdPersona());
         model.setPerfilObj(usuario.getPerfilObj());
+        model.setEstadoCuenta(usuario.getEstadoCuenta());
         return usuarioDao.actualizar(model);
     }
     

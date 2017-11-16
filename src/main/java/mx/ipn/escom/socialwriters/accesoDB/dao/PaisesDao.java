@@ -6,7 +6,11 @@
 package mx.ipn.escom.socialwriters.accesoDB.dao;
 
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
+
+import java.util.List;
+
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +25,8 @@ import org.springframework.stereotype.Service;
 public class PaisesDao {
     @Autowired
 	private SessionFactory sessionFactory;
+    
+    protected String QUERY1 = "select a from Paises a";
     
     public Paises guardar(Paises paises){
         sessionFactory.getCurrentSession().save(paises);
@@ -43,5 +49,10 @@ public class PaisesDao {
     
     public Paises buscarPorId(Integer id){
         return sessionFactory.getCurrentSession().load(Paises.class, id);
+    }
+    
+    public List<Paises> listaPaises(){
+    		Query<Paises> paises = sessionFactory.getCurrentSession().createQuery(QUERY1,Paises.class);
+    		return paises.list();
     }
 }

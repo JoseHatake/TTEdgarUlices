@@ -2,6 +2,9 @@ package mx.ipn.escom.socialwriters.accesoDB.utilidades;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
 
 /**
  * Servlet implementation class BuscarBeneficiario
@@ -23,6 +28,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private UsuarioBs usuarioBs;
+	
+	@Autowired
+	private PaisesBs paisesBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -58,6 +66,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		Integer buscar = Integer.valueOf((String) request.getParameter("metodoDeBusqueda"));
 		Boolean isAjax = Boolean.valueOf((String) request.getParameter("esAjax"));
+		String direccion = request.getParameter("direccion");
 		switch (buscar) {
 			case 1:
 				buscarUsuarioDisponible(request, response, out);
@@ -66,7 +75,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 				buscarCorreoDisponible(request, response, out);
 				break;
 			case 3:
-				//rd = cargarInformacionNuevoBeneficiario(request, response);
+				enriquecerNuevoUsuario(request, response);
 				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
@@ -76,8 +85,27 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			out.flush();
 			out.close();
 		}
-		else
+		else {
+			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
+		}
+	}
+
+	private void enriquecerNuevoUsuario(HttpServletRequest request, HttpServletResponse response) {
+		List<Paises> paises = paisesBs.listaPaises();
+		List<Integer> anios = new ArrayList<Integer>();
+		Integer x,anioActual;
+		Fechas fechas = new Fechas();
+		Date fechaActual = fechas.fechaActual("yyyy");
+		String []fechaSeparada = fechaActual.toString().split(" ");
+		anioActual = Integer.parseInt(fechaSeparada[fechaSeparada.length-1]);
+		
+		for (x = anioActual; x >= 1950;x--) {
+			anios.add(x);
+		}
+		
+		request.setAttribute("paises", paises);
+		request.setAttribute("anios", anios);
 	}
 
 	private void buscarCorreoDisponible(HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
