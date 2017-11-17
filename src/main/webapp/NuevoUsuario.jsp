@@ -26,9 +26,9 @@
 	<header>
 		<div id="cabecera"></div>
 	</header>
+	<div class="menu-filtros" id="menu-lista-filtros"></div>
 	<div class="contenedor">
-		<div class="menu-filtros izquierda" id="menu-lista-filtros"></div>
-		<div class="contenido derecha">
+		<div class="contenido">
 			<form action="RegistrarUsuario" class="centrar">
 				<table class="form-config">
 					<thead>

@@ -21,9 +21,9 @@
 	<header>
 		<div id="cabecera"></div>
 	</header>
+	<div class="menu-filtros" id="menu-lista-filtros"></div>
 	<div class="contenedor">
-		<div class="menu-filtros izquierda" id="menu-lista-filtros"></div>
-		<div class="contenido derecha"></div>
+		<div class="contenido"></div>
 	</div>
 </body>
 </html>

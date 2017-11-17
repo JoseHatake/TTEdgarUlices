@@ -21,9 +21,9 @@
 	<header>
 		<div id="cabecera"></div>
 	</header>
-	<div class="menu-filtros izquierda" id="menu-lista-filtros"></div>
+	<div class="menu-filtros" id="menu-lista-filtros"></div>
 	<div class="contenedor">
-		<div class="contenido derecha">
+		<div class="contenido">
 			<div class="centrar">
 				<h1>Registro completo</h1>
 				<p>Te hemos enviado un correo para que actives tu cuenta.</p>

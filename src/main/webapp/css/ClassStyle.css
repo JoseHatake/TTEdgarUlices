@@ -19,19 +19,20 @@
 	overflow: hidden;
 }
 .contenedor{
-	width: 100%;
+	width: auto;
 	height: 100%;
 	position: relative;
 	overflow: hidden;
+	padding-top: 60px;
+	padding-left: 290px;
+	padding-right: 70px;
+	
 }
 .contenido{
-	right: -50px;
 	width: 100%;
 	height: 100%;
 	position: relative;
 	overflow: hidden;
-	padding: 50px;
-	margin: 0 auto;
 }
 .perfil-altura{
 	height: 50px;
@@ -64,11 +65,11 @@
 .menu-perfil{
 	top: 55px;
 	width: 300px;
-	position: absolute;
+	position: fixed;
 	background-color: #FFFFFF;
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
-	z-index: 100;
+	z-index: 30;
 }
 .boton-formulario{
 	padding-right: 10px;
@@ -149,13 +150,15 @@
 .menu-filtros{
 	width: 230px;
 	height: 100%;
+	top: 60px;
 	font-size: 18px;
 	background-color: white;
 	position: fixed;
+	z-index: 10;
 }
 .form-config{
 	width: 450px;
-	margin-top: 30px;
+	margin-top: 50px;
 	padding: 30px;
 	border-radius: 10px;
 	background-color: #FCFCFC;

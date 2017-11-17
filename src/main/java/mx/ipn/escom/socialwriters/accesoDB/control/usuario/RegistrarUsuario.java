@@ -73,7 +73,7 @@ public class RegistrarUsuario extends HttpServlet {
 		MensajeVerificarCuenta mensaje = new MensajeVerificarCuenta();
 		String cuerpo,url,asunto;
 		
-		url = "http://localhost:8080/SocialWriters/index.jsp";
+		url = "http://localhost:8080/SocialWriters/MensajeUsuarioRegistro.jsp?id=" + usuario.getId() + "&nick=" + usuario.getNick();
 		
 		if (request.getLocale().getLanguage() == "es") {
 			cuerpo = mensaje.creaEspañol(usuario.getNick(), url);

@@ -11,6 +11,7 @@ $(document).ready(function () {
 	var cont1 = 0;
 	var cont2 = 0;
 	var bar = id('boton-perfil');
+	//var contenedor = className('contenedor');
 	$('.perfil').click(function () {
 		if (cont1 == 1) {
 			$('.menuSlide').slideUp("fast",function (){
@@ -31,12 +32,14 @@ $(document).ready(function () {
 			$('.menu-filtros').animate({
 				left: "0"
 			});
+			$(".contenedor").animate({paddingLeft: "290px"});
 			cont2 = 0;
 		}
 		else{
 			$('.menu-filtros').animate({
 				left: "-100%"
 			});
+			$(".contenedor").animate({paddingLeft: "60px"});
 			cont2 = 1;
 		}
 	});

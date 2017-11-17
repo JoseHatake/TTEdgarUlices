@@ -2,11 +2,13 @@ body{
 	padding: 0;
 	margin: 0;
 	background-color: #EDECEC;
+	z-index: 0;
 }
 header{
 	width: 100%;
 	overflow: hidden;
 	background: -moz-linear-gradient(top, #1B3952, #2D5E87);
+	position: fixed;
 	z-index: 30;
 }
 img{
