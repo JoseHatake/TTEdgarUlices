@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,9 +25,26 @@
 	<div class="menu-filtros" id="menu-lista-filtros"></div>
 	<div class="contenedor">
 		<div class="contenido">
-			<div class="centrar">
-				<h1>Registro completo</h1>
-				<p>Te hemos enviado un correo para que actives tu cuenta.</p>
+			<div>
+				<c:choose>
+					<c:when test="${param.mensaje == 1}">
+						<h1>Activar cuenta</h1>
+						<p>Para activar tu cuenta da click en el siguiente botón.</p>
+						<form action="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=MensajeUsuarioRegistrado.jsp" method="POST">
+							<input type="hidden" name="id" value="${param.id}">
+							<input type="hidden" name="nick" value="${param.nick}">
+							<input type="submit" class="boton-formulario centrar" value="Activar cuenta">
+						</form>
+					</c:when>
+					<c:when test="${mensaje == 2}">
+						<h1>Bienvenido <c:out value="${usuario.nombre} ${usuario.paterno} ${usuario.materno}"></c:out></h1>
+						<p>Tu cuenta asociada al correo <c:out value="${usuario.correo}"></c:out> a quedado activada, ahora ya puedes iniciar sesión.</p>
+					</c:when>
+					<c:otherwise>
+						<h1>Registro completo</h1>
+						<p>Te hemos enviado un correo para que actives tu cuenta.</p>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>

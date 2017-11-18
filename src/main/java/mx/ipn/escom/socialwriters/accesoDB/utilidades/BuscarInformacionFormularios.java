@@ -19,6 +19,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 
 /**
  * Servlet implementation class BuscarBeneficiario
@@ -77,6 +78,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 3:
 				enriquecerNuevoUsuario(request, response);
 				break;
+			case 4:
+				activarCuenta(request, response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -88,6 +92,24 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		else {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
+		}
+	}
+
+	private void activarCuenta(HttpServletRequest request, HttpServletResponse response) {
+		Usuario usuario;
+		String nick;
+		Integer id;
+		
+		id = Integer.parseInt(request.getParameter("id"));
+		nick = request.getParameter("nick");
+		
+		usuario = usuarioBs.buscarPorId(id);
+		
+		if (usuario.getNick().equals(nick)) {
+			usuario.setEstadoCuenta(1);
+			usuario = usuarioBs.actualizar(usuario);
+			request.setAttribute("mensaje", 2);
+			request.setAttribute("usuario", usuario);
 		}
 	}
 
