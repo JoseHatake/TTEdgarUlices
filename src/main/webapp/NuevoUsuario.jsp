@@ -16,7 +16,6 @@
 	<script type="text/javascript" src="js/general.js"></script>
 	<script type="text/javascript" src="js/carga-cabecera.js"></script>
 	<script type="text/javascript" src="js/buscarInformacionAjax.js"></script>
-	<script type="text/javascript" src="js/codeHash.js"></script>
 	<script type="text/javascript" src="js/validaciones.js"></script>
 	<script type="text/javascript" src="js/fechas.js"></script>
 	<!-- JavaScript -->

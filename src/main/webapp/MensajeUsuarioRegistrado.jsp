@@ -30,7 +30,7 @@
 					<c:when test="${param.mensaje == 1}">
 						<h1>Activar cuenta</h1>
 						<p>Para activar tu cuenta da click en el siguiente botón.</p>
-						<form action="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=MensajeUsuarioRegistrado.jsp" method="POST">
+						<form action="Acciones?accion=1&direccion=MensajeUsuarioRegistrado.jsp" method="POST">
 							<input type="hidden" name="id" value="${param.id}">
 							<input type="hidden" name="nick" value="${param.nick}">
 							<input type="submit" class="boton-formulario centrar" value="Activar cuenta">

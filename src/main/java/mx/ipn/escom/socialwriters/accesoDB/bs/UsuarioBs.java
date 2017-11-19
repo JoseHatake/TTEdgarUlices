@@ -65,4 +65,9 @@ public class UsuarioBs {
 	public Boolean validaCorreo(String correo) {
 		return usuarioDao.validaCorreo(correo);
 	}
+    
+    @Transactional(readOnly = true)
+    public Usuario validaLogIn(String nick,Integer claveHash) {
+    		return usuarioDao.validaLogIn(nick, claveHash);
+    }
 }

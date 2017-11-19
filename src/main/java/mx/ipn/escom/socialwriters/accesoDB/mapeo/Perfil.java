@@ -31,7 +31,7 @@ public class Perfil {
     private String descripcion;
     
     @Column(name = "rol")
-    private Boolean rol;
+    private Integer rol;
 
     public Integer getId() {
         return id;
@@ -57,11 +57,11 @@ public class Perfil {
         this.descripcion = descripcion;
     }
 
-    public Boolean getRol() {
-        return rol;
-    }
+	public Integer getRol() {
+		return rol;
+	}
 
-    public void setRol(Boolean rol) {
-        this.rol = rol;
-    }
+	public void setRol(Integer rol) {
+		this.rol = rol;
+	}
 }

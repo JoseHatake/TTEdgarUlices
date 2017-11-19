@@ -28,6 +28,7 @@ public class UsuarioDao {
     
     protected String QUERY1 = "select a from Usuario a where nick = ?1";
     protected String QUERY2 = "select a from Usuario a where correo = ?1";
+    protected String QUERY3 = "select a from Usuario a where nick = ?1 and clave = ?2";
     
     public Usuario guardar(Usuario usuario){
         sessionFactory.getCurrentSession().save(usuario);
@@ -64,5 +65,13 @@ public class UsuarioDao {
 		resultado.setParameter(1, correo);
 		List<Usuario> identificados = resultado.list();
 		return identificados.isEmpty();
-}
+    }
+    
+    public Usuario validaLogIn(String nick,Integer claveHash) {
+    		Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY3,Usuario.class);
+    		resultado.setParameter(1, nick);
+    		resultado.setParameter(2, claveHash);
+    		List<Usuario> identificados = resultado.list();
+    		return identificados.isEmpty()?new Usuario():identificados.get(0);
+    }
 }

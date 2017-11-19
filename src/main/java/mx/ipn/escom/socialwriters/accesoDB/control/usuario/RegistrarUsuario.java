@@ -109,7 +109,7 @@ public class RegistrarUsuario extends HttpServlet {
 		
 		perfilObj.setDescripcion("");
 		perfilObj.setNumSeguidores(0);
-		perfilObj.setRol(false);
+		perfilObj.setRol(1);
 		
 		perfilObj = perfilBs.guardar(perfilObj);
 		

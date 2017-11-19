@@ -1,20 +1,26 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div id="iniciar-sesion" class="menuSlide menu-perfil oculto">
-    <form action="IniciarSesion" method="POST">
+    <form action="Acciones?accion=2&direccion=index.jsp" method="POST">
         <table class="contenedor-menu-perfil">
             <tbody>
                 <tr>
                     <td align="left"><label for="usuario" style="margin-right: 10px;">Usuario</label></td>
-                    <td><input type="text" name="usuario" placeholder="Usuario" maxlength="20"></td>
+                    <td><input type="text" name="usuario" placeholder="Usuario" value="${usuario.nick}" maxlength="20" required></td>
                 </tr>
                 <tr>
                     <td align="left"><label for="clave" style="margin-right: 10px;">Contraseña</label></td>
-                    <td><input type="password" name="clave" placeholder="·····" maxlength="20"></td>
+                    <td>
+                    		<input type="password" id="clavePlano" placeholder="·····" maxlength="20" onkeyup="codificarClave('clavePlano','claveLog');" required>
+                    		<input type="hidden" name="clave" id="claveLog">
+                    	</td>
                 </tr>
             </tbody>
         </table>
         <input type="submit" class="boton-formulario" value="Iniciar">
     </form>
+    <c:if test="${usuario.id == null && usuario.nick != null}">
+    		<p>Usuario inválido</p>
+    </c:if>
     <div class="vinculos">
         <a href="BuscarInformacionFormularios?metodoDeBusqueda=3&esAjax=false&direccion=NuevoUsuario.jsp">Registrarse</a>
         <br>
@@ -29,7 +35,7 @@
                 <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ Obra</p></div></li></a>
                 <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ Capítulo</p></div></li></a>
                 <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cambiar contraseña</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cerrar sesión</p></div></li></a>
+                <a href="Acciones?accion=3&direccion=index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cerrar sesión</p></div></li></a>
             </ul>
         </div>
         <hr>

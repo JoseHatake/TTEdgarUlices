@@ -117,4 +117,8 @@ public class Usuario extends Persona{
 	public void setEstadoCuenta(Integer estadoCuenta) {
 		this.estadoCuenta = estadoCuenta;
 	}
+	
+	public Boolean esNuevoUsuario() {
+		return this.id == null;
+	}
 }
