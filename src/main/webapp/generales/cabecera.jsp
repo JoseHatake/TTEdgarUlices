@@ -18,7 +18,10 @@
 						<tr>
 							<th><span class="icon-bell notificacion centrar"></span></th>
 							<th>
-								<div class="perfil perfil-altura derecha" id="boton-perfil">
+							<c:if test="${usuario.id == null && usuario.nick != null}">
+							    		<c:set var="styleOpen" value="openMenuPerfil"></c:set>
+							</c:if>
+								<div class="perfil perfil-altura derecha ${styleOpen}" id="boton-perfil">
 									<div id="img-perfil">
 										<img src="img/default.jpg" class="img-circulo" alt="default">
 									</div>

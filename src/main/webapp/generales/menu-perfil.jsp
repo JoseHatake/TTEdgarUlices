@@ -1,5 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div id="iniciar-sesion" class="menuSlide menu-perfil oculto">
+<c:if test="${usuario.id == null && usuario.nick == null}">
+    		<c:set var="error" value="oculto"></c:set>
+</c:if>
+<div id="iniciar-sesion" class="menuSlide menu-perfil ${error}">
     <form action="Acciones?accion=2&direccion=index.jsp" method="POST">
         <table class="contenedor-menu-perfil">
             <tbody>
