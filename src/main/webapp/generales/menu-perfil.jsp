@@ -22,7 +22,14 @@
         <input type="submit" class="boton-formulario" value="Iniciar">
     </form>
     <c:if test="${usuario.id == null && usuario.nick != null}">
-    		<p>Usuario inválido</p>
+    		<c:choose>
+    			<c:when test="${usuario.estadoCuenta == 0}">
+    				<p>Cuenta no activada</p>
+    			</c:when>
+    			<c:otherwise>
+    				<p>Usuario inválido</p>
+    			</c:otherwise>
+    		</c:choose>
     </c:if>
     <div class="vinculos">
         <a href="BuscarInformacionFormularios?metodoDeBusqueda=3&esAjax=false&direccion=NuevoUsuario.jsp">Registrarse</a>

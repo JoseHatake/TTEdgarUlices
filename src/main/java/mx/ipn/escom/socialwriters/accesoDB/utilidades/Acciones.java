@@ -96,6 +96,11 @@ public class Acciones extends HttpServlet {
 		if (usuario.esNuevoUsuario()) {
 			usuario.setNick(nick);
 		}
+		else if(usuario.getEstadoCuenta() == 0) {
+			usuario = new Usuario();
+			usuario.setNick(nick);
+			usuario.setEstadoCuenta(0);
+		}
 		session.setAttribute("usuario", usuario);
 	}
 
