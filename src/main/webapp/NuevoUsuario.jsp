@@ -38,7 +38,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td class="form-espacio"><input type="text" name="usuario" id="Usuario" class="form-input-text" placeholder="Usuario" minlength="5" maxlength="20" onkeyup="usuarioDisponible('usuario','itemSubmit');" required></td>
+							<td class="form-espacio"><input type="text" name="usuario" id="usuario" class="form-input-text" placeholder="Usuario" minlength="5" maxlength="20" onkeyup="usuarioDisponible('usuario','itemSubmit');" required></td>
 						</tr>
 						<tr>
 							<td class="form-espacio" colspan="2"><input type="text" name="nombre" class="form-input-text" placeholder="<spring:message code="label.nombre" />" maxlength="45" required></td>
