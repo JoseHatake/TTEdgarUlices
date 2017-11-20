@@ -68,6 +68,12 @@ public class Acciones extends HttpServlet {
 			case 3:
 				cerrarSesion(request, response);
 				break;
+			case 4:
+				recuperarClave(request, response);
+				break;
+			case 5:
+				cambiarClave(request, response);
+				break;
 			default:
 				direccion = "index.jsp";
 				break;
@@ -76,6 +82,58 @@ public class Acciones extends HttpServlet {
 		rd.forward(request, response);
 	}
 
+	private void cambiarClave(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		Usuario usuario;
+		HttpSession sesion = request.getSession();
+		usuario = (Usuario)sesion.getAttribute("usuario"); 
+		System.out.println(request.getParameter("claveActual"));
+		if(usuario.getClave()== Integer.parseInt(request.getParameter("claveActual"))) {
+			usuario.setClave(Integer.parseInt(request.getParameter("claveNueva")));
+			usuario = usuarioBs.actualizar(usuario);
+			sesion.setAttribute("usuario", usuario);
+			request.setAttribute("mensaje", 5);
+		}else {
+			request.setAttribute("mensaje", 6);
+		}
+	}
+
+	private void recuperarClave(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		Usuario usuario;
+		String correo = request.getParameter("correo");
+		if(!usuarioBs.validaCorreo(correo)) {
+			GeneraClave clave = new GeneraClave();
+			ObtenHash hash = new ObtenHash();
+			String nclave = clave.generaPassword();
+			int chash = hash.hash(nclave);
+			usuario = usuarioBs.buscarUsuarioPorCorreo(correo);
+			usuario.setClave(chash);
+			usuarioBs.actualizar(usuario);
+			
+			Correo corclave = new Correo();
+			MensajeCambiarClave mcc = new MensajeCambiarClave();
+			
+			String encabezadoClave, cuerpoClave;
+			
+			if(request.getLocale().getLanguage() == "es") {
+				encabezadoClave= "Reestablecimiento de contraseña";
+				cuerpoClave = mcc.creaEspañol(nclave);
+				
+			}else {
+				encabezadoClave= "Password Restoration";
+				cuerpoClave = mcc.creaIngles(nclave);
+			}
+			
+			corclave.enviarCorreo(correo, encabezadoClave, cuerpoClave);
+			request.setAttribute("mensaje", 3);
+		}else {
+			request.setAttribute("mensaje", 4);
+		}
+		
+	}
+
+	
 	private void cerrarSesion(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		

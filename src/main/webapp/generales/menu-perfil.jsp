@@ -34,7 +34,7 @@
     <div class="vinculos">
         <a href="BuscarInformacionFormularios?metodoDeBusqueda=3&esAjax=false&direccion=NuevoUsuario.jsp">Registrarse</a>
         <br>
-        <a href="RecuperarCuenta">Olvidó su contraseña?</a>
+        <a href="RecuperarClave.jsp">Olvidó su contraseña?</a>
     </div>
 </div>
 <div id="usuario" class="menuSlide menu-perfil oculto">
@@ -44,7 +44,7 @@
                 <a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Perfil</p></div></li></a>
                 <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ Obra</p></div></li></a>
                 <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ Capítulo</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cambiar contraseña</p></div></li></a>
+                <a href="CambiarClave.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cambiar contraseña</p></div></li></a>
                 <a href="Acciones?accion=3&direccion=index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cerrar sesión</p></div></li></a>
             </ul>
         </div>
