@@ -77,6 +77,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 3:
 				enriquecerNuevoUsuario(request, response);
 				break;
+			case 4:
+				enriquecerPerfilUsuario(request, response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -89,6 +92,11 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
 		}
+	}
+
+	private void enriquecerPerfilUsuario(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void enriquecerNuevoUsuario(HttpServletRequest request, HttpServletResponse response) {
