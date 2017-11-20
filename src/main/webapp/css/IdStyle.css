@@ -61,3 +61,16 @@
 	display: inline-block;
 	position: absolute;
 }
+
+#obra-portada{
+	width: 250px;
+	height: 350px;
+	display: inline-block;
+	position: relative;
+}
+
+#nueva-obra{
+	width: 400px;
+	display: inline-block;
+	position: absolute;
+}

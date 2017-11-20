@@ -205,3 +205,21 @@
 .formato-texto{
 	text-align: justify;
 }
+
+.contenido45{
+	width: 45%;
+	height: auto;
+	position: relative;
+}
+
+.generos-form tr{
+	marging-top: 5px;
+}
+
+.contenedor-boton{
+	width: 45%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	padding-top: 30px;
+}
