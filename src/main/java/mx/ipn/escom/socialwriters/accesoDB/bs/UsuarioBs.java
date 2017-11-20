@@ -70,4 +70,9 @@ public class UsuarioBs {
     public Usuario validaLogIn(String nick,Integer claveHash) {
     		return usuarioDao.validaLogIn(nick, claveHash);
     }
+    
+    @Transactional(readOnly = true)
+    public Usuario buscarUsuarioPorCorreo (String correo) {
+    	return usuarioDao.buscarUsuarioPorCorreo(correo);
+    }
 }

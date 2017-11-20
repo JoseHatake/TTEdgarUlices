@@ -74,4 +74,12 @@ public class UsuarioDao {
     		List<Usuario> identificados = resultado.list();
     		return identificados.isEmpty()?new Usuario():identificados.get(0);
     }
+    
+    public Usuario buscarUsuarioPorCorreo (String correo) {
+    	Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,Usuario.class);
+		resultado.setParameter(1, correo);
+		List<Usuario> identificados = resultado.list();
+		return identificados.get(0);
+    	
+    }
 }

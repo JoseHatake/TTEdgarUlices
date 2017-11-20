@@ -40,10 +40,27 @@
 						<h1>Bienvenido <c:out value="${usuario.nombre} ${usuario.paterno} ${usuario.materno}"></c:out></h1>
 						<p>Tu cuenta asociada al correo <c:out value="${usuario.correo}"></c:out> a quedado activada, ahora ya puedes iniciar sesión.</p>
 					</c:when>
+					<c:when test="${mensaje == 3}">
+						<h1>Tu contraseña ha sido reestablecida</h1>
+						<p>Te hemos enviado un correo con tu nueva contraseña.</p>
+					</c:when>
+					<c:when test="${mensaje == 4}">
+						<h1>Correo electrónico invalido</h1>
+						<p>La dirección de correo electrónico no se encuentra registrada</p>
+					</c:when>
+					<c:when test="${mensaje == 5}">
+						<h1>Contraseña modificada con exito</h1>
+						<p>Su contraseña se ha modificado con exito</p>
+					</c:when>
+					<c:when test="${mensaje == 6}">
+						<h1>Contraseña actual incorrecta</h1>
+						<p>La contraseña actual es incorrecta</p>
+					</c:when>
 					<c:otherwise>
 						<h1>Registro completo</h1>
 						<p>Te hemos enviado un correo para que actives tu cuenta.</p>
 					</c:otherwise>
+					
 				</c:choose>
 			</div>
 		</div>
