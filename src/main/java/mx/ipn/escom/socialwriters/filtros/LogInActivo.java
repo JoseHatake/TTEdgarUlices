@@ -47,9 +47,7 @@ public class LogInActivo implements Filter {
 		String nombre = "Iniciar sesión";
 		
 		if (usuario != null && !usuario.esNuevoUsuario()) {
-			nombre = usuario.getNombre();
-			nombre += " " + usuario.getPaterno();
-			nombre += " " + usuario.getMaterno();
+			nombre = usuario.getNick();
 			if (usuario.getPerfilObj().getRol() == 1)
 				perfil = 2;
 			else
