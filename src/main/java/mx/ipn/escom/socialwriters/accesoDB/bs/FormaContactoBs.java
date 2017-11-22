@@ -7,6 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.FormaContactoDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -33,7 +36,6 @@ public class FormaContactoBs {
         FormaContacto model = formaContactoDao.buscarPorId(formaContacto.getId());
         model.setIdRedSocial(formaContacto.getIdRedSocial());
         model.setIdUsuario(formaContacto.getIdUsuario());
-        model.setRedesSociales(formaContacto.getRedesSociales());
         model.setUrl(formaContacto.getUrl());
         model.setUsuariosObj(formaContacto.getUsuariosObj());
         return formaContactoDao.actualizar(model);
@@ -52,5 +54,10 @@ public class FormaContactoBs {
     @Transactional(readOnly = true)
     public FormaContacto buscarPorId(Integer id){
         return formaContactoDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<FormaContacto> buscarFormasContactoPorIdUsuario(Integer idUsuario){
+    		return formaContactoDao.buscarFormasContactoPorIdUsuario(idUsuario);
     }
 }

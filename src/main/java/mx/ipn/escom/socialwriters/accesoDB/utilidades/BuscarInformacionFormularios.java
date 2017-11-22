@@ -12,13 +12,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 
 /**
  * Servlet implementation class BuscarBeneficiario
@@ -31,6 +35,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private PaisesBs paisesBs;
+	
+	@Autowired
+	private FormaContactoBs formaContactoBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -95,8 +102,16 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	}
 
 	private void enriquecerPerfilUsuario(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		List<FormaContacto> formaContactos;
+		Usuario usuario;
+		Integer idUsuario;
 		
+		usuario = (Usuario) session.getAttribute("usuario");
+		idUsuario = usuario.getId();
+		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
+		
+		request.setAttribute("redes", formaContactos);
 	}
 
 	private void enriquecerNuevoUsuario(HttpServletRequest request, HttpServletResponse response) {

@@ -223,3 +223,8 @@
 	overflow: hidden;
 	padding-top: 30px;
 }
+.estrella{
+	color: black;
+	font-size: 20px;
+	cursor: pointer;
+}

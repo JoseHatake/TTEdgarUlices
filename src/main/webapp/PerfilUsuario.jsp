@@ -32,19 +32,36 @@
 				<div style="height: 250px">
 					<div class="izquierda" id="perfil-imagen-edit">
 						<ul>
-							<li><h4>Seguidores</h4></li>
+							<li><h4>Seguidores: <c:out value="${usuario.perfilObj.numSeguidores}"></c:out></h4></li>
 							<li><img src="img/default.jpg" class="img-circulo" alt="default"></li>
-							<li>Estrellas</li>
+							<li>
+								<table>
+									<tbody>
+										<tr>
+											<td><span class="icon-star-empty estrella centrar" id="estrella1" onclick="styleStarts('estrella',1,'numeroEstrellas');"></span></td>
+											<td><span class="icon-star-empty estrella centrar" id="estrella2" onclick="styleStarts('estrella',2,'numeroEstrellas');"></span></td>
+											<td><span class="icon-star-empty estrella centrar" id="estrella3" onclick="styleStarts('estrella',3,'numeroEstrellas');"></span></td>
+											<td><span class="icon-star-empty estrella centrar" id="estrella4" onclick="styleStarts('estrella',4,'numeroEstrellas');"></span></td>
+											<td><span class="icon-star-empty estrella centrar" id="estrella5" onclick="styleStarts('estrella',5,'numeroEstrellas');"></span></td>
+										</tr>
+									</tbody>
+								</table>
+								<input type="hidden" id="numeroEstrellas" name="estrellas" value="0">
+							</li>
 						</ul>
 					</div>
 					<div class="derecha" id="perfil-info-edit">
 						<ul>
-							<li>Seudónimo</li>
+							<li>Seudónimo: <c:out value="${usuario.nick}"></c:out></li>
+							<li>Nombre: <c:out value="${usuario.nombre} ${usuario.paterno} ${usuario.materno}"></c:out></li>
 							<li>Contacto:</li>
 							<li>
 								<ul>
-									<li>Correo</li>
-									<li>Redes sociales</li>
+									<li>Correo: <c:out value="${usuario.correo}"></c:out></li>
+									<li>Redes sociales:</li>
+									<c:forEach items="${param.redes}" var="redSocial">
+										<li><a href="${redSocial.url}"><c:out value="${redSocial.nombre}"></c:out></a></li>
+									</c:forEach>
 								</ul>
 							</li>
 						</ul>
@@ -52,7 +69,7 @@
 				</div>
 				<div class="contenido75 formato-texto">
 					<h3>Descripción:</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					<p><c:out value="${usuario.perfilObj.descripcion}"></c:out></p>
 				</div>
 				<div class="contenedor-libros"></div>
 			</div>

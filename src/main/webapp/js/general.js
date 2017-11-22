@@ -49,6 +49,23 @@ function styleValidateInput(item,estado) {
 			break;
 	}
 }
+function styleStarts(colectionItemName,numItem,resultado) {
+	var nameItem;
+	if (id(resultado).value == numItem) {
+		numItem = 0;
+	}
+	for (var i = 1; i <= 5; i++) {
+		nameItem = colectionItemName+i;
+		id(nameItem).style.color = "red";
+		if (i <= numItem) {
+			id(nameItem).style.color = "red";
+		}
+		else{
+			id(nameItem).style.color = "black";
+		}
+	}
+	id(resultado).value = numItem;
+}
 function switchEstado(item) {
 	var elem = id(item);
 	var estado = elem.style.display;
