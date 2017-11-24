@@ -41,7 +41,7 @@
     <nav class="contenedor-menu-perfil">
         <div class="opciones-menu">
             <ul>
-                <a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Perfil</p></div></li></a>
+                <a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${usuario.nick}"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Perfil</p></div></li></a>
                 <a href="NuevaObra.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ Obra</p></div></li></a>
                 <a href="index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>+ Capítulo</p></div></li></a>
                 <a href="CambiarClave.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p>Cambiar contraseña</p></div></li></a>

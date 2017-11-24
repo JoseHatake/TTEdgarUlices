@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <form action="FiltradoLibros" class="opciones-menu">
 	<nav>
 		<ul>
@@ -18,8 +19,8 @@
 					<li class="subopcion-menu-margenes oculto" id="idioma">
 						<select name="idioma">
 							<option value="">Selecciona el idioma</option>
-							<option value="es">EspaÃ±ol</option>
-							<option value="en">InglÃ©s</option>
+							<option value="es">Español</option>
+							<option value="en">Inglés</option>
 						</select>
 					</li>
 				</ul>
@@ -27,15 +28,15 @@
 			<li>
 				<div class="opciones-menu-altura padding-menu"  onclick="switchEstado('genero')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>GÃ©nero</p>
+						<p>Género</p>
 					</div>
 				</div>
 				<ul>
 					<li class="subopcion-menu-margenes oculto" id="genero">
 						<select name="genero">
-							<option value="">Selecciona el gÃ©nero</option>
+							<option value="">Selecciona el género</option>
 							<option value="1">Terror</option>
-							<option value="2">DrÃ¡ma</option>
+							<option value="2">Dráma</option>
 							<option value="3">Novela</option>
 						</select>
 					</li>
@@ -52,21 +53,9 @@
 						<table>
 							<tbody>
 								<tr>
-									<td><span class="icon-star-empty estrella centrar"
-										id="estrellaRankingFiltro1"
-										onclick="styleStarts('estrellaRankingFiltro',1,'numeroEstrellasRankingFiltro');"></span></td>
-									<td><span class="icon-star-empty estrella centrar"
-										id="estrellaRankingFiltro2"
-										onclick="styleStarts('estrellaRankingFiltro',2,'numeroEstrellasRankingFiltro');"></span></td>
-									<td><span class="icon-star-empty estrella centrar"
-										id="estrellaRankingFiltro3"
-										onclick="styleStarts('estrellaRankingFiltro',3,'numeroEstrellasRankingFiltro');"></span></td>
-									<td><span class="icon-star-empty estrella centrar"
-										id="estrellaRankingFiltro4"
-										onclick="styleStarts('estrellaRankingFiltro',4,'numeroEstrellasRankingFiltro');"></span></td>
-									<td><span class="icon-star-empty estrella centrar"
-										id="estrellaRankingFiltro5"
-										onclick="styleStarts('estrellaRankingFiltro',5,'numeroEstrellasRankingFiltro');"></span></td>
+									<c:forEach var="numeroEstrellaRanking" begin="1" end="5">
+										<td><span class="icon-star-empty estrella cursor-pointer centrar" id="estrellaRankingFiltro${numeroEstrellaRanking}" onclick="styleStarts('estrellaRankingFiltro',${numeroEstrellaRanking},'numeroEstrellasRankingFiltro');"></span></td>
+									</c:forEach>
 								</tr>
 							</tbody>
 						</table> <input type="hidden" id="numeroEstrellasRankingFiltro" name="estrellasRankingFiltro" value="0">
@@ -76,7 +65,7 @@
 			<li>
 				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('fecha')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>Fecha de publicaciÃ³n</p>
+						<p>Fecha de publicación</p>
 					</div>
 				</div>
 				<ul>
@@ -88,7 +77,7 @@
 			<li>
 				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('capitulos')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>NÃºmero de capÃ­tulos</p>
+						<p>Número de capítulos</p>
 					</div>
 				</div>
 				<ul>
@@ -108,21 +97,9 @@
 						<table>
 							<tbody>
 								<tr>
-									<td><span class="icon-star-empty estrella centrar"
-										id="popularidadEstrella1"
-										onclick="styleStarts('popularidadEstrella',1,'popularidad');"></span></td>
-									<td><span class="icon-star-empty estrella centrar"
-										id="popularidadEstrella2"
-										onclick="styleStarts('popularidadEstrella',2,'popularidad');"></span></td>
-									<td><span class="icon-star-empty estrella centrar"
-										id="popularidadEstrella3"
-										onclick="styleStarts('popularidadEstrella',3,'popularidad');"></span></td>
-									<td><span class="icon-star-empty estrella centrar"
-										id="popularidadEstrella4"
-										onclick="styleStarts('popularidadEstrella',4,'popularidad');"></span></td>
-									<td><span class="icon-star-empty estrella centrar"
-										id="popularidadEstrella5"
-										onclick="styleStarts('popularidadEstrella',5,'popularidad');"></span></td>
+									<c:forEach var="numeroEstrellaPopularidad" begin="1" end="5">
+										<td><span class="icon-star-empty estrella cursor-pointer centrar" id="popularidadEstrella${numeroEstrellaPopularidad}" onclick="styleStarts('popularidadEstrella',${numeroEstrellaPopularidad},'popularidad');"></span></td>
+									</c:forEach>
 								</tr>
 							</tbody>
 						</table> <input type="hidden" id="popularidad" name="popularidad" value="0">

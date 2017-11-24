@@ -19,6 +19,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
@@ -32,6 +33,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private UsuarioBs usuarioBs;
+	
+	@Autowired
+	private RankingUsuarioBs rankingUsuarioBs;
 	
 	@Autowired
 	private PaisesBs paisesBs;
@@ -104,14 +108,29 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	private void enriquecerPerfilUsuario(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		List<FormaContacto> formaContactos;
+		Ranking ranking;
 		Usuario usuario;
-		Integer idUsuario;
+		Integer idUsuario,estrellas;
+		String nickName;
 		
 		usuario = (Usuario) session.getAttribute("usuario");
-		idUsuario = usuario.getId();
-		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
+		nickName = request.getParameter("nickName");
 		
+		if (usuario.getNick().equals(nickName)) {
+			idUsuario = usuario.getId();
+		}
+		else {
+			usuario = usuarioBs.buscarUsuarioPorNick(nickName);
+			idUsuario = usuario.getId();
+		}
+		
+		ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
+		estrellas = ranking.getEstrellas();
+		
+		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
 		request.setAttribute("redes", formaContactos);
+		request.setAttribute("perfil", usuario);
+		request.setAttribute("estrellas", estrellas);
 	}
 
 	private void enriquecerNuevoUsuario(HttpServletRequest request, HttpServletResponse response) {

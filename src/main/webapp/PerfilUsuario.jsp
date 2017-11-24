@@ -32,46 +32,82 @@
 				<div style="height: 250px">
 					<div class="izquierda" id="perfil-imagen-edit">
 						<ul>
-							<li><h4>Seguidores: <c:out value="${usuario.perfilObj.numSeguidores}"></c:out></h4></li>
+							<li><h4>Seguidores: <c:out value="${perfil.perfilObj.numSeguidores}"></c:out></h4></li>
 							<li><img src="img/default.jpg" class="img-circulo" alt="default"></li>
 							<li>
 								<table>
-									<tbody>
-										<tr>
-											<td><span class="icon-star-empty estrella centrar" id="estrella1" onclick="styleStarts('estrella',1,'numeroEstrellas');"></span></td>
-											<td><span class="icon-star-empty estrella centrar" id="estrella2" onclick="styleStarts('estrella',2,'numeroEstrellas');"></span></td>
-											<td><span class="icon-star-empty estrella centrar" id="estrella3" onclick="styleStarts('estrella',3,'numeroEstrellas');"></span></td>
-											<td><span class="icon-star-empty estrella centrar" id="estrella4" onclick="styleStarts('estrella',4,'numeroEstrellas');"></span></td>
-											<td><span class="icon-star-empty estrella centrar" id="estrella5" onclick="styleStarts('estrella',5,'numeroEstrellas');"></span></td>
-										</tr>
-									</tbody>
+									<c:choose>
+										<c:when test="${perfil.nick == usuario.nick}">
+											<tbody>
+												<tr>
+													<c:forEach var="activa" begin="1" end="5">
+														<c:choose>
+															<c:when test="${activa <= estrellas}">
+																<td><span class="icon-star-empty estrellaActiva centrar" id="estrella${activa}"></span></td>
+															</c:when>
+															<c:otherwise>
+																<td><span class="icon-star-empty estrella centrar" id="estrella${activa}"></span></td>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</tr>
+											</tbody>
+										</c:when>
+										<c:otherwise>
+											<tbody>
+												<tr>
+													<c:forEach var="numeroEstrella" begin="1" end="5">
+														<td><span class="icon-star-empty estrella cursor-pointer centrar" id="estrella${numeroEstrella}" onclick="styleStarts('estrella',${numeroEstrella},'numeroEstrellas');"></span></td>
+													</c:forEach>
+												</tr>
+											</tbody>
+										</c:otherwise>
+									</c:choose>
 								</table>
-								<input type="hidden" id="numeroEstrellas" name="estrellas" value="0">
+								<input type="hidden" id="numeroEstrellas" name="estrellas" value="${estrellas}">
 							</li>
 						</ul>
 					</div>
 					<div class="derecha" id="perfil-info-edit">
 						<ul>
-							<li>Seudónimo: <c:out value="${usuario.nick}"></c:out></li>
-							<li>Nombre: <c:out value="${usuario.nombre} ${usuario.paterno} ${usuario.materno}"></c:out></li>
+							<li>Seudónimo: <c:out value="${perfil.nick}"></c:out></li>
+							<li>Nombre: <c:out value="${perfil.nombre} ${perfil.paterno} ${perfil.materno}"></c:out></li>
 							<li>Contacto:</li>
 							<li>
 								<ul>
-									<li>Correo: <c:out value="${usuario.correo}"></c:out></li>
+									<li>Correo: <c:out value="${perfil.correo}"></c:out></li>
 									<li>Redes sociales:</li>
-									<c:forEach items="${param.redes}" var="redSocial">
+									<c:forEach items="${redes}" var="redSocial">
 										<li><a href="${redSocial.url}"><c:out value="${redSocial.nombre}"></c:out></a></li>
 									</c:forEach>
 								</ul>
 							</li>
 						</ul>
 					</div>
+					<c:if test="${perfil.nick == usuario.nick}">
+						<form action="PerfilUsuarioEditable.jsp">
+							<input type="submit" class="boton-formulario centrar" value="Editar perfil">
+						</form>
+					</c:if>
 				</div>
 				<div class="contenido75 formato-texto">
 					<h3>Descripción:</h3>
-					<p><c:out value="${usuario.perfilObj.descripcion}"></c:out></p>
+					<p><c:out value="${perfil.perfilObj.descripcion}"></c:out></p>
 				</div>
-				<div class="contenedor-libros"></div>
+				<div class="contenedor-libros">
+					<c:if test="${perfil.nick == usuario.nick}">
+						<a href="NuevaObra.jsp">
+							<div class="libro">
+								<div class="portadaLibro">
+									<img alt="libro" src="img/agregar.png">
+								</div>
+								<div class="descripcionLibro">
+									<p>Agregar libro</p>
+								</div>
+							</div>
+						</a>
+					</c:if>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -73,6 +73,11 @@ public class UsuarioBs {
     
     @Transactional(readOnly = true)
     public Usuario buscarUsuarioPorCorreo (String correo) {
-    	return usuarioDao.buscarUsuarioPorCorreo(correo);
+    		return usuarioDao.buscarUsuarioPorCorreo(correo);
+    }
+    
+    @Transactional(readOnly = true)
+    public Usuario buscarUsuarioPorNick (String nick) {
+    		return usuarioDao.buscarUsuarioPorNick(nick);
     }
 }

@@ -36,7 +36,7 @@ public class RankingUsuario {
     @Column(name = "idUsuarioRankea")
     private Integer idUsuarioRankea;
     
-    @OneToOne(fetch = FetchType.EAGER,optional = false)
+    @OneToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "idUsuarioRankeado",referencedColumnName = "idUsuario",insertable = false,updatable = false)
     private Usuario usuarioRankeadoObj;
 

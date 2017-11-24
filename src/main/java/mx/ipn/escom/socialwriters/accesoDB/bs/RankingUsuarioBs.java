@@ -7,6 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.RankingUsuarioDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RankingUsuario;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -51,5 +54,10 @@ public class RankingUsuarioBs {
     @Transactional(readOnly = true)
     public RankingUsuario buscarPorId(Integer id){
         return rankingUsuarioDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<RankingUsuario> buscarUsuariosRankea(Integer idUsuarioRankeado){
+    		return rankingUsuarioDao.buscarUsuariosRankea(idUsuarioRankeado);
     }
 }

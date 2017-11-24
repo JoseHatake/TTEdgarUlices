@@ -82,4 +82,12 @@ public class UsuarioDao {
 		return identificados.get(0);
     	
     }
+    
+    public Usuario buscarUsuarioPorNick (String nick) {
+    	Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,Usuario.class);
+		resultado.setParameter(1, nick);
+		List<Usuario> identificados = resultado.list();
+		return identificados.get(0);
+    	
+    }
 }
