@@ -29,20 +29,20 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<div class="fondoFormato">
-				<div style="height: 250px">
-					<div class="izquierda" id="perfil-imagen-edit">
-						<ul>
-							<li><h4>Seguidores: <c:out value="${usuario.perfilObj.numSeguidores}"></c:out></h4></li>
-							<li><img src="img/default.jpg" class="img-circulo" alt="default"></li>
-						</ul>
+				<form action="EditaPerfil" method="POST">
+					<div style="height: 250px">
+						<div class="izquierda" id="perfil-imagen-edit">
+							<img src="img/default.jpg" id="foto" class="img-circulo" alt="default">
+							<input type="file" accept="image/*" id="origenFoto" name="foto" onchange="cambiaFoto('origenFoto','foto');">
+						</div>
+						<div class="derecha" id="perfil-info-edit">
+						</div>
 					</div>
-					<div class="derecha" id="perfil-info-edit">
+					<div class="contenido75 formato-texto">
+						<h3>Descripción:</h3>
+						<p><c:out value="${usuario.perfilObj.descripcion}"></c:out></p>
 					</div>
-				</div>
-				<div class="contenido75 formato-texto">
-					<h3>Descripción:</h3>
-					<p><c:out value="${usuario.perfilObj.descripcion}"></c:out></p>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>

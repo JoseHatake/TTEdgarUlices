@@ -105,3 +105,14 @@ function hash(itemGet) {
 function codificarClave(clavePlano,claveLog) {
 	id(claveLog).value = hash(clavePlano);
 }
+function cambiaFoto(inputFile,img) {
+	var files = id(inputFile).files;
+	var f = files[0];
+	var leerArchivo = new FileReader();
+	leerArchivo.onload = (function(elArchivo) {
+		return function(e) {
+			id(img).src = e.target.result;
+		};
+	})(f);
+	leerArchivo.readAsDataURL(f);
+}
