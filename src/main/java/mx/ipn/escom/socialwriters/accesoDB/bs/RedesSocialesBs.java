@@ -7,6 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.RedesSocialesDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -48,5 +51,10 @@ public class RedesSocialesBs {
     @Transactional(readOnly = true)
     public RedesSociales buscarPorId(Integer id){
         return redesSocialesDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<RedesSociales> todasLasRedes(){
+    		return redesSocialesDao.todasLasRedes();
     }
 }

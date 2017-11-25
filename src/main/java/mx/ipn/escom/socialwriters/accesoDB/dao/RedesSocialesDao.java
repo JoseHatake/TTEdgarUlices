@@ -6,7 +6,11 @@
 package mx.ipn.escom.socialwriters.accesoDB.dao;
 
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
+
+import java.util.List;
+
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +25,8 @@ import org.springframework.stereotype.Service;
 public class RedesSocialesDao {
     @Autowired
 	private SessionFactory sessionFactory;
+    
+    protected String QUERI1 = "select a from RedesSociales a";
     
     public RedesSociales guardar(RedesSociales redesSociales){
         sessionFactory.getCurrentSession().save(redesSociales);
@@ -43,5 +49,10 @@ public class RedesSocialesDao {
     
     public RedesSociales buscarPorId(Integer id){
         return sessionFactory.getCurrentSession().load(RedesSociales.class, id);
+    }
+    
+    public List<RedesSociales> todasLasRedes(){
+    		Query<RedesSociales> resultado = sessionFactory.getCurrentSession().createQuery(QUERI1,RedesSociales.class);
+    		return resultado.list();
     }
 }

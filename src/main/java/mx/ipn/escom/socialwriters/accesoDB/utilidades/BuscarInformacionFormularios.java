@@ -20,9 +20,11 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.RedesSocialesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 
 /**
@@ -42,6 +44,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private FormaContactoBs formaContactoBs;
+	
+	@Autowired
+	private RedesSocialesBs redesSocialesBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -91,6 +96,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 4:
 				enriquecerPerfilUsuario(request, response);
 				break;
+			case 5:
+				enriquecerPerfilUsuarioEditable(request, response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -103,6 +111,14 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
 		}
+	}
+
+	private void enriquecerPerfilUsuarioEditable(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		List<RedesSociales> redesSociales;
+		
+		redesSociales = redesSocialesBs.todasLasRedes();
+		session.setAttribute("catalogRedes", redesSociales);
 	}
 
 	private void enriquecerPerfilUsuario(HttpServletRequest request, HttpServletResponse response) {

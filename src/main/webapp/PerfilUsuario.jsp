@@ -15,9 +15,6 @@
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/general.js"></script>
 	<script type="text/javascript" src="js/carga-cabecera.js"></script>
-	<script type="text/javascript" src="js/buscarInformacionAjax.js"></script>
-	<script type="text/javascript" src="js/validaciones.js"></script>
-	<script type="text/javascript" src="js/fechas.js"></script>
 	<!-- JavaScript -->
 	<title>SocialWriters</title>
 </head>
@@ -72,11 +69,10 @@
 						<ul>
 							<li>Seudónimo: <c:out value="${perfil.nick}"></c:out></li>
 							<li>Nombre: <c:out value="${perfil.nombre} ${perfil.paterno} ${perfil.materno}"></c:out></li>
-							<li>Contacto:</li>
+							<li>Correo: <c:out value="${perfil.correo}"></c:out></li>
+							<li>Redes sociales:</li>
 							<li>
 								<ul>
-									<li>Correo: <c:out value="${perfil.correo}"></c:out></li>
-									<li>Redes sociales:</li>
 									<c:forEach items="${redes}" var="redSocial">
 										<li><a href="${redSocial.url}"><c:out value="${redSocial.nombre}"></c:out></a></li>
 									</c:forEach>
@@ -85,7 +81,7 @@
 						</ul>
 					</div>
 					<c:if test="${perfil.nick == usuario.nick}">
-						<form action="PerfilUsuarioEditable.jsp">
+						<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp" method="POST">
 							<input type="submit" class="boton-formulario centrar" value="Editar perfil">
 						</form>
 					</c:if>
