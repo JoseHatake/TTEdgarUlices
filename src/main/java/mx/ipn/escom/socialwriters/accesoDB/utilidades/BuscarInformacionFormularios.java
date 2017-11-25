@@ -116,7 +116,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	private void enriquecerPerfilUsuarioEditable(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		List<RedesSociales> redesSociales;
-		
+		enriquecerNuevoUsuario(request, response);
 		redesSociales = redesSocialesBs.todasLasRedes();
 		session.setAttribute("catalogRedes", redesSociales);
 	}

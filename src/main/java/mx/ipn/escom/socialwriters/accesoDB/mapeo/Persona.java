@@ -52,7 +52,7 @@ public class Persona {
     @Column(name = "idPais")
     private Integer idPais;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idPais", referencedColumnName = "idPaises",insertable = false,updatable = false)
     private Paises paisObj;
 

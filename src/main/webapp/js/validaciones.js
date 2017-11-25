@@ -8,6 +8,23 @@ function usuarioDisponible(itemUsuario,itemSubmit) {
 		styleValidateInput(itemUsuario,1);
 	}
 }
+function usuarioDisponible(itemUsuario,itemUsuarioFijo,itemSubmit) {
+	var usuario = id(itemUsuario).value;
+	var usuarioFijo = id(itemUsuarioFijo).value;
+	
+	if (usuario.length >= 5){
+		if (usuario == usuarioFijo) {
+			ActiveItem(itemSubmit,true);
+			styleValidateInput(itemUsuario,3);
+		}
+		else
+			buscarUsuarioDisponible(itemUsuario,itemSubmit);
+	}
+	else{
+		ActiveItem(itemSubmit,true);
+		styleValidateInput(itemUsuario,1);
+	}
+}
 function validaCorreosIguales(item1,item2,itemSubmit) {
 	var campo1,campo2,campo1Valor,campo2Valor;
 	campo1 = id(item1);
@@ -19,6 +36,37 @@ function validaCorreosIguales(item1,item2,itemSubmit) {
 			styleValidateInput(item1,3);
 			styleValidateInput(item2,3);
 			buscarCorreoDisponible(item1,item2,itemSubmit);
+		}
+		else{
+			styleValidateInput(item1,2);
+			styleValidateInput(item2,2);
+			ActiveItem(itemSubmit,false);
+		}
+	}
+	else{
+		styleValidateInput(item1,1);
+		styleValidateInput(item2,1);
+		ActiveItem(itemSubmit,true);
+	}
+}
+function validaCorreosIguales(item1,item2,itemFijo,itemSubmit) {
+	var campo1,campo2,campo1Valor,campo2Valor,campoFijo;
+	campo1 = id(item1);
+	campo2 = id(item2);
+	campo1Valor = campo1.value;
+	campo2Valor = campo2.value;
+	campoFijo = id(itemFijo).value;
+	if (campo1Valor.length == campo2Valor.length && campo1Valor.length >= 7) {
+		if (campo1Valor == campo2Valor) {
+			if (campo1Valor == campoFijo) {
+				styleValidateInput(item1,3);
+				styleValidateInput(item2,3);
+			}
+			else{
+				styleValidateInput(item1,3);
+				styleValidateInput(item2,3);
+				buscarCorreoDisponible(item1,item2,itemSubmit);
+			}
 		}
 		else{
 			styleValidateInput(item1,2);

@@ -26,6 +26,7 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<div class="fondoFormato">
+				<h1>Perfil</h1>
 				<div style="height: 250px">
 					<div class="izquierda" id="perfil-imagen-edit">
 						<ul>
@@ -67,10 +68,10 @@
 					</div>
 					<div class="derecha" id="perfil-info-edit">
 						<ul>
-							<li>Seudónimo: <c:out value="${perfil.nick}"></c:out></li>
-							<li>Nombre: <c:out value="${perfil.nombre} ${perfil.paterno} ${perfil.materno}"></c:out></li>
-							<li>Correo: <c:out value="${perfil.correo}"></c:out></li>
-							<li>Redes sociales:</li>
+							<li><b>Seudónimo:</b> <c:out value="${perfil.nick}"></c:out></li>
+							<li><b>Nombre:</b> <c:out value="${perfil.nombre} ${perfil.paterno} ${perfil.materno}"></c:out></li>
+							<li><b>Correo:</b> <c:out value="${perfil.correo}"></c:out></li>
+							<li><b>Redes sociales:</b></li>
 							<li>
 								<ul>
 									<c:forEach items="${redes}" var="redSocial">
@@ -78,16 +79,27 @@
 									</c:forEach>
 								</ul>
 							</li>
+							<li><b>Pais:</b> <c:out value="${perfil.paisObj.nombre}"></c:out></li>
+							<li>
+								<c:choose>
+									<c:when test="${perfil.sexo == 'M'}">
+										<b>Sexo:</b> Mujer
+									</c:when>
+									<c:otherwise>
+										<b>Sexo:</b> Hombre
+									</c:otherwise>
+								</c:choose>
+							</li>
 						</ul>
 					</div>
 					<c:if test="${perfil.nick == usuario.nick}">
-						<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp" method="POST">
+						<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp" method="POST" class="derecha">
 							<input type="submit" class="boton-formulario centrar" value="Editar perfil">
 						</form>
 					</c:if>
 				</div>
 				<div class="contenido75 formato-texto">
-					<h3>Descripción:</h3>
+					<h3>Biografía:</h3>
 					<p><c:out value="${perfil.perfilObj.descripcion}"></c:out></p>
 				</div>
 				<div class="contenedor-libros">
