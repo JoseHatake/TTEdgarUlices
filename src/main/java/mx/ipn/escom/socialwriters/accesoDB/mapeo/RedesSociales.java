@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +18,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "redesSociales")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class RedesSociales {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,19 +27,19 @@ public class RedesSociales {
     @Column(name = "nombre")
     private String nombre;
 
-    public Integer getIdRedSocial() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setIdRedSocial(Integer idRedSocial) {
-        this.id = idRedSocial;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 }

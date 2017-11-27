@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author josemiguel
  */
-@Service("paisesBd")
+@Service("paisesBs")
 @Scope(value = BeanDefinition.SCOPE_SINGLETON)
 public class PaisesBs {
     @Autowired

@@ -31,8 +31,8 @@
 		<div class="contenido">
 			<div class="fondoFormato">
 				<h1>Editar perfil</h1>
-				<form action="EditaPerfil" method="POST">
-					<div style="height: 400px;">
+				<form action="EditarPerfil" method="POST">
+					<div style="height: 550px;">
 						<div style="width: 250px;height: 250px;margin-right: 50px; margin-bottom: 50px;" class="izquierda">
 							<img src="img/default.jpg" id="foto" class="img-circulo" alt="default">
 							<input type="file" accept="image/*" id="origenFoto" name="foto" onchange="cambiaFoto('origenFoto','foto');">
@@ -83,7 +83,7 @@
 								</tr>
 								<tr>
 									<td class="form-espacio">
-										<input type="date" class="form-input-text" name="fechaPublicacion" value="${usuario.fechaNacimiento}" placeholder="2000-01-01">
+										<input type="date" class="form-input-text" name="fechaNacimiento" value="${usuario.fechaNacimiento}" placeholder="AAAA/MM/DD">
 									</td>
 								</tr>
 								<tr>
@@ -100,12 +100,31 @@
 										</c:choose>
 									</td>
 								</tr>
+								<tr>
+									<td><h3>Redes sociales</h3></td>
+								</tr>
+								<c:forEach items="${catalogoRedes}" var="redSocialCatalogo">
+									<c:set var="flag" value="true"></c:set>
+									<c:forEach items="${redes}" var="redesSociales">
+										<c:if test="${redesSociales.idRedSocial == redSocialCatalogo.id}">
+											<tr>
+												<td class="form-espacio" colspan="2"><input type="text" class="form-input-text" maxlength="255" name="${redSocialCatalogo.nombre}" value="${redesSociales.url}" placeholder="URL ${redSocialCatalogo.nombre}"></td>
+											</tr>
+											<c:set var="flag" value="false"></c:set>
+										</c:if>
+									</c:forEach>
+									<c:if test="${flag}">
+										<tr>
+											<td class="form-espacio" colspan="2"><input type="text" class="form-input-text" maxlength="255" name="${redSocialCatalogo.nombre}" placeholder="URL ${redSocialCatalogo.nombre}"></td>
+										</tr>
+									</c:if>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 					<div class="contenido75 formato-texto">
 						<h3>Biografía:</h3>
-						<input type="textarea" class="form-input-text" maxlength="255" placeholder="Biografía del autor">
+						<input type="textarea" name="biografia" class="form-input-text" maxlength="255" value="${usuario.perfilObj.descripcion}" placeholder="Biografía del autor">
 					</div>
 					<table style="margin-top: 20px;">
 						<tbody>

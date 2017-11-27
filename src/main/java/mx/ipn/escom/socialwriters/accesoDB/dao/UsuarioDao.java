@@ -76,7 +76,7 @@ public class UsuarioDao {
     }
     
     public Usuario buscarUsuarioPorCorreo (String correo) {
-    	Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,Usuario.class);
+    		Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,Usuario.class);
 		resultado.setParameter(1, correo);
 		List<Usuario> identificados = resultado.list();
 		return identificados.get(0);
@@ -84,10 +84,9 @@ public class UsuarioDao {
     }
     
     public Usuario buscarUsuarioPorNick (String nick) {
-    	Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,Usuario.class);
+    		Query<Usuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,Usuario.class);
 		resultado.setParameter(1, nick);
 		List<Usuario> identificados = resultado.list();
 		return identificados.get(0);
-    	
     }
 }

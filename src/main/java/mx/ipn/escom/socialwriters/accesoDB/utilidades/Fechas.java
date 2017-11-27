@@ -1,5 +1,6 @@
 package mx.ipn.escom.socialwriters.accesoDB.utilidades;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,11 +34,13 @@ public class Fechas {
         return fechaHoraActual;
 	}
 	
-	public Date parseDate(String fecha) {
-		Date fechaNacimiento = null;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	public String parseDate(String fecha) {
+		String fechaNacimiento = new String();
+		DateFormat parser,formater;
+		parser = new SimpleDateFormat("yyyy-MM-dd");
+		formater = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			fechaNacimiento = format.parse(fecha);
+			fechaNacimiento = formater.format(parser.parse(fecha));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

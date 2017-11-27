@@ -1,6 +1,7 @@
 package mx.ipn.escom.socialwriters.accesoDB.control.usuario;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -8,24 +9,27 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PerfilBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.RedesSocialesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
-import mx.ipn.escom.socialwriters.accesoDB.utilidades.Correo;
 import mx.ipn.escom.socialwriters.accesoDB.utilidades.Fechas;
-import mx.ipn.escom.socialwriters.accesoDB.utilidades.MensajeVerificarCuenta;
 
 /**
- * Servlet implementation class RegistrarUsuario
+ * Servlet implementation class EditarPerfil
  */
-@WebServlet("/RegistrarUsuario")
-public class RegistrarUsuario extends HttpServlet {
+@WebServlet("/EditarPerfil")
+public class EditarPerfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
@@ -36,7 +40,13 @@ public class RegistrarUsuario extends HttpServlet {
 	
 	@Autowired
 	private UsuarioBs usuarioBs;
-       
+	
+	@Autowired
+	private FormaContactoBs formaContactoBs;
+	
+	@Autowired
+	private RedesSocialesBs redesSocialesBs;
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -46,7 +56,7 @@ public class RegistrarUsuario extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegistrarUsuario() {
+    public EditarPerfil() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -62,71 +72,77 @@ public class RegistrarUsuario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Usuario usuario;
-		usuario = registrarUsuario(request);
-		mandarCorreo(usuario,request);
-		response.sendRedirect("MensajeUsuarioRegistrado.jsp");
-	}
-
-	private void mandarCorreo(Usuario usuario,HttpServletRequest request) {
-		Correo correo = new Correo();
-		MensajeVerificarCuenta mensaje = new MensajeVerificarCuenta();
-		String cuerpo,url,asunto;
-		
-		url = "http://localhost:8080/SocialWriters/MensajeUsuarioRegistrado.jsp?id=" + usuario.getId() + "&nick=" + usuario.getNick() + "&mensaje=1";
-		
-		if (request.getLocale().getLanguage() == "es") {
-			cuerpo = mensaje.creaEspañol(usuario.getNick(), url);
-			asunto = "Verificación de correo electrónico";
-		}
-		else {
-			cuerpo = mensaje.creaIngles(usuario.getNick(), url);
-			asunto = "E-mail verification";
-		}
-		
-		correo.enviarCorreo(usuario.getCorreo(), asunto, cuerpo);
-	}
-
-	private Usuario registrarUsuario(HttpServletRequest request) {
-		Usuario usuarioObj = new Usuario();
+		HttpSession session = request.getSession();
+		Usuario usuarioObj;
 		Perfil perfilObj = new Perfil();
+		List<FormaContacto> formaContactos;
+		List<RedesSociales> redesSociales;
+		FormaContacto aux;
 		Fechas fecha = new Fechas();
-		String usuario,nombre,aPaterno,aMaterno,correo,fechaNacimiento,sexo;
-		Integer clave,pais;
+		String usuario,nombre,aPaterno,aMaterno,correo,fechaNacimiento,sexo,descripcion,urlRedSocial;
+		Integer pais;
+		Boolean flag;
+		
+		usuarioObj = (Usuario) session.getAttribute("usuario");
 		
 		usuario = request.getParameter("usuario");
 		nombre = request.getParameter("nombre");
 		aPaterno = request.getParameter("apellidoPaterno");
 		aMaterno = request.getParameter("apellidoMaterno");
 		correo = request.getParameter("correo");
-		clave = Integer.parseInt(request.getParameter("clave"));
 		pais = Integer.parseInt(request.getParameter("pais"));
-		fechaNacimiento = request.getParameter("anio");
-		fechaNacimiento += "-" + request.getParameter("mes");
-		fechaNacimiento += "-" + request.getParameter("dia");
 		sexo = request.getParameter("sexo");
-		clave = Integer.parseInt(request.getParameter("clave"));
+		fechaNacimiento = request.getParameter("fechaNacimiento");
+		descripcion = request.getParameter("biografia");
 		
-		perfilObj.setDescripcion("");
-		perfilObj.setNumSeguidores(0);
-		perfilObj.setRol(1);
-		
-		perfilObj = perfilBs.guardar(perfilObj);
+		perfilObj = usuarioObj.getPerfilObj();
+		perfilObj.setDescripcion(descripcion);
+		perfilObj = perfilBs.actualizar(perfilObj);
 		
 		usuarioObj.setNick(usuario);
 		usuarioObj.setNombre(nombre);
 		usuarioObj.setPaterno(aPaterno);
 		usuarioObj.setMaterno(aMaterno);
 		usuarioObj.setCorreo(correo);
-		usuarioObj.setClave(clave);
 		usuarioObj.setIdPais(pais);
 		usuarioObj.setPaisObj(paisesBs.buscarPorId(pais));
 		usuarioObj.setFechaNacimiento(fecha.parseDate(fechaNacimiento));
 		usuarioObj.setSexo(sexo);
-		usuarioObj.setEstadoCuenta(0);
 		usuarioObj.setIdPerfil(perfilObj.getId());
+		usuarioObj.setPerfilObj(perfilObj);
 		
-		return usuarioBs.guardar(usuarioObj);
+		usuarioObj = usuarioBs.actualizar(usuarioObj);
+		
+		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(usuarioObj.getId());
+		redesSociales = redesSocialesBs.todasLasRedes();
+		
+		for (RedesSociales redesSociales2 : redesSociales) {
+			urlRedSocial = request.getParameter(redesSociales2.getNombre());
+			flag = true;
+			for (FormaContacto formaContactos2 : formaContactos) {
+				if (formaContactos2.getIdRedSocial().equals(redesSociales2.getId())) {
+					if (urlRedSocial != "") {
+						formaContactos2.setUrl(urlRedSocial);
+						formaContactoBs.actualizar(formaContactos2);
+					}
+					else {
+						formaContactoBs.eliminar(formaContactos2.getId());
+					}
+					flag = false;
+				}
+			}
+			if (flag) {
+				if (urlRedSocial != "") {
+					aux = new FormaContacto();
+					aux.setIdUsuario(usuarioObj.getId());
+					aux.setIdRedSocial(redesSociales2.getId());
+					aux.setRedSocialObj(redesSociales2);
+					aux.setUrl(urlRedSocial);
+					formaContactoBs.guardar(aux);
+				}
+			}
+		}
+		session.setAttribute("usuario", usuarioObj);
+		response.sendRedirect("BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=" + usuarioObj.getNick());
 	}
-
 }

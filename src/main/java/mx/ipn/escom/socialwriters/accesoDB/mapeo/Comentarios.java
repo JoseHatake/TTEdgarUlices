@@ -5,7 +5,6 @@
  */
 package mx.ipn.escom.socialwriters.accesoDB.mapeo;
 
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,7 +31,7 @@ public class Comentarios {
     private String comentario;
     
     @Column(name = "fecha_hora")
-    private Date fechaHora;
+    private String fechaHora;
     
     @Column(name = "idObra")
     private Integer idObra;
@@ -64,15 +63,15 @@ public class Comentarios {
         this.comentario = comentario;
     }
 
-    public Date getFechaHora() {
-        return fechaHora;
-    }
+    public String getFechaHora() {
+		return fechaHora;
+	}
 
-    public void setFechaHora(Date fechaHora) {
-        this.fechaHora = fechaHora;
-    }
+	public void setFechaHora(String fechaHora) {
+		this.fechaHora = fechaHora;
+	}
 
-    public Integer getIdObra() {
+	public Integer getIdObra() {
         return idObra;
     }
 

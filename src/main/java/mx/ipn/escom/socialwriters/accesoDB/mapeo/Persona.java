@@ -5,7 +5,6 @@
  */
 package mx.ipn.escom.socialwriters.accesoDB.mapeo;
 
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +16,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -42,9 +39,8 @@ public class Persona {
     @Column(name = "aMaterno")
     private String materno;
     
-    @Temporal(TemporalType.DATE)
     @Column(name = "fechaNacimiento")
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     
     @Column(name = "sexo")
     private String sexo;
@@ -88,15 +84,15 @@ public class Persona {
         this.materno = materno;
     }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
+    public String getFechaNacimiento() {
+		return fechaNacimiento;
+	}
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
+	public void setFechaNacimiento(String fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
 
-    public String getSexo() {
+	public String getSexo() {
         return sexo;
     }
 

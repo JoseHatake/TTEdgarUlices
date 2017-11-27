@@ -11,11 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -24,9 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "formaContacto")
-@Inheritance(strategy = InheritanceType.JOINED)
-@PrimaryKeyJoinColumn(name = "idContacto", referencedColumnName = "idRedSocial")
-public class FormaContacto extends RedesSociales{
+public class FormaContacto{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idContacto")
@@ -41,9 +36,9 @@ public class FormaContacto extends RedesSociales{
     @Column(name = "idUsuario")
     private Integer idUsuario;
     
-    @OneToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "idUsuario",referencedColumnName = "idUsuario",insertable = false,updatable = false)
-    private Usuario usuariosObj;
+    @OneToOne(fetch = FetchType.EAGER,optional = false)
+    @JoinColumn(name = "idRedSocial",referencedColumnName = "idRedSocial",insertable = false,updatable = false)
+    private RedesSociales redSocialObj;
 
     public Integer getId() {
         return id;
@@ -77,11 +72,11 @@ public class FormaContacto extends RedesSociales{
         this.idUsuario = idUsuario;
     }
 
-    public Usuario getUsuariosObj() {
-        return usuariosObj;
-    }
+	public RedesSociales getRedSocialObj() {
+		return redSocialObj;
+	}
 
-    public void setUsuariosObj(Usuario usuariosObj) {
-        this.usuariosObj = usuariosObj;
-    }
+	public void setRedSocialObj(RedesSociales redSocialObj) {
+		this.redSocialObj = redSocialObj;
+	}
 }

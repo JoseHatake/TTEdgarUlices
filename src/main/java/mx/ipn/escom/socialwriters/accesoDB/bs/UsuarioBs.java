@@ -38,6 +38,13 @@ public class UsuarioBs {
         model.setIdPersona(usuario.getIdPersona());
         model.setPerfilObj(usuario.getPerfilObj());
         model.setEstadoCuenta(usuario.getEstadoCuenta());
+        model.setNombre(usuario.getNombre());
+        model.setPaterno(usuario.getPaterno());
+        model.setMaterno(usuario.getMaterno());
+        model.setFechaNacimiento(usuario.getFechaNacimiento());
+        model.setSexo(usuario.getSexo());
+        model.setIdPais(usuario.getIdPais());
+        model.setPaisObj(usuario.getPaisObj());
         return usuarioDao.actualizar(model);
     }
     

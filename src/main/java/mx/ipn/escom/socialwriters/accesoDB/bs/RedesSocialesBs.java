@@ -33,7 +33,7 @@ public class RedesSocialesBs {
     
     @Transactional(rollbackFor = Exception.class)
     public RedesSociales actualizar(RedesSociales redesSociales){
-        RedesSociales model = redesSocialesDao.buscarPorId(redesSociales.getIdRedSocial());
+        RedesSociales model = redesSocialesDao.buscarPorId(redesSociales.getId());
         model.setNombre(redesSociales.getNombre());
         return redesSocialesDao.actualizar(model);
     }

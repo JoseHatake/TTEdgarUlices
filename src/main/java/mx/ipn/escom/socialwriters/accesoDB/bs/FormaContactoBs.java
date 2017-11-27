@@ -37,7 +37,7 @@ public class FormaContactoBs {
         model.setIdRedSocial(formaContacto.getIdRedSocial());
         model.setIdUsuario(formaContacto.getIdUsuario());
         model.setUrl(formaContacto.getUrl());
-        model.setUsuariosObj(formaContacto.getUsuariosObj());
+        model.setRedSocialObj(formaContacto.getRedSocialObj());
         return formaContactoDao.actualizar(model);
     }
     

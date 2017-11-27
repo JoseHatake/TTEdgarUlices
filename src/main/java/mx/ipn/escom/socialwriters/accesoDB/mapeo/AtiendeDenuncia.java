@@ -5,7 +5,6 @@
  */
 package mx.ipn.escom.socialwriters.accesoDB.mapeo;
 
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,7 +28,7 @@ public class AtiendeDenuncia {
     private Integer id;
     
     @Column(name = "fecha")
-    private Date fecha;
+    private String fecha;
     
     @Column(name = "idUduario")
     private Integer idUsuario;
@@ -60,15 +59,15 @@ public class AtiendeDenuncia {
         this.id = id;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
+    public String getFecha() {
+		return fecha;
+	}
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
 
-    public Integer getIdUsuario() {
+	public Integer getIdUsuario() {
         return idUsuario;
     }
 

@@ -75,7 +75,7 @@
 							<li>
 								<ul>
 									<c:forEach items="${redes}" var="redSocial">
-										<li><a href="${redSocial.url}"><c:out value="${redSocial.nombre}"></c:out></a></li>
+										<li><a href="${redSocial.url}"><c:out value="${redSocial.redSocialObj.nombre}"></c:out></a></li>
 									</c:forEach>
 								</ul>
 							</li>
@@ -93,7 +93,7 @@
 						</ul>
 					</div>
 					<c:if test="${perfil.nick == usuario.nick}">
-						<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp" method="POST" class="derecha">
+						<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp&nickName=${usuario.nick}" method="POST" class="derecha">
 							<input type="submit" class="boton-formulario centrar" value="Editar perfil">
 						</form>
 					</c:if>
