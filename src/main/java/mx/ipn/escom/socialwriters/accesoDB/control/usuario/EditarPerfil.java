@@ -1,9 +1,6 @@
 package mx.ipn.escom.socialwriters.accesoDB.control.usuario;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +28,7 @@ import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
+import mx.ipn.escom.socialwriters.accesoDB.utilidades.Archivos;
 import mx.ipn.escom.socialwriters.accesoDB.utilidades.Fechas;
 import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
 
@@ -81,6 +79,7 @@ public class EditarPerfil extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		List<FileItem> partes = new ArrayList<>();
@@ -90,88 +89,98 @@ public class EditarPerfil extends HttpServlet {
 		List<RedesSociales> redesSociales;
 		FormaContacto aux;
 		Fechas fecha = new Fechas();
-		String usuario,nombre,aPaterno,aMaterno,correo,fechaNacimiento,sexo,descripcion,urlRedSocial;
+		String usuario,usuario1,nombre,aPaterno,aMaterno,correo,fechaNacimiento,sexo,descripcion,urlRedSocial,contexto;
 		StringCodificador codificador = new StringCodificador();
 		Integer pais,contRedes;
 		Boolean flag;
+		Archivos manejoArchivos;
 		
 		usuarioObj = (Usuario) session.getAttribute("usuario");
+		contexto = this.getServletConfig().getServletContext().getRealPath("/");
+		manejoArchivos = new Archivos(contexto);
 		
 		DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setSizeThreshold(5120);
         ServletFileUpload upload = new ServletFileUpload(factory);
-         
+        
+		flag = true;
+		usuario = usuarioObj.getNick();
+		usuario1 = usuarioObj.getNick();
         try {
-            FileItem item;
-            File file;
-            String contexto;
-            
-            contexto = this.getServletConfig().getServletContext().getRealPath("/");
-            
 			partes = upload.parseRequest(request);
-			item = partes.get(0);
-			file = new File(contexto + "/img", usuarioObj.getNick() + ".png");
-            item.write(file);
-            
+			if (partes.get(0).getSize() != 0) {
+				flag = manejoArchivos.guardarImagenEnArchivo(partes.get(0), usuario, usuario + ".png");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			flag = false;
 		}
         
-		usuario = codificador.codificar(partes.get(1).getString());
-		nombre = codificador.codificar(partes.get(2).getString());
-		aPaterno = codificador.codificar(partes.get(3).getString());
-		aMaterno = codificador.codificar(partes.get(4).getString());
-		correo = codificador.codificar(partes.get(5).getString());
-		pais = Integer.parseInt(partes.get(6).getString());
-		fechaNacimiento = partes.get(7).getString();
-		sexo = partes.get(8).getString();
-		descripcion = codificador.codificar(partes.get(partes.size()-1).getString());
-		
-		perfilObj = usuarioObj.getPerfilObj();
-		perfilObj.setDescripcion(descripcion);
-		perfilObj = perfilBs.actualizar(perfilObj);
-		
-		usuarioObj.setNick(usuario);
-		usuarioObj.setNombre(nombre);
-		usuarioObj.setPaterno(aPaterno);
-		usuarioObj.setMaterno(aMaterno);
-		usuarioObj.setCorreo(correo);
-		usuarioObj.setIdPais(pais);
-		usuarioObj.setPaisObj(paisesBs.buscarPorId(pais));
-		usuarioObj.setFechaNacimiento(fecha.parseDate(fechaNacimiento));
-		usuarioObj.setSexo(sexo);
-		usuarioObj.setIdPerfil(perfilObj.getId());
-		usuarioObj.setPerfilObj(perfilObj);
-		
-		usuarioObj = usuarioBs.actualizar(usuarioObj);
-		
-		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(usuarioObj.getId());
-		redesSociales = redesSocialesBs.todasLasRedes();
-		
-		contRedes = 9;
-		for (RedesSociales redesSociales2 : redesSociales) {
-			urlRedSocial = partes.get(contRedes++).getString();
-			flag = true;
-			for (FormaContacto formaContactos2 : formaContactos) {
-				if (formaContactos2.getIdRedSocial().equals(redesSociales2.getId())) {
-					if (!urlRedSocial.equals(new String())) {
-						formaContactos2.setUrl(urlRedSocial);
-						formaContactoBs.actualizar(formaContactos2);
+        if (flag) {
+			usuario = codificador.codificar(partes.get(1).getString());
+	        	nombre = codificador.codificar(partes.get(2).getString());
+	    		aPaterno = codificador.codificar(partes.get(3).getString());
+	    		aMaterno = codificador.codificar(partes.get(4).getString());
+	    		correo = codificador.codificar(partes.get(5).getString());
+	    		pais = Integer.parseInt(partes.get(6).getString());
+	    		fechaNacimiento = partes.get(7).getString();
+	    		sexo = partes.get(8).getString();
+	    		descripcion = codificador.codificar(partes.get(partes.size()-1).getString());
+	    		
+	    		perfilObj = usuarioObj.getPerfilObj();
+	    		perfilObj.setDescripcion(descripcion);
+	    		perfilObj = perfilBs.actualizar(perfilObj);
+	    		
+	    		usuarioObj.setNick(usuario);
+	    		usuarioObj.setNombre(nombre);
+	    		usuarioObj.setPaterno(aPaterno);
+	    		usuarioObj.setMaterno(aMaterno);
+	    		usuarioObj.setCorreo(correo);
+	    		usuarioObj.setIdPais(pais);
+	    		usuarioObj.setPaisObj(paisesBs.buscarPorId(pais));
+	    		usuarioObj.setFechaNacimiento(fecha.parseDate(fechaNacimiento));
+	    		usuarioObj.setSexo(sexo);
+	    		usuarioObj.setIdPerfil(perfilObj.getId());
+	    		usuarioObj.setPerfilObj(perfilObj);
+	    		
+	    		usuarioObj = usuarioBs.actualizar(usuarioObj);
+	    		
+	    		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(usuarioObj.getId());
+	    		redesSociales = redesSocialesBs.todasLasRedes();
+	    		
+	    		contRedes = 9;
+	    		for (RedesSociales redesSociales2 : redesSociales) {
+	    			urlRedSocial = partes.get(contRedes++).getString();
+	    			flag = true;
+	    			for (FormaContacto formaContactos2 : formaContactos) {
+	    				if (formaContactos2.getIdRedSocial().equals(redesSociales2.getId())) {
+	    					if (!urlRedSocial.equals(new String())) {
+	    						formaContactos2.setUrl(urlRedSocial);
+	    						formaContactoBs.actualizar(formaContactos2);
+	    					}
+	    					else {
+	    						formaContactoBs.eliminar(formaContactos2.getId());
+	    					}
+	    					flag = false;
+	    				}
+	    			}
+	    			if (flag) {
+	    				if (!urlRedSocial.equals(new String())) {
+	    					aux = new FormaContacto();
+	    					aux.setIdUsuario(usuarioObj.getId());
+	    					aux.setIdRedSocial(redesSociales2.getId());
+	    					aux.setRedSocialObj(redesSociales2);
+	    					aux.setUrl(urlRedSocial);
+	    					formaContactoBs.guardar(aux);
+	    				}
+	    			}
+	    		}
+	    		if (manejoArchivos.existeArchivo(usuario1)) {
+				if (!usuario.equals(usuario1)) {
+					manejoArchivos.renombrarArchivo(usuario1,usuario);
+					if (manejoArchivos.exiteDocumento(usuario, usuario1 + ".png")) {
+						manejoArchivos.renombrarDocumento(usuario, usuario1 + ".png", usuario + ".png");
 					}
-					else {
-						formaContactoBs.eliminar(formaContactos2.getId());
-					}
-					flag = false;
-				}
-			}
-			if (flag) {
-				if (!urlRedSocial.equals(new String())) {
-					aux = new FormaContacto();
-					aux.setIdUsuario(usuarioObj.getId());
-					aux.setIdRedSocial(redesSociales2.getId());
-					aux.setRedSocialObj(redesSociales2);
-					aux.setUrl(urlRedSocial);
-					formaContactoBs.guardar(aux);
 				}
 			}
 		}
