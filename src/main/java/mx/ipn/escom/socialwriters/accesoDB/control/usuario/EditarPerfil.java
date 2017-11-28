@@ -2,6 +2,8 @@ package mx.ipn.escom.socialwriters.accesoDB.control.usuario;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 import mx.ipn.escom.socialwriters.accesoDB.utilidades.Fechas;
+import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
 
 /**
  * Servlet implementation class EditarPerfil
@@ -88,6 +91,7 @@ public class EditarPerfil extends HttpServlet {
 		FormaContacto aux;
 		Fechas fecha = new Fechas();
 		String usuario,nombre,aPaterno,aMaterno,correo,fechaNacimiento,sexo,descripcion,urlRedSocial;
+		StringCodificador codificador = new StringCodificador();
 		Integer pais,contRedes;
 		Boolean flag;
 		
@@ -113,15 +117,15 @@ public class EditarPerfil extends HttpServlet {
 			e.printStackTrace();
 		}
         
-		usuario = partes.get(1).getString();
-		nombre = partes.get(2).getString();
-		aPaterno = partes.get(3).getString();
-		aMaterno = partes.get(4).getString();
-		correo = partes.get(5).getString();
+		usuario = codificador.codificar(partes.get(1).getString());
+		nombre = codificador.codificar(partes.get(2).getString());
+		aPaterno = codificador.codificar(partes.get(3).getString());
+		aMaterno = codificador.codificar(partes.get(4).getString());
+		correo = codificador.codificar(partes.get(5).getString());
 		pais = Integer.parseInt(partes.get(6).getString());
 		fechaNacimiento = partes.get(7).getString();
 		sexo = partes.get(8).getString();
-		descripcion = partes.get(partes.size()-1).getString();
+		descripcion = codificador.codificar(partes.get(partes.size()-1).getString());
 		
 		perfilObj = usuarioObj.getPerfilObj();
 		perfilObj.setDescripcion(descripcion);
