@@ -1,3 +1,4 @@
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <form action="FiltradoLibros" class="opciones-menu">
 	<nav>
@@ -5,22 +6,22 @@
 			<li>
 				<div class="opciones-menu-altura padding-menu">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<input type="text" id="input-buscar-filtrado" placeholder="Buscar" maxlength="100">
+						<input type="text" id="input-buscar-filtrado" placeholder="<spring:message code="label.buscar" />" maxlength="100">
 					</div>
 				</div>
 			</li>
 			<li>
 				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('idioma')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>Idioma</p>
+						<p><spring:message code="label.idioma" /></p>
 					</div>
 				</div>
 				<ul>
 					<li class="subopcion-menu-margenes oculto" id="idioma">
 						<select name="idioma">
-							<option value="">Selecciona el idioma</option>
-							<option value="es">Español</option>
-							<option value="en">Inglés</option>
+							<option value=""><spring:message code="label.selidioma" /></option>
+							<option value="es"><spring:message code="label.español" /></option>
+							<option value="en"><spring:message code="label.ingles" /></option>
 						</select>
 					</li>
 				</ul>
@@ -28,16 +29,25 @@
 			<li>
 				<div class="opciones-menu-altura padding-menu"  onclick="switchEstado('genero')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>Género</p>
+						<p><spring:message code="label.genero" /></p>
 					</div>
 				</div>
 				<ul>
 					<li class="subopcion-menu-margenes oculto" id="genero">
 						<select name="genero">
-							<option value="">Selecciona el género</option>
-							<option value="1">Terror</option>
-							<option value="2">Dráma</option>
-							<option value="3">Novela</option>
+							<option value=""><spring:message code="label.selgenero" /></option>
+							<option value="1"><spring:message code="label.comedia" /></option>
+							<option value="2"><spring:message code="label.cuento" /></option>
+							<option value="3"><spring:message code="label.drama" /></option>
+							<option value="4"><spring:message code="label.fantasia" /></option>
+							<option value="5"><spring:message code="label.sci-fi" /></option>
+							<option value="6"><spring:message code="label.historico" /></option>
+							<option value="7"><spring:message code="label.misterio" /></option>
+							<option value="8"><spring:message code="label.suspenso" /></option>
+							<option value="9"><spring:message code="label.terror" /></option>
+							<option value="10"><spring:message code="label.tragedia" /></option>
+							<option value="11"><spring:message code="label.romance" /></option>
+							<option value="12"><spring:message code="label.poesia" /></option>
 						</select>
 					</li>
 				</ul>
@@ -45,7 +55,7 @@
 			<li>
 				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('ranking')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>Ranking de autor</p>
+						<p><spring:message code="label.rankinga" /></p>
 					</div>
 				</div>
 				<ul>
@@ -65,7 +75,7 @@
 			<li>
 				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('fecha')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>Fecha de publicación</p>
+						<p><spring:message code="label.fechapub" /></p>
 					</div>
 				</div>
 				<ul>
@@ -77,19 +87,19 @@
 			<li>
 				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('capitulos')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>Número de capítulos</p>
+						<p><spring:message code="label.numcaps" /></p>
 					</div>
 				</div>
 				<ul>
 					<li class="subopcion-menu-margenes oculto" id="capitulos">
-						<input type="text" name="capitulos" placeholder="NÃºmero">	
+						<input type="text" name="capitulos" placeholder="<spring:message code="label.numero" />">	
 					</li>
 				</ul>
 			</li>
 			<li>
 				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('popularidad')">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<p>Popularidad</p>
+						<p><spring:message code="label.popularidad" /></p>
 					</div>
 				</div>
 				<ul>
@@ -108,5 +118,5 @@
 			</li>
 		</ul>
 	</nav>
-	<input type="submit" class="vinculos boton-formulario centrar" value="Buscar">
+	<input type="submit" class="vinculos boton-formulario centrar" value="<spring:message code="label.buscar" />">
 </form>

@@ -33,31 +33,31 @@
 				<table class="form-config">
 					<thead>
 						<tr>
-							<th><h2>Cambiar Contraseña</h2></th>
+							<th><h2><spring:message code="label.cambiarcon" /></h2></th>
 						</tr>
 					</thead>
 					<tbody>
 						
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="password" id ="clave0" class="form-input-text" placeholder="Contraseña Actual" maxlength="45" onkeyup="codificarClave('clave0','HashActual');" required>
+							<td class="form-espacio" colspan="2"><input type="password" id ="clave0" class="form-input-text" placeholder="<spring:message code="label.claveactual" />" maxlength="45" onkeyup="codificarClave('clave0','HashActual');" required>
 							<input type="hidden" name="claveActual" id="HashActual">
 							</td>
 						</tr>
 												
 						<tr>
 							<td class="form-espacio">
-								<input type="password" id="clave1" class="form-input-text" placeholder="Nueva Contraseña" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required>
+								<input type="password" id="clave1" class="form-input-text" placeholder="<spring:message code="label.nclave" />" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required>
 								<input type="hidden" name="claveNueva" id="claveHash">
 							</td>
 						</tr>
 						<tr>
-							<td class="form-espacio"><input type="password" id="clave2" class="form-input-text" placeholder="Confirmar contraseña" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required></td>
+							<td class="form-espacio"><input type="password" id="clave2" class="form-input-text" placeholder="<spring:message code="label.cnclave" />" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required></td>
 						</tr>
 						
 					</tbody>
 					<tfoot>
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="Cambiar Contraseña"></td>
+							<td class="form-espacio" colspan="2"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.cambiarcon" />"></td>
 						</tr>
 					</tfoot>
 				</table>

@@ -33,19 +33,19 @@
 				<table class="form-config">
 					<thead>
 						<tr>
-							<th><h2>Recuperar Contraseña</h2></th>
+							<th><h2><spring:message code="label.recuperarclave" /></h2></th>
 						</tr>
 					</thead>
 					<tbody>
 						
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="text" name="correo" class="form-input-text" placeholder="correo electrónico" maxlength="45" required></td>
+							<td class="form-espacio" colspan="2"><input type="text" name="correo" class="form-input-text" placeholder="<spring:message code="label.email" />" maxlength="45" required></td>
 						</tr>
 						
 					</tbody>
 					<tfoot>
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="Enviar Contraseña"></td>
+							<td class="form-espacio" colspan="2"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.enviarcontra" />"></td>
 						</tr>
 					</tfoot>
 				</table>

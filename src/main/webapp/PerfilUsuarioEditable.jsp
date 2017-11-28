@@ -30,8 +30,13 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<div class="fondoFormato">
+<<<<<<< HEAD
 				<h1>Editar perfil</h1>
 				<form action="EditarPerfil" enctype="multipart/form-data" method="POST">
+=======
+				<h1><spring:message code="label.editarp" /></h1>
+				<form action="EditarPerfil" method="POST">
+>>>>>>> 9dc5b2e54572d51f498036dac0292577f4ce492b
 					<div style="height: 550px;">
 						<div style="width: 250px;height: 250px;margin-right: 50px; margin-bottom: 50px;" class="izquierda">
 							<img src="img/default.jpg" id="foto" class="img-circulo" alt="default">
@@ -41,7 +46,7 @@
 							<tbody>
 								<tr>
 									<td class="form-espacio">
-										<input type="text" name="usuario" id="campoUsuario" class="form-input-text" value="${usuario.nick}" placeholder="Usuario" minlength="5" maxlength="20" onkeyup="usuarioDisponible('campoUsuario','campoUsuarioFijo','itemSubmit');" required>
+										<input type="text" name="usuario" id="campoUsuario" class="form-input-text" value="${usuario.nick}" placeholder="<spring:message code="label.usuario" />" minlength="5" maxlength="20" onkeyup="usuarioDisponible('campoUsuario','campoUsuarioFijo','itemSubmit');" required>
 										<input type="hidden" id="campoUsuarioFijo" value="${usuario.nick}">
 									</td>
 								</tr>
@@ -49,22 +54,22 @@
 									<td class="form-espacio" colspan="2"><input type="text" name="nombre" class="form-input-text" value="${usuario.nombre}" placeholder="<spring:message code="label.nombre"/>" maxlength="45" required></td>
 								</tr>
 								<tr>
-									<td class="form-espacio"><input type="text" name="apellidoPaterno" class="form-input-text" value="${usuario.paterno}" placeholder="Apelido Paterno" maxlength="30" required></td>
-									<td class="form-espacio"><input type="text" name="apellidoMaterno" class="form-input-text" value="${usuario.materno}" placeholder="Apelido Materno" maxlength="30" required></td>
+									<td class="form-espacio"><input type="text" name="apellidoPaterno" class="form-input-text" value="${usuario.paterno}" placeholder="<spring:message code="label.apaterno" />" maxlength="30" required></td>
+									<td class="form-espacio"><input type="text" name="apellidoMaterno" class="form-input-text" value="${usuario.materno}" placeholder="<spring:message code="label.amaterno" />" maxlength="30" required></td>
 								</tr>
 								<tr>
 									<td class="form-espacio" colspan="2">
-										<input type="email" name="correo" id="correo1" class="form-input-text" value="${usuario.correo}" placeholder="Correo electrónico" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','correoFijo','itemSubmit');" required>
+										<input type="email" name="correo" id="correo1" class="form-input-text" value="${usuario.correo}" placeholder="<spring:message code="label.email" />" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','correoFijo','itemSubmit');" required>
 										<input type="hidden" id="correoFijo" value="${usuario.correo}">
 									</td>
 								</tr>
 								<tr>
-									<td class="form-espacio" colspan="2"><input type="email" id="correo2" class="form-input-text" value="${usuario.correo}" placeholder="Confirmar correo" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','correoFijo','itemSubmit');" required></td>
+									<td class="form-espacio" colspan="2"><input type="email" id="correo2" class="form-input-text" value="${usuario.correo}" placeholder="<spring:message code="label.cemail" />" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','correoFijo','itemSubmit');" required></td>
 								</tr>
 								<tr>
 									<td class="form-espacio" colspan="2">
 										<select class="form-input-lista" name="pais" required="required">
-											<option value="">Pais</option>
+											<option value=""><spring:message code="label.pais" /></option>
 											<c:forEach items="${paises}" var="pais">
 												<c:choose>
 													<c:when test="${pais.id == usuario.idPais}">
@@ -79,29 +84,29 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="form-espacio" colspan="2"><h3>Fecha de nacimiento</h3></td>
+									<td class="form-espacio" colspan="2"><h3><spring:message code="label.fnacimiento" /></h3></td>
 								</tr>
 								<tr>
 									<td class="form-espacio">
-										<input type="date" class="form-input-text" name="fechaNacimiento" value="${usuario.fechaNacimiento}" placeholder="AAAA/MM/DD">
+										<input type="date" class="form-input-text" name="fechaNacimiento" value="${usuario.fechaNacimiento}" placeholder="<spring:message code="label.formatofecha" />">
 									</td>
 								</tr>
 								<tr>
 									<td class="form-espacio">
 										<c:choose>
 											<c:when test="${usuario.sexo == 'M'}">
-												<input type="radio" name="sexo" value="M" checked required> Mujer
-												<input type="radio" name="sexo" value="H" required> Hombre
+												<input type="radio" name="sexo" value="M" checked required> <spring:message code="label.mujer" />
+												<input type="radio" name="sexo" value="H" required> <spring:message code="label.hombre" />
 											</c:when>
 											<c:otherwise>
-												<input type="radio" name="sexo" value="M" required> Mujer
-												<input type="radio" name="sexo" value="H" checked required> Hombre
+												<input type="radio" name="sexo" value="M" required> <spring:message code="label.mujer" />
+												<input type="radio" name="sexo" value="H" checked required> <spring:message code="label.hombre" />
 											</c:otherwise>
 										</c:choose>
 									</td>
 								</tr>
 								<tr>
-									<td><h3>Redes sociales</h3></td>
+									<td><h3><spring:message code="label.redes" /></h3></td>
 								</tr>
 								<c:forEach items="${catalogoRedes}" var="redSocialCatalogo">
 									<c:set var="flag" value="true"></c:set>
@@ -123,14 +128,14 @@
 						</table>
 					</div>
 					<div class="contenido75 formato-texto">
-						<h3>Biografía:</h3>
-						<input type="textarea" name="biografia" class="form-input-text" maxlength="255" value="${usuario.perfilObj.descripcion}" placeholder="Biografía del autor">
+						<h3><spring:message code="label.biografia" />:</h3>
+						<input type="textarea" name="biografia" class="form-input-text" maxlength="255" value="${usuario.perfilObj.descripcion}" placeholder="<spring:message code="label.phbio" />">
 					</div>
 					<table style="margin-top: 20px;">
 						<tbody>
 							<tr>
-								<td style="padding-right: 10px;"><a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${usuario.nick}"><input type="button" class="boton-formulario centrar" value="Cancelar"></a></td>
-								<td style="padding-left: 10px;"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="Guardar"></td>
+								<td style="padding-right: 10px;"><a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${usuario.nick}"><input type="button" class="boton-formulario centrar" value="<spring:message code="label.cancelar" />"></a></td>
+								<td style="padding-left: 10px;"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.guardar" />"></td>
 							</tr>
 						</tbody>
 					</table>
