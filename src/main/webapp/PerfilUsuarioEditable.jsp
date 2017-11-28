@@ -30,13 +30,8 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<div class="fondoFormato">
-<<<<<<< HEAD
-				<h1>Editar perfil</h1>
 				<form action="EditarPerfil" enctype="multipart/form-data" method="POST">
-=======
 				<h1><spring:message code="label.editarp" /></h1>
-				<form action="EditarPerfil" method="POST">
->>>>>>> 9dc5b2e54572d51f498036dac0292577f4ce492b
 					<div style="height: 550px;">
 						<div style="width: 250px;height: 250px;margin-right: 50px; margin-bottom: 50px;" class="izquierda">
 							<img src="img/default.jpg" id="foto" class="img-circulo" alt="default">
@@ -73,10 +68,10 @@
 											<c:forEach items="${paises}" var="pais">
 												<c:choose>
 													<c:when test="${pais.id == usuario.idPais}">
-														<option value="${pais.nombre}" selected>${pais.nombre}</option>
+														<option value="${pais.id}" selected>${pais.nombre}</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${pais.nombre}">${pais.nombre}</option>
+														<option value="${pais.id}">${pais.nombre}</option>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>

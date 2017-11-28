@@ -2,6 +2,7 @@ package mx.ipn.escom.socialwriters.accesoDB.control.usuario;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +80,7 @@ public class EditarPerfil extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		List<FileItem> partes = new ArrayList<>();
 		Usuario usuarioObj;
 		Perfil perfilObj = new Perfil();
 		List<FormaContacto> formaContactos;
@@ -87,22 +88,40 @@ public class EditarPerfil extends HttpServlet {
 		FormaContacto aux;
 		Fechas fecha = new Fechas();
 		String usuario,nombre,aPaterno,aMaterno,correo,fechaNacimiento,sexo,descripcion,urlRedSocial;
-		Integer pais;
+		Integer pais,contRedes;
 		Boolean flag;
 		
 		usuarioObj = (Usuario) session.getAttribute("usuario");
 		
-		System.out.println(request.getParameter("pais"));
-		
-		usuario = request.getParameter("usuario");
-		nombre = request.getParameter("nombre");
-		aPaterno = request.getParameter("apellidoPaterno");
-		aMaterno = request.getParameter("apellidoMaterno");
-		correo = request.getParameter("correo");
-//		pais = Integer.parseInt(request.getParameter("pais"));
-		sexo = request.getParameter("sexo");
-		fechaNacimiento = request.getParameter("fechaNacimiento");
-		descripcion = request.getParameter("biografia");
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setSizeThreshold(5120);
+        ServletFileUpload upload = new ServletFileUpload(factory);
+         
+        try {
+            FileItem item;
+            File file;
+            String contexto;
+            
+            contexto = this.getServletConfig().getServletContext().getRealPath("/");
+            
+			partes = upload.parseRequest(request);
+			item = partes.get(0);
+			file = new File(contexto + "/img", usuarioObj.getNick() + ".png");
+            item.write(file);
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+		usuario = partes.get(1).getString();
+		nombre = partes.get(2).getString();
+		aPaterno = partes.get(3).getString();
+		aMaterno = partes.get(4).getString();
+		correo = partes.get(5).getString();
+		pais = Integer.parseInt(partes.get(6).getString());
+		fechaNacimiento = partes.get(7).getString();
+		sexo = partes.get(8).getString();
+		descripcion = partes.get(partes.size()-1).getString();
 		
 		perfilObj = usuarioObj.getPerfilObj();
 		perfilObj.setDescripcion(descripcion);
@@ -113,8 +132,8 @@ public class EditarPerfil extends HttpServlet {
 		usuarioObj.setPaterno(aPaterno);
 		usuarioObj.setMaterno(aMaterno);
 		usuarioObj.setCorreo(correo);
-//		usuarioObj.setIdPais(pais);
-//		usuarioObj.setPaisObj(paisesBs.buscarPorId(pais));
+		usuarioObj.setIdPais(pais);
+		usuarioObj.setPaisObj(paisesBs.buscarPorId(pais));
 		usuarioObj.setFechaNacimiento(fecha.parseDate(fechaNacimiento));
 		usuarioObj.setSexo(sexo);
 		usuarioObj.setIdPerfil(perfilObj.getId());
@@ -125,12 +144,13 @@ public class EditarPerfil extends HttpServlet {
 		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(usuarioObj.getId());
 		redesSociales = redesSocialesBs.todasLasRedes();
 		
+		contRedes = 9;
 		for (RedesSociales redesSociales2 : redesSociales) {
-			urlRedSocial = request.getParameter(redesSociales2.getNombre());
+			urlRedSocial = partes.get(contRedes++).getString();
 			flag = true;
 			for (FormaContacto formaContactos2 : formaContactos) {
 				if (formaContactos2.getIdRedSocial().equals(redesSociales2.getId())) {
-					if (urlRedSocial != "") {
+					if (!urlRedSocial.equals(new String())) {
 						formaContactos2.setUrl(urlRedSocial);
 						formaContactoBs.actualizar(formaContactos2);
 					}
@@ -141,7 +161,7 @@ public class EditarPerfil extends HttpServlet {
 				}
 			}
 			if (flag) {
-				if (urlRedSocial != "") {
+				if (!urlRedSocial.equals(new String())) {
 					aux = new FormaContacto();
 					aux.setIdUsuario(usuarioObj.getId());
 					aux.setIdRedSocial(redesSociales2.getId());
@@ -152,42 +172,7 @@ public class EditarPerfil extends HttpServlet {
 			}
 		}
 		
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(5120);
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        
-        
-        try {
-        		List<FileItem> partes;
-            FileItem item;
-            File file;
-            String auxCompara,contexto;
-            
-            contexto = request.getContextPath();
-            
-			partes = upload.parseRequest(request);
-			Integer i = 1;
-			while(i < partes.size()){
-				System.out.println("Si hay archvio");
-				System.out.println(partes.get(0).getString());
-                item = partes.get(i);
-                auxCompara = item.getFieldName();
-                if(item.getSize()!=0){
-                		System.out.println("El archivo tiene tamaño");
-                    file = new File(contexto,"archvio"+i+".png");
-                    item.write(file);
-                }
-            }
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		session.setAttribute("usuario", usuarioObj);
 		response.sendRedirect("BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=" + usuarioObj.getNick());
-	}
-
-	private void guardaImagen(FileItem file) {
-		System.out.println(file);
 	}
 }
