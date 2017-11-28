@@ -31,7 +31,7 @@
 		<div class="contenido">
 			<div class="fondoFormato">
 				<h1>Editar perfil</h1>
-				<form action="EditarPerfil" method="POST">
+				<form action="EditarPerfil" enctype="multipart/form-data" method="POST">
 					<div style="height: 550px;">
 						<div style="width: 250px;height: 250px;margin-right: 50px; margin-bottom: 50px;" class="izquierda">
 							<img src="img/default.jpg" id="foto" class="img-circulo" alt="default">
@@ -68,10 +68,10 @@
 											<c:forEach items="${paises}" var="pais">
 												<c:choose>
 													<c:when test="${pais.id == usuario.idPais}">
-														<option value="${pais.id}" selected>${pais.nombre}</option>
+														<option value="${pais.nombre}" selected>${pais.nombre}</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${pais.id}">${pais.nombre}</option>
+														<option value="${pais.nombre}">${pais.nombre}</option>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
