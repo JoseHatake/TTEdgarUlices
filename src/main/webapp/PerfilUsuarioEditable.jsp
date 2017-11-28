@@ -33,8 +33,15 @@
 				<form action="EditarPerfil" enctype="multipart/form-data" method="POST">
 				<h1><spring:message code="label.editarp" /></h1>
 					<div style="height: 550px;">
-						<div style="width: 250px;height: 250px;margin-right: 50px; margin-bottom: 50px;" class="izquierda">
-							<img src="img/default.jpg" id="foto" class="img-circulo" alt="default">
+						<div style="margin-right: 50px; margin-bottom: 50px;" class="img-perfil-normal izquierda">
+							<c:choose>
+									<c:when test="${fotoPerfil != null}">
+										<img alt="Imagen de perfil" id="foto" src="data:image/jpeg;base64,${fotoPerfil}" class="img-circulo">
+									</c:when>
+									<c:otherwise>
+										<img src="img/default.jpg" id="foto" class="img-circulo" alt="default">
+									</c:otherwise>
+								</c:choose>
 							<input type="file" accept="image/*" id="origenFoto" name="foto" onchange="cambiaFoto('origenFoto','foto');">
 						</div>
 						<table class="izquierda">

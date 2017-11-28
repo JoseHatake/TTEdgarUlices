@@ -1,6 +1,11 @@
 package mx.ipn.escom.socialwriters.accesoDB.utilidades;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 
 import org.apache.commons.fileupload.FileItem;
 
@@ -73,5 +78,14 @@ public class Archivos {
 		fileAntes = new File(contexto + ARCHIVERO + "/" + archivo + "/" + documentoBiejo);
 		fileDespues = new File(contexto + ARCHIVERO + "/" + archivo,documentoNuevo);
 		return fileAntes.renameTo(fileDespues);
+	}
+	
+	public String obtenerImagenCodificada(String archivo,String imagen) throws IOException {
+		File file;
+		Path filePath;
+		file = new File(contexto + ARCHIVERO + "/" + archivo + "/" + imagen);
+		filePath = Paths.get(contexto + ARCHIVERO + "/" + archivo + "/" + file.getName());
+        byte[] bytes = Base64.getEncoder().encode(Files.readAllBytes(filePath));
+        return new String(bytes, "UTF-8");
 	}
 }

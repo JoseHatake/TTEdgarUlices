@@ -24,7 +24,14 @@
 							</c:if>
 								<div class="perfil perfil-altura derecha ${styleOpen}" id="boton-perfil">
 									<div id="img-perfil">
-										<img src="img/default.jpg" class="img-circulo" alt="default">
+										<c:choose>
+											<c:when test="${fotoPerfil != null}">
+												<img alt="Imagen de perfil" src="data:image/jpeg;base64,${fotoPerfil}" class="img-circulo">
+											</c:when>
+											<c:otherwise>
+												<img src="img/default.jpg" class="img-circulo" alt="default">
+											</c:otherwise>
+										</c:choose>
 									</div>
 									<div id="nombre-perfil">
 										<div class="texto-centro perfil-altura"><p>${nombre}</p></div>

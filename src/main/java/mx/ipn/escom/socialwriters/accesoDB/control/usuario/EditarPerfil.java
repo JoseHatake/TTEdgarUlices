@@ -96,7 +96,7 @@ public class EditarPerfil extends HttpServlet {
 		Archivos manejoArchivos;
 		
 		usuarioObj = (Usuario) session.getAttribute("usuario");
-		contexto = this.getServletConfig().getServletContext().getRealPath("/");
+		contexto = (String) session.getAttribute("contexto");
 		manejoArchivos = new Archivos(contexto);
 		
 		DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -110,6 +110,7 @@ public class EditarPerfil extends HttpServlet {
 			partes = upload.parseRequest(request);
 			if (partes.get(0).getSize() != 0) {
 				flag = manejoArchivos.guardarImagenEnArchivo(partes.get(0), usuario, usuario + ".png");
+				session.setAttribute("fotoPerfil", manejoArchivos.obtenerImagenCodificada(usuario, usuario + ".png"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

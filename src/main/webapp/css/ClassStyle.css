@@ -57,6 +57,10 @@
 .img-circulo{
 	border-radius: 50%;
 }
+.img-perfil-normal{
+	width: 200px;
+	height: 200px;
+}
 .img-perfil-icono{
 	width: 30px;
 	height: 30px;

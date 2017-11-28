@@ -30,9 +30,18 @@
 				<h1><spring:message code="label.perfil" /></h1>
 				<div style="height: 250px">
 					<div class="izquierda" id="perfil-imagen-edit">
-						<ul>
+						<ul style="padding: 0;">
 							<li><h4><spring:message code="label.seguidores" />: <c:out value="${perfil.perfilObj.numSeguidores}"></c:out></h4></li>
-							<li><img src="img/default.jpg" class="img-circulo" alt="default"></li>
+							<li class="img-perfil-normal">
+								<c:choose>
+									<c:when test="${fotoPerfil != null}">
+										<img alt="Imagen de perfil" src="data:image/jpeg;base64,${fotoPerfil}" class="img-circulo">
+									</c:when>
+									<c:otherwise>
+										<img src="img/default.jpg" class="img-circulo" alt="default">
+									</c:otherwise>
+								</c:choose>
+							</li>
 							<li>
 								<table>
 									<c:choose>

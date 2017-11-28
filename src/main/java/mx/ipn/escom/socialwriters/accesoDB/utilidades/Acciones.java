@@ -136,20 +136,27 @@ public class Acciones extends HttpServlet {
 	
 	private void cerrarSesion(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
-		
+		session.removeAttribute("fotoPerfil");
 		session.removeAttribute("usuario");
 	}
 
-	private void iniciarSesion(HttpServletRequest request, HttpServletResponse response) {
+	private void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
+		Archivos archivos;
 		Usuario usuario;
-		String nick;
+		String nick,contexto,fotoPerfil;
 		Integer clave;
 		
+		contexto = this.getServletConfig().getServletContext().getRealPath("/");
 		nick = request.getParameter("usuario");
 		clave = Integer.parseInt(request.getParameter("clave"));
 		
 		usuario = usuarioBs.validaLogIn(nick, clave);
+		archivos = new Archivos(contexto);
+		fotoPerfil = null;
+		if (archivos.exiteDocumento(nick, nick + ".png")) {
+			fotoPerfil = archivos.obtenerImagenCodificada(nick, nick + ".png");
+		}
 		
 		if (usuario.esNuevoUsuario()) {
 			usuario.setNick(nick);
@@ -159,7 +166,9 @@ public class Acciones extends HttpServlet {
 			usuario.setNick(nick);
 			usuario.setEstadoCuenta(0);
 		}
+		session.setAttribute("fotoPerfil", fotoPerfil);
 		session.setAttribute("usuario", usuario);
+		session.setAttribute("contexto", contexto);
 	}
 
 	private void activarCuenta(HttpServletRequest request, HttpServletResponse response) {
