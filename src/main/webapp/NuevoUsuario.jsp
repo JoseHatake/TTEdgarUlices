@@ -33,39 +33,39 @@
 				<table class="form-config">
 					<thead>
 						<tr>
-							<th><h1>Crear cuenta</h1></th>
+							<th><h1><spring:message code="label.crearc" /></h1></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td class="form-espacio"><input type="text" name="usuario" id="usuario" class="form-input-text" placeholder="Usuario" minlength="5" maxlength="20" onkeyup="usuarioDisponible('usuario','itemSubmit');" required></td>
+							<td class="form-espacio"><input type="text" name="usuario" id="usuario" class="form-input-text" placeholder="<spring:message code="label.usuario" />" minlength="5" maxlength="20" onkeyup="usuarioDisponible('usuario','itemSubmit');" required></td>
 						</tr>
 						<tr>
 							<td class="form-espacio" colspan="2"><input type="text" name="nombre" class="form-input-text" placeholder="<spring:message code="label.nombre" />" maxlength="45" required></td>
 						</tr>
 						<tr>
-							<td class="form-espacio"><input type="text" name="apellidoPaterno" class="form-input-text" placeholder="Apelido Paterno" maxlength="30" required></td>
-							<td class="form-espacio"><input type="text" name="apellidoMaterno" class="form-input-text" placeholder="Apelido Materno" maxlength="30" required></td>
+							<td class="form-espacio"><input type="text" name="apellidoPaterno" class="form-input-text" placeholder="<spring:message code="label.apaterno" />" maxlength="30" required></td>
+							<td class="form-espacio"><input type="text" name="apellidoMaterno" class="form-input-text" placeholder="<spring:message code="label.amaterno" />" maxlength="30" required></td>
 						</tr>
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="email" name="correo" id="correo1" class="form-input-text" placeholder="Correo electrónico" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','itemSubmit');" required></td>
+							<td class="form-espacio" colspan="2"><input type="email" name="correo" id="correo1" class="form-input-text" placeholder="<spring:message code="label.email" />" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','itemSubmit');" required></td>
 						</tr>
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="email" id="correo2" class="form-input-text" placeholder="Confirmar correo" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','itemSubmit');" required></td>
+							<td class="form-espacio" colspan="2"><input type="email" id="correo2" class="form-input-text" placeholder="<spring:message code="label.cemail" />" minlength="7" maxlength="80" onkeyup="validaCorreosIguales('correo1','correo2','itemSubmit');" required></td>
 						</tr>
 						<tr>
 							<td class="form-espacio">
-								<input type="password" id="clave1" class="form-input-text" placeholder="Contraseña" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required>
+								<input type="password" id="clave1" class="form-input-text" placeholder="<spring:message code="label.clave" />" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required>
 								<input type="hidden" name="clave" id="claveHash">
 							</td>
 						</tr>
 						<tr>
-							<td class="form-espacio"><input type="password" id="clave2" class="form-input-text" placeholder="Confirmar contraseña" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required></td>
+							<td class="form-espacio"><input type="password" id="clave2" class="form-input-text" placeholder="<spring:message code="label.cclave" />" minlength="5" maxlength="20" onkeyup="validaClavesIguales('clave1','clave2','claveHash','itemSubmit');" required></td>
 						</tr>
 						<tr>
 							<td class="form-espacio" colspan="2">
 								<select class="form-input-lista" name="pais" required="required">
-									<option value="">Pais</option>
+									<option value=""><spring:message code="label.pais" /></option>
 									<c:forEach items="${paises}" var="pais">
 										<option value="${pais.id}">${pais.nombre}</option>
 									</c:forEach>
@@ -73,46 +73,46 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="form-espacio" colspan="2"><h3>Fecha de nacimiento</h3></td>
+							<td class="form-espacio" colspan="2"><h3><spring:message code="label.fnacimiento" /></h3></td>
 						</tr>
 						<tr>
 							<td class="form-espacio" colspan="2">
 								<select class="form-input-lista" name="anio" id="anio" onchange="generarDias('anio','mes','dia');" required>
-									<option value="">Año</option>
+									<option value=""><spring:message code="label.anio" /></option>
 									<c:forEach items="${anios}" var="anio">
 										<option value="${anio}">${anio}</option>
 									</c:forEach>
 								</select>
 								<select class="form-input-lista" name="mes" id="mes" onchange="generarDias('anio','mes','dia');" required>
-									<option value="">Mes</option>
-									<option value="01">Enero</option>
-									<option value="02">Febrero</option>
-									<option value="03">Marzo</option>
-									<option value="04">Abril</option>
-									<option value="05">Mayo</option>
-									<option value="06">Junio</option>
-									<option value="07">Julio</option>
-									<option value="08">Agosto</option>
-									<option value="09">Septiembre</option>
-									<option value="10">Octubre</option>
-									<option value="11">Noviembre</option>
-									<option value="12">Diciembre</option>
+									<option value=""><spring:message code="label.mes" /></option>
+									<option value="01"><spring:message code="label.enero" /></option>
+									<option value="02"><spring:message code="label.febrero" /></option>
+									<option value="03"><spring:message code="label.marzo" /></option>
+									<option value="04"><spring:message code="label.abril" /></option>
+									<option value="05"><spring:message code="label.mayo" /></option>
+									<option value="06"><spring:message code="label.junio" /></option>
+									<option value="07"><spring:message code="label.julio" /></option>
+									<option value="08"><spring:message code="label.agosto" /></option>
+									<option value="09"><spring:message code="label.septiembre" /></option>
+									<option value="10"><spring:message code="label.octubre" /></option>
+									<option value="11"><spring:message code="label.noviembre" /></option>
+									<option value="12"><spring:message code="label.diciembre" /></option>
 								</select>
 								<select class="form-input-lista" name="dia" id="dia" required>
-									<option value="">Día</option>
+									<option value=""><spring:message code="label.dia" /></option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td class="form-espacio">
-								<input type="radio" name="sexo" value="M" required> Mujer
-								<input type="radio" name="sexo" value="H" required> Hombre
+								<input type="radio" name="sexo" value="M" required> <spring:message code="label.mujer" />
+								<input type="radio" name="sexo" value="H" required> <spring:message code="label.hombre" />
 							</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr>
-							<td class="form-espacio" colspan="2"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="Registrar"></td>
+							<td class="form-espacio" colspan="2"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.registrarse" />"></td>
 						</tr>
 					</tfoot>
 				</table>

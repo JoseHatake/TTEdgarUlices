@@ -1,3 +1,4 @@
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,11 +27,11 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<div class="fondoFormato">
-				<h1>Perfil</h1>
+				<h1><spring:message code="label.perfil" /></h1>
 				<div style="height: 250px">
 					<div class="izquierda" id="perfil-imagen-edit">
 						<ul>
-							<li><h4>Seguidores: <c:out value="${perfil.perfilObj.numSeguidores}"></c:out></h4></li>
+							<li><h4><spring:message code="label.seguidores" />: <c:out value="${perfil.perfilObj.numSeguidores}"></c:out></h4></li>
 							<li><img src="img/default.jpg" class="img-circulo" alt="default"></li>
 							<li>
 								<table>
@@ -68,10 +69,10 @@
 					</div>
 					<div class="derecha" id="perfil-info-edit">
 						<ul>
-							<li><b>Seudónimo:</b> <c:out value="${perfil.nick}"></c:out></li>
-							<li><b>Nombre:</b> <c:out value="${perfil.nombre} ${perfil.paterno} ${perfil.materno}"></c:out></li>
-							<li><b>Correo:</b> <c:out value="${perfil.correo}"></c:out></li>
-							<li><b>Redes sociales:</b></li>
+							<li><b><spring:message code="label.seudo" />:</b> <c:out value="${perfil.nick}"></c:out></li>
+							<li><b><spring:message code="label.nombre" />:</b> <c:out value="${perfil.nombre} ${perfil.paterno} ${perfil.materno}"></c:out></li>
+							<li><b><spring:message code="label.email" />:</b> <c:out value="${perfil.correo}"></c:out></li>
+							<li><b><spring:message code="label.redes" />:</b></li>
 							<li>
 								<ul>
 									<c:forEach items="${redes}" var="redSocial">
@@ -79,14 +80,14 @@
 									</c:forEach>
 								</ul>
 							</li>
-							<li><b>Pais:</b> <c:out value="${perfil.paisObj.nombre}"></c:out></li>
+							<li><b><spring:message code="label.pais" />:</b> <c:out value="${perfil.paisObj.nombre}"></c:out></li>
 							<li>
 								<c:choose>
 									<c:when test="${perfil.sexo == 'M'}">
-										<b>Sexo:</b> Mujer
+										<b><spring:message code="label.sexo" />:</b> <spring:message code="label.mujer" />
 									</c:when>
 									<c:otherwise>
-										<b>Sexo:</b> Hombre
+										<b><spring:message code="label.sexo" />:</b> <spring:message code="label.hombre" />
 									</c:otherwise>
 								</c:choose>
 							</li>
@@ -94,12 +95,12 @@
 					</div>
 					<c:if test="${perfil.nick == usuario.nick}">
 						<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp&nickName=${usuario.nick}" method="POST" class="derecha">
-							<input type="submit" class="boton-formulario centrar" value="Editar perfil">
+							<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.editarp" />">
 						</form>
 					</c:if>
 				</div>
 				<div class="contenido75 formato-texto">
-					<h3>Biografía:</h3>
+					<h3><spring:message code="label.biografia" />:</h3>
 					<p><c:out value="${perfil.perfilObj.descripcion}"></c:out></p>
 				</div>
 				<div class="contenedor-libros">
@@ -110,7 +111,7 @@
 									<img alt="libro" src="img/agregar.png">
 								</div>
 								<div class="descripcionLibro">
-									<p>Agregar libro</p>
+									<p><spring:message code="label.agregarlib" /></p>
 								</div>
 							</div>
 						</a>
