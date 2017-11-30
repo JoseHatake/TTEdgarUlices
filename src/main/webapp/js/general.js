@@ -116,3 +116,16 @@ function cambiaFoto(inputFile,img) {
 	})(f);
 	leerArchivo.readAsDataURL(f);
 }
+function checarCheckbox(nameClass) {
+	var checkbox = className(nameClass);
+	var flag = true;
+	for (var i = 0; i < checkbox.length; i++) {
+		if (checkbox[i].checked) {
+			flag = false;
+			break;
+		}
+	}
+	for (var i = 0; i < checkbox.length; i++) {
+		checkbox[i].required = flag;
+	}
+}

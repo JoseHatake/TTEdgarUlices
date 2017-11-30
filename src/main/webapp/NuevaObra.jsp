@@ -30,11 +30,12 @@
 		<div class="menu-filtros" id="menu-lista-filtros"></div>
 		<div class="contenedor">
 			<div class="contenido">
-			<form action="CrearObra" class="centrar" method="POST">
+			<form action="CrearObra" enctype="multipart/form-data" class="centrar" method="POST">
 				<div class="fondoFormato">
 					<div style="height: 350px">
 						<div class="izquierda" id="obra-portada">
-							<img src="img/pd.png" alt="default">
+							<img src="img/pd.png" id="portada" alt="default">
+							<input type="file" accept="image/*" id="origenFoto" name="foto" onchange="cambiaFoto('origenFoto','portada');">
 						</div>
 						<div class="derecha" id="nueva-obra">
 							<ul>
@@ -52,44 +53,42 @@
 								<li>
 									<table style="width: 100%" class="generos-form">
 										<tr>
-											<td><input type="checkbox" name="1" value="1">
+											<td><input type="checkbox" class="checador" name="1" value="1" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.comedia" /><br></td>
-											<td><input type="checkbox" name="2" value="2">
+											<td><input type="checkbox" class="checador" name="2" value="2" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.cuento" /><br></td>
-											<td><input type="checkbox" name="3" value="3">
+											<td><input type="checkbox" class="checador" name="3" value="3" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.drama" /><br></td>
 										</tr>
 
 										<tr>
-											<td><input type="checkbox" name="4" value="4">
+											<td><input type="checkbox" class="checador" name="4" value="4" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.fantasia" /><br></td>
-											<td><input type="checkbox" name="5"
-												value="5"> <spring:message code="label.sci-fi" /><br></td>
-											<td><input type="checkbox" name="6" value="6">
+											<td><input type="checkbox" class="checador" name="5"
+												value="5" required> <spring:message code="label.sci-fi" /><br></td>
+											<td><input type="checkbox" class="checador" name="6" value="6" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.historico" /><br></td>
 										</tr>
 
 										<tr>
-											<td><input type="checkbox" name="7" value="7">
+											<td><input type="checkbox" class="checador" name="7" value="7" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.misterio" /><br></td>
-											<td><input type="checkbox" name="8" value="8">
+											<td><input type="checkbox" class="checador" name="8" value="8" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.suspenso" /><br></td>
-											<td><input type="checkbox" name="9" value="9">
+											<td><input type="checkbox" class="checador" name="9" value="9" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.terror" /><br></td>
 										</tr>
 
 										<tr>
-											<td><input type="checkbox" name="10" value="10">
+											<td><input type="checkbox" class="checador" name="10" value="10" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.tragedia" /><br></td>
-											<td><input type="checkbox" name="11" value="11">
+											<td><input type="checkbox" class="checador" name="11" value="11" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.romance" /><br></td>
-											<td><input type="checkbox" name="12" value="12">
+											<td><input type="checkbox" class="checador" name="12" value="12" onclick="checarCheckbox('checador');" required>
 												<spring:message code="label.poesia" /><br></td>
 										</tr>
 									</table>
 								</li>
-
-
 							</ul>
 						</div>
 					</div>
