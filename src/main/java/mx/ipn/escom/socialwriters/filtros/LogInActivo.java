@@ -44,7 +44,7 @@ public class LogInActivo implements Filter {
 		HttpSession session = requestCast.getSession();
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		Integer perfil = 1;
-		String nombre = "Iniciar sesión";
+		String nombre = "";
 		
 		if (usuario != null && !usuario.esNuevoUsuario()) {
 			nombre = usuario.getNick();

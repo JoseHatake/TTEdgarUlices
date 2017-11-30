@@ -73,18 +73,6 @@
 				</ul>
 			</li>
 			<li>
-				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('fecha')">
-					<div class="texto-centro opciones-menu-altura izquierda">
-						<p><spring:message code="label.fechapub" /></p>
-					</div>
-				</div>
-				<ul>
-					<li class="subopcion-menu-margenes oculto" id="fecha">
-						<input type="date" name="fechaPublicacion" placeholder="2000-01-01">	
-					</li>
-				</ul>
-			</li>
-			<li>
 				<div class="opciones-menu-altura padding-menu" onclick="switchEstado('capitulos')">
 					<div class="texto-centro opciones-menu-altura izquierda">
 						<p><spring:message code="label.numcaps" /></p>

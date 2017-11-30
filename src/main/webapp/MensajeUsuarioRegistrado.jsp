@@ -38,7 +38,7 @@
 						</form>
 					</c:when>
 					<c:when test="${mensaje == 2}">
-						<h1><spring:message code="label.binvenido" /> <c:out value="${usuario.nombre} ${usuario.paterno} ${usuario.materno}"></c:out></h1>
+						<h1><spring:message code="label.bienvenido" /> <c:out value="${usuario.nombre} ${usuario.paterno} ${usuario.materno}"></c:out></h1>
 						<p><spring:message code="label.cuentaasoc" /> <c:out value="${usuario.correo}"></c:out> <spring:message code="label.quedadoactivada" /></p>
 					</c:when>
 					<c:when test="${mensaje == 3}">

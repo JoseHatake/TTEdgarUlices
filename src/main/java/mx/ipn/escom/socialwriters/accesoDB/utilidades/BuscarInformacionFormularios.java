@@ -21,6 +21,7 @@ import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RedesSocialesBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
@@ -47,6 +48,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private RedesSocialesBs redesSocialesBs;
+	
+	@Autowired
+	private SeguirUsuarioBs seguirUsuarioBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -127,15 +131,21 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		Usuario usuario;
 		Integer idUsuario,estrellas;
 		String nickName;
+		Boolean siguiendo;
 		
 		usuario = (Usuario) session.getAttribute("usuario");
 		nickName = request.getParameter("nickName");
+		idUsuario = usuario.getId();
+		siguiendo = false;
 		
 		if (usuario.getNick().equals(nickName)) {
 			idUsuario = usuario.getId();
 		}
 		else {
 			usuario = usuarioBs.buscarUsuarioPorNick(nickName);
+			if (seguirUsuarioBs.verficarSeguirUsuario(idUsuario, usuario.getId())) {
+				siguiendo = true;
+			}
 			idUsuario = usuario.getId();
 		}
 		
@@ -143,6 +153,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		estrellas = ranking.getEstrellas();
 		
 		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
+		request.setAttribute("siguiendo", siguiendo);
 		request.setAttribute("redes", formaContactos);
 		request.setAttribute("perfil", usuario);
 		request.setAttribute("estrellas", estrellas);

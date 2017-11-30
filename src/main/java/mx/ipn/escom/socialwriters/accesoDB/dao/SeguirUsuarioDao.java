@@ -6,7 +6,12 @@
 package mx.ipn.escom.socialwriters.accesoDB.dao;
 
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +26,9 @@ import org.springframework.stereotype.Service;
 public class SeguirUsuarioDao {
     @Autowired
 	private SessionFactory sessionFactory;
+    
+    protected String QUERY1 = "select a from SeguirUsuario a where idUsuarioSigue = ?1";
+    protected String QUERY2 = "select a from SeguirUsuario a where idUsuarioSigue = ?1 and idUsuarioSeguido = ?2";
     
     public SeguirUsuario guardar(SeguirUsuario seguirUsuario){
         sessionFactory.getCurrentSession().save(seguirUsuario);
@@ -43,5 +51,20 @@ public class SeguirUsuarioDao {
     
     public SeguirUsuario buscarPorId(Integer id){
         return sessionFactory.getCurrentSession().load(SeguirUsuario.class, id);
+    }
+    
+    public List<SeguirUsuario> buscarPorIdUsuario(Integer id) {
+    		Query<SeguirUsuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,SeguirUsuario.class);
+    		resultado.setParameter(1, id);
+    		List<SeguirUsuario> sigue = resultado.list();
+    		return sigue.isEmpty()?new ArrayList<SeguirUsuario>():sigue;
+    }
+    
+    public Boolean verficarSeguirUsuario(Integer idUsuarioSigue, Integer idUsuarioSeguido) {
+		Query<SeguirUsuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,SeguirUsuario.class);
+		resultado.setParameter(1, idUsuarioSigue);
+		resultado.setParameter(2, idUsuarioSeguido);
+		List<SeguirUsuario> sigue = resultado.list();
+		return !sigue.isEmpty();
     }
 }

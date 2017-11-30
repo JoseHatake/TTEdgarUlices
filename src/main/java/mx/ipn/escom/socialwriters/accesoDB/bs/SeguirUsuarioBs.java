@@ -7,6 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.SeguirUsuarioDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -33,7 +36,6 @@ public class SeguirUsuarioBs {
         SeguirUsuario model = seguirUsuarioDao.buscarPorId(seguirUsuario.getId());
         model.setIdUsuarioSigue(seguirUsuario.getIdUsuarioSigue());
         model.setIdUsuarioSeguido(seguirUsuario.getIdUsuarioSeguido());
-        model.setUsuarioSigueObj(seguirUsuario.getUsuarioSigueObj());
         return seguirUsuarioDao.actualizar(model);
     }
     
@@ -50,5 +52,15 @@ public class SeguirUsuarioBs {
     @Transactional(readOnly = true)
     public SeguirUsuario buscarPorId(Integer id){
         return seguirUsuarioDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<SeguirUsuario> buscarPorIdUsuario(Integer id) {
+    		return seguirUsuarioDao.buscarPorIdUsuario(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public Boolean verficarSeguirUsuario(Integer idUsuarioSigue, Integer idUsuarioSeguido) {
+    		return seguirUsuarioDao.verficarSeguirUsuario(idUsuarioSigue, idUsuarioSeguido);
     }
 }

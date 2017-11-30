@@ -34,7 +34,14 @@
 										</c:choose>
 									</div>
 									<div id="nombre-perfil">
-										<div class="texto-centro perfil-altura"><p>${nombre}</p></div>
+										<c:choose>
+											<c:when test="${nombre != ''}">
+												<div class="texto-centro perfil-altura"><p>${nombre}</p></div>
+											</c:when>
+											<c:otherwise>
+												<div class="texto-centro perfil-altura"><p><spring:message code="label.isesion" /></p></div>
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 								<div id="${perfil}"></div>

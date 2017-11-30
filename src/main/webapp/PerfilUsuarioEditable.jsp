@@ -131,7 +131,7 @@
 					</div>
 					<div class="contenido75 formato-texto">
 						<h3><spring:message code="label.biografia" />:</h3>
-						<input type="textarea" name="biografia" class="form-input-text" maxlength="255" value="${usuario.perfilObj.descripcion}" placeholder="<spring:message code="label.phbio" />">
+						<textarea name="biografia" class="form-input-text"  cols="50" rows="5" wrap="hard" maxlength="255" placeholder="<spring:message code="label.phbio" />"><c:out value="${usuario.perfilObj.descripcion}"></c:out></textarea>
 					</div>
 					<table style="margin-top: 20px;">
 						<tbody>

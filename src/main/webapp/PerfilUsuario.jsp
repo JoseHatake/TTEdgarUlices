@@ -28,7 +28,7 @@
 		<div class="contenido">
 			<div class="fondoFormato">
 				<h1><spring:message code="label.perfil" /></h1>
-				<div style="height: 250px">
+				<div style="height: 300px">
 					<div class="izquierda" id="perfil-imagen-edit">
 						<ul style="padding: 0;">
 							<li><h4><spring:message code="label.seguidores" />: <c:out value="${perfil.perfilObj.numSeguidores}"></c:out></h4></li>
@@ -102,11 +102,25 @@
 							</li>
 						</ul>
 					</div>
-					<c:if test="${perfil.nick == usuario.nick}">
-						<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp&nickName=${usuario.nick}" method="POST" class="derecha">
-							<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.editarp" />">
-						</form>
-					</c:if>
+					<c:choose>
+						<c:when test="${perfil.nick == usuario.nick}">
+							<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp&nickName=${usuario.nick}" method="POST" class="derecha">
+								<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.editarp" />">
+							</form>
+						</c:when>
+						<c:otherwise>
+							<form action="Acciones?accion=6&direccion=PerfilUsuario.jsp&seguir=${perfil.nick}" method="POST" class="derecha">
+								<c:choose>
+									<c:when test="${siguiendo}">
+										<input type="submit" class="boton-formulario centrar siguiendo" value="<spring:message code="label.dseguirp" />">
+									</c:when>
+									<c:otherwise>
+										<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.seguirp" />">
+									</c:otherwise>
+								</c:choose>
+							</form>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="contenido75 formato-texto">
 					<h3><spring:message code="label.biografia" />:</h3>
@@ -117,7 +131,7 @@
 						<a href="NuevaObra.jsp">
 							<div class="libro">
 								<div class="portadaLibro">
-									<img alt="libro" src="img/agregar.png">
+									<img alt="libro" src="img/agregarObra.png">
 								</div>
 								<div class="descripcionLibro">
 									<p><spring:message code="label.agregarlib" /></p>

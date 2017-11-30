@@ -102,20 +102,20 @@ public class Usuario extends Persona{
 		this.idPersona = idPersona;
 	}
 
-	public Perfil getPerfilObj() {
-		return perfilObj;
-	}
-
-	public void setPerfilObj(Perfil perfilObj) {
-		this.perfilObj = perfilObj;
-	}
-
 	public Integer getEstadoCuenta() {
 		return estadoCuenta;
 	}
 
 	public void setEstadoCuenta(Integer estadoCuenta) {
 		this.estadoCuenta = estadoCuenta;
+	}
+
+	public Perfil getPerfilObj() {
+		return perfilObj;
+	}
+
+	public void setPerfilObj(Perfil perfilObj) {
+		this.perfilObj = perfilObj;
 	}
 	
 	public Boolean esNuevoUsuario() {

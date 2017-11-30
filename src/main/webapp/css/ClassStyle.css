@@ -212,7 +212,7 @@
 .libro{
 	width: 15%;
 	min-width: 150px;
-	height: 240px;
+	height: 200px;
 	padding: 15px;
 	margin-right: 1%;
 	margin-top: 10px;
@@ -224,7 +224,7 @@
 }
 .portadaLibro{
 	width: 100%;
-	height: 200px;
+	height: 150px;
 	display: block;
 }
 .descripcionLibro{
@@ -259,4 +259,10 @@
 .estrellaActiva{
 	color: red;
 	font-size: 20px;
+}
+.siguiendo{
+	background-color: #FF5659;
+}
+.siguiendo:hover{
+	background-color: #FF7375;
 }

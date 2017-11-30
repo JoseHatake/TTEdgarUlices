@@ -1,6 +1,7 @@
 package mx.ipn.escom.socialwriters.accesoDB.utilidades;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,7 +14,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import mx.ipn.escom.socialwriters.accesoDB.bs.PerfilBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 
 /**
@@ -24,6 +29,12 @@ public class Acciones extends HttpServlet {
 	
 	@Autowired
 	private UsuarioBs usuarioBs;
+	
+	@Autowired
+	private SeguirUsuarioBs seguirUsusarioBs;
+	
+	@Autowired
+	private PerfilBs perfilBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -74,6 +85,9 @@ public class Acciones extends HttpServlet {
 			case 5:
 				cambiarClave(request, response);
 				break;
+			case 6:
+				direccion = seguirUsuario(request, response);
+				break;
 			default:
 				direccion = "index.jsp";
 				break;
@@ -82,8 +96,49 @@ public class Acciones extends HttpServlet {
 		rd.forward(request, response);
 	}
 
+	private String seguirUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession sesion = request.getSession();
+		List<SeguirUsuario> seguirUsuarios;
+		SeguirUsuario tmp;
+		Perfil perfilTmp;
+		Usuario usuarioPerfil,usuarioSeguido;
+		String seguido;
+		Integer idUsuarioSeguido,contSeguidores;
+		Boolean flag;
+		
+		seguido = request.getParameter("seguir");
+		usuarioPerfil = (Usuario) sesion.getAttribute("usuario");
+		usuarioSeguido = usuarioBs.buscarUsuarioPorNick(seguido);
+		idUsuarioSeguido = usuarioSeguido.getId();
+		
+		seguirUsuarios = seguirUsusarioBs.buscarPorIdUsuario(usuarioPerfil.getId());
+		flag = true;
+		contSeguidores = 0;
+		for (SeguirUsuario seguir: seguirUsuarios) {
+			if (seguir.getIdUsuarioSeguido() == idUsuarioSeguido) {
+				seguirUsusarioBs.eliminar(seguir);
+				contSeguidores = -1;
+				System.out.println("Dejar de seguir contador : " + contSeguidores);
+				flag = false;
+				break;
+			}
+		}
+		if (flag) {
+			tmp = new SeguirUsuario();
+			tmp.setIdUsuarioSigue(usuarioPerfil.getId());
+			tmp.setIdUsuarioSeguido(idUsuarioSeguido);
+			tmp = seguirUsusarioBs.guardar(tmp);
+			contSeguidores = 1;
+			System.out.println("Seguir contador : " + contSeguidores);
+		}
+		perfilTmp = usuarioSeguido.getPerfilObj();
+		contSeguidores += perfilTmp.getNumSeguidores();
+		perfilTmp.setNumSeguidores(contSeguidores);
+		perfilTmp = perfilBs.actualizar(perfilTmp);
+		return "BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=" + usuarioSeguido.getNick();
+	}
+
 	private void cambiarClave(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
 		Usuario usuario;
 		HttpSession sesion = request.getSession();
 		usuario = (Usuario)sesion.getAttribute("usuario"); 
@@ -99,7 +154,6 @@ public class Acciones extends HttpServlet {
 	}
 
 	private void recuperarClave(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
 		Usuario usuario;
 		String correo = request.getParameter("correo");
 		if(!usuarioBs.validaCorreo(correo)) {
@@ -166,6 +220,7 @@ public class Acciones extends HttpServlet {
 			usuario.setNick(nick);
 			usuario.setEstadoCuenta(0);
 		}
+		
 		session.setAttribute("fotoPerfil", fotoPerfil);
 		session.setAttribute("usuario", usuario);
 		session.setAttribute("contexto", contexto);

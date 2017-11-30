@@ -7,12 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.mapeo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,10 +29,6 @@ public class SeguirUsuario {
     
     @Column(name = "idUsuarioSeguido")
     private Integer idUsuarioSeguido;
-    
-    @OneToOne(fetch = FetchType.EAGER,optional = false)
-    @JoinColumn(name = "idUsuarioSigue",referencedColumnName = "idUsuario",insertable = false,updatable = false)
-    private Usuario usuarioSigueObj;
 
 	public Integer getId() {
 		return id;
@@ -59,13 +52,5 @@ public class SeguirUsuario {
 
 	public void setIdUsuarioSeguido(Integer idUsuarioSeguido) {
 		this.idUsuarioSeguido = idUsuarioSeguido;
-	}
-
-	public Usuario getUsuarioSigueObj() {
-		return usuarioSigueObj;
-	}
-
-	public void setUsuarioSigueObj(Usuario usuarioSigueObj) {
-		this.usuarioSigueObj = usuarioSigueObj;
 	}
 }
