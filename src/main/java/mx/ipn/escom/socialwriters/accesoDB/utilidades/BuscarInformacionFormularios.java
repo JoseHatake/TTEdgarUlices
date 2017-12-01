@@ -117,42 +117,55 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		}
 	}
 
-	private void enriquecerPerfilUsuarioEditable(HttpServletRequest request, HttpServletResponse response) {
+	private void enriquecerPerfilUsuarioEditable(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		List<RedesSociales> redesSociales = redesSocialesBs.todasLasRedes();
 		request.setAttribute("catalogoRedes", redesSociales);
 		enriquecerPerfilUsuario(request, response);
 		enriquecerNuevoUsuario(request, response);
 	}
 
-	private void enriquecerPerfilUsuario(HttpServletRequest request, HttpServletResponse response) {
+	private void enriquecerPerfilUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
 		List<FormaContacto> formaContactos;
 		Ranking ranking;
 		Usuario usuario;
+		Contacto contacto;
+		Archivos archivo;
 		Integer idUsuario,estrellas;
-		String nickName;
+		String nickName,contexto,imagenPerfil;
 		Boolean siguiendo;
 		
 		usuario = (Usuario) session.getAttribute("usuario");
+		contexto = (String) session.getAttribute("contexto");
 		nickName = request.getParameter("nickName");
 		idUsuario = usuario.getId();
 		siguiendo = false;
+		contacto = new Contacto();
 		
 		if (usuario.getNick().equals(nickName)) {
 			idUsuario = usuario.getId();
 		}
 		else {
+			archivo = new Archivos(contexto);
+			imagenPerfil = null;
 			usuario = usuarioBs.buscarUsuarioPorNick(nickName);
 			if (seguirUsuarioBs.verficarSeguirUsuario(idUsuario, usuario.getId())) {
 				siguiendo = true;
 			}
 			idUsuario = usuario.getId();
+			nickName = usuario.getNick();
+			if (archivo.exiteDocumento(nickName, nickName + ".png")) {
+				imagenPerfil = archivo.obtenerImagenCodificada(nickName, nickName + ".png");
+			}
+			contacto.setNickName(nickName);
+			contacto.setImgPerfil(imagenPerfil);
 		}
 		
 		ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
 		estrellas = ranking.getEstrellas();
 		
 		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
+		request.setAttribute("contacto", contacto);
 		request.setAttribute("siguiendo", siguiendo);
 		request.setAttribute("redes", formaContactos);
 		request.setAttribute("perfil", usuario);

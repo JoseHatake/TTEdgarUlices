@@ -34,11 +34,25 @@
 							<li><h4><spring:message code="label.seguidores" />: <c:out value="${perfil.perfilObj.numSeguidores}"></c:out></h4></li>
 							<li class="img-perfil-normal">
 								<c:choose>
-									<c:when test="${fotoPerfil != null}">
-										<img alt="Imagen de perfil" src="data:image/jpeg;base64,${fotoPerfil}" class="img-circulo">
+									<c:when test="${perfil.nick == usuario.nick}">
+										<c:choose>
+											<c:when test="${fotoPerfil != null}">
+												<img alt="Imagen de perfil" src="data:image/jpeg;base64,${fotoPerfil}" class="img-circulo">
+											</c:when>
+											<c:otherwise>
+												<img src="img/default.jpg" class="img-circulo" alt="default">
+											</c:otherwise>
+										</c:choose>
 									</c:when>
 									<c:otherwise>
-										<img src="img/default.jpg" class="img-circulo" alt="default">
+										<c:choose>
+											<c:when test="${contacto.imgPerfil != null}">
+												<img alt="Imagen de perfil" src="data:image/jpeg;base64,${contacto.imgPerfil}" class="img-circulo">
+											</c:when>
+											<c:otherwise>
+												<img src="img/default.jpg" class="img-circulo" alt="default">
+											</c:otherwise>
+										</c:choose>
 									</c:otherwise>
 								</c:choose>
 							</li>

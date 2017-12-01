@@ -53,12 +53,17 @@
         <h3><spring:message code="label.aseguidos" /></h3>
         <div class="opciones-menu">
             <ul>
-                <a href="index.jsp"><li class="padding-menu"><div class="img-perfil-icono izquierda"><img src="img/default.jpg" alt="usuario" class="img-circulo"></div><div class="texto-centro opciones-menu-altura izquierda"><p>Nombre de usuario</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="img-perfil-icono izquierda"><img src="img/default.jpg" alt="usuario" class="img-circulo"></div><div class="texto-centro opciones-menu-altura izquierda"><p>Nombre de usuario</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="img-perfil-icono izquierda"><img src="img/default.jpg" alt="usuario" class="img-circulo"></div><div class="texto-centro opciones-menu-altura izquierda"><p>Nombre de usuario</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="img-perfil-icono izquierda"><img src="img/default.jpg" alt="usuario" class="img-circulo"></div><div class="texto-centro opciones-menu-altura izquierda"><p>Nombre de usuario</p></div></li></a>
-                <a href="index.jsp"><li class="padding-menu"><div class="img-perfil-icono izquierda"><img src="img/default.jpg" alt="usuario" class="img-circulo"></div><div class="texto-centro opciones-menu-altura izquierda"><p>Nombre de usuario</p></div></li></a>
-            </ul>
+            		<c:forEach items="${contactos}" var="contacto">
+            			<c:choose>
+            				<c:when test="${contacto.imgPerfil == null}">
+            					<a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${contacto.nickName}"><li class="padding-menu"><div class="img-perfil-icono izquierda"><img src="img/default.jpg" alt="usuario" class="img-circulo"></div><div class="texto-centro opciones-menu-altura izquierda"><p><c:out value="${contacto.nickName}"></c:out></p></div></li></a>
+            				</c:when>
+            				<c:otherwise>
+            					<a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${contacto.nickName}"><li class="padding-menu"><div class="img-perfil-icono izquierda"><img src="data:image/jpeg;base64,${contacto.imgPerfil}" alt="usuario" class="img-circulo"></div><div class="texto-centro opciones-menu-altura izquierda"><p><c:out value="${contacto.nickName}"></c:out></p></div></li></a>
+            				</c:otherwise>
+            			</c:choose>
+            		</c:forEach>
+            	</ul>
         </div>
     </nav>
     <div class="vinculos">

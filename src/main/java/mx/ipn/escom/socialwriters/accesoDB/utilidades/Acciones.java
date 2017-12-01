@@ -1,6 +1,7 @@
 package mx.ipn.escom.socialwriters.accesoDB.utilidades;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -118,7 +119,6 @@ public class Acciones extends HttpServlet {
 			if (seguir.getIdUsuarioSeguido() == idUsuarioSeguido) {
 				seguirUsusarioBs.eliminar(seguir);
 				contSeguidores = -1;
-				System.out.println("Dejar de seguir contador : " + contSeguidores);
 				flag = false;
 				break;
 			}
@@ -129,20 +129,19 @@ public class Acciones extends HttpServlet {
 			tmp.setIdUsuarioSeguido(idUsuarioSeguido);
 			tmp = seguirUsusarioBs.guardar(tmp);
 			contSeguidores = 1;
-			System.out.println("Seguir contador : " + contSeguidores);
 		}
 		perfilTmp = usuarioSeguido.getPerfilObj();
 		contSeguidores += perfilTmp.getNumSeguidores();
 		perfilTmp.setNumSeguidores(contSeguidores);
 		perfilTmp = perfilBs.actualizar(perfilTmp);
+		cargarContactos(request, response);
 		return "BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=" + usuarioSeguido.getNick();
 	}
 
 	private void cambiarClave(HttpServletRequest request, HttpServletResponse response) {
 		Usuario usuario;
 		HttpSession sesion = request.getSession();
-		usuario = (Usuario)sesion.getAttribute("usuario"); 
-		System.out.println(request.getParameter("claveActual"));
+		usuario = (Usuario)sesion.getAttribute("usuario");
 		if(usuario.getClave()== Integer.parseInt(request.getParameter("claveActual"))) {
 			usuario.setClave(Integer.parseInt(request.getParameter("claveNueva")));
 			usuario = usuarioBs.actualizar(usuario);
@@ -220,10 +219,41 @@ public class Acciones extends HttpServlet {
 			usuario.setNick(nick);
 			usuario.setEstadoCuenta(0);
 		}
-		
+
 		session.setAttribute("fotoPerfil", fotoPerfil);
 		session.setAttribute("usuario", usuario);
 		session.setAttribute("contexto", contexto);
+		cargarContactos(request,response);
+	}
+
+	private void cargarContactos(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		Archivos archivo;
+		Usuario usuario,usrTmp;
+		List<Contacto> contactos;
+		String contexto,imagenPerfil,nick;
+		Integer contador;
+		List<SeguirUsuario> seguirUsuarios;
+		
+		usuario = (Usuario) session.getAttribute("usuario");
+		contexto = (String) session.getAttribute("contexto");
+		
+		seguirUsuarios = seguirUsusarioBs.buscarPorIdUsuario(usuario.getId());
+		archivo = new Archivos(contexto);
+		contador = 0;
+		contactos = new ArrayList<Contacto>();
+		for (SeguirUsuario seguirUsuario : seguirUsuarios) {
+			usrTmp = usuarioBs.buscarPorId(seguirUsuario.getIdUsuarioSeguido());
+			nick = usrTmp.getNick();
+			imagenPerfil = null;
+			if (archivo.exiteDocumento(nick, nick + ".png")) {
+				imagenPerfil = archivo.obtenerImagenCodificada(nick, nick + ".png");
+			}
+			contactos.add(new Contacto(nick,imagenPerfil));
+			if (contador++ == 4)
+				break;
+		}
+		session.setAttribute("contactos", contactos);
 	}
 
 	private void activarCuenta(HttpServletRequest request, HttpServletResponse response) {
