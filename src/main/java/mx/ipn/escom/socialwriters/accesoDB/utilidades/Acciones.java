@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import mx.ipn.escom.socialwriters.accesoDB.bs.PerfilBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
@@ -36,6 +37,9 @@ public class Acciones extends HttpServlet {
 	
 	@Autowired
 	private PerfilBs perfilBs;
+	
+	@Autowired
+	private RankingUsuarioBs rankingUsuarioBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -229,10 +233,11 @@ public class Acciones extends HttpServlet {
 	private void cargarContactos(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
 		Archivos archivo;
+		Ranking ranking;
 		Usuario usuario,usrTmp;
 		List<Contacto> contactos;
 		String contexto,imagenPerfil,nick;
-		Integer contador;
+		Integer contador,estrellas;
 		List<SeguirUsuario> seguirUsuarios;
 		
 		usuario = (Usuario) session.getAttribute("usuario");
@@ -245,11 +250,13 @@ public class Acciones extends HttpServlet {
 		for (SeguirUsuario seguirUsuario : seguirUsuarios) {
 			usrTmp = usuarioBs.buscarPorId(seguirUsuario.getIdUsuarioSeguido());
 			nick = usrTmp.getNick();
+			ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(usrTmp.getId()));
+			estrellas = ranking.getEstrellas();
 			imagenPerfil = null;
 			if (archivo.exiteDocumento(nick, nick + ".png")) {
 				imagenPerfil = archivo.obtenerImagenCodificada(nick, nick + ".png");
 			}
-			contactos.add(new Contacto(nick,imagenPerfil));
+			contactos.add(new Contacto(nick,imagenPerfil,estrellas));
 			if (contador++ == 4)
 				break;
 		}

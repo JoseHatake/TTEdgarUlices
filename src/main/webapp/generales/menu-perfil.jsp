@@ -67,7 +67,7 @@
         </div>
     </nav>
     <div class="vinculos">
-        <a href="AutoresSeguidos"><spring:message code="label.vertodos" /></a>
+        <a href="BuscarInformacionFormularios?metodoDeBusqueda=6&esAjax=false&direccion=AutoresSeguidos.jsp"><spring:message code="label.vertodos" /></a>
     </div>
 </div>
 <div id="administrador" class="menuSlide menu-perfil oculto">

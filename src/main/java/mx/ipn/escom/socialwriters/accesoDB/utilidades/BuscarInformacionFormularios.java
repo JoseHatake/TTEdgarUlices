@@ -26,6 +26,7 @@ import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 
 /**
@@ -103,6 +104,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 5:
 				enriquecerPerfilUsuarioEditable(request, response);
 				break;
+			case 6:
+				enriquecerAutoresSeguidos(request, response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -115,6 +119,39 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
 		}
+	}
+
+	private void enriquecerAutoresSeguidos(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		List<Contacto> contactos;
+		List<SeguirUsuario> seguirUsuarios;
+		Usuario usuario;
+		Contacto contacto;
+		Archivos archivo;
+		Ranking ranking;
+		String contexto,nick,imagenPerfil;
+		Integer estrellas;
+		
+		usuario = (Usuario) session.getAttribute("usuario");
+		contexto = (String) session.getAttribute("contexto");
+		
+		archivo = new Archivos(contexto);
+		contactos = new ArrayList<Contacto>();
+		seguirUsuarios = seguirUsuarioBs.buscarPorIdUsuario(usuario.getId());
+		
+		for (SeguirUsuario seguirUsuario : seguirUsuarios) {
+			usuario = usuarioBs.buscarPorId(seguirUsuario.getIdUsuarioSeguido());
+			nick = usuario.getNick();
+			ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(usuario.getId()));
+			estrellas = ranking.getEstrellas();
+			imagenPerfil = null;
+			if (archivo.exiteDocumento(nick, nick + ".png")) {
+				imagenPerfil = archivo.obtenerImagenCodificada(nick, nick + ".png");
+			}
+			contacto = new Contacto(nick, imagenPerfil,estrellas);
+			contactos.add(contacto);
+		}
+		request.setAttribute("listaContactos", contactos);
 	}
 
 	private void enriquecerPerfilUsuarioEditable(HttpServletRequest request, HttpServletResponse response) throws IOException {
