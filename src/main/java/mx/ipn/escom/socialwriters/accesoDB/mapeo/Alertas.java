@@ -31,7 +31,7 @@ public class Alertas {
     private Boolean estatus;
     
     @Column(name = "tipoAlerta")
-    private String tipoAlerta;
+    private Integer tipoAlerta;
     
     @Column(name = "idObra")
     private Integer idObra;
@@ -63,11 +63,11 @@ public class Alertas {
         this.estatus = estatus;
     }
 
-    public String getTipoAlerta() {
+    public Integer getTipoAlerta() {
         return tipoAlerta;
     }
 
-    public void setTipoAlerta(String tipoAlerta) {
+    public void setTipoAlerta(Integer tipoAlerta) {
         this.tipoAlerta = tipoAlerta;
     }
 
