@@ -63,4 +63,9 @@ public class SeguirUsuarioBs {
     public Boolean verficarSeguirUsuario(Integer idUsuarioSigue, Integer idUsuarioSeguido) {
     		return seguirUsuarioDao.verficarSeguirUsuario(idUsuarioSigue, idUsuarioSeguido);
     }
+    
+    @Transactional(readOnly = true)
+    public List<SeguirUsuario> buscarPorIdUsuarioSeguido(Integer id) {
+    		return seguirUsuarioDao.buscarPorIdUsuarioSeguido(id);
+    }
 }

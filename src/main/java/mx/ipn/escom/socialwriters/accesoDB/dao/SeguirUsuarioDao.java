@@ -29,6 +29,7 @@ public class SeguirUsuarioDao {
     
     protected String QUERY1 = "select a from SeguirUsuario a where idUsuarioSigue = ?1";
     protected String QUERY2 = "select a from SeguirUsuario a where idUsuarioSigue = ?1 and idUsuarioSeguido = ?2";
+    protected String QUERY3 = "select a from SeguirUsuario a where idUsuarioSeguido = ?1";
     
     public SeguirUsuario guardar(SeguirUsuario seguirUsuario){
         sessionFactory.getCurrentSession().save(seguirUsuario);
@@ -67,4 +68,11 @@ public class SeguirUsuarioDao {
 		List<SeguirUsuario> sigue = resultado.list();
 		return !sigue.isEmpty();
     }
+    
+    public List<SeguirUsuario> buscarPorIdUsuarioSeguido(Integer id) {
+		Query<SeguirUsuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY3,SeguirUsuario.class);
+		resultado.setParameter(1, id);
+		List<SeguirUsuario> sigue = resultado.list();
+		return sigue.isEmpty()?new ArrayList<SeguirUsuario>():sigue;
+}
 }

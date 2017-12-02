@@ -12,18 +12,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import mx.ipn.escom.socialwriters.accesoDB.bs.AlertasBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.GeneroBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.GeneroObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.IdiomaBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Alertas;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Genero;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.GeneroObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Idioma;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
+import mx.ipn.escom.socialwriters.accesoDB.utilidades.Archivos;
+import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
 
 
 
@@ -46,6 +55,12 @@ public class CrearObra extends HttpServlet{
 	
 	@Autowired
 	private IdiomaBs idiomaBs;
+	
+	@Autowired
+	private AlertasBs alertasBs;
+	
+	@Autowired
+	private SeguirUsuarioBs seguirUsuarioBs;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -72,80 +87,113 @@ public class CrearObra extends HttpServlet{
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Obra obra = registraObra(request);
-		//registraGeneros(request,obra);
+		Obra obra = registraObra(request);		
 		response.sendRedirect("index.jsp");
 		
 	}
 	
-	private Obra registraObra(HttpServletRequest request) {
+	private Obra registraObra(HttpServletRequest request)throws ServletException, IOException {
 		
-		Obra obra = new Obra();
-		Usuario usuario;		
-		
-		HttpSession sesion = request.getSession();
-		usuario = (Usuario)sesion.getAttribute("usuario");
-		obra.setUsuarioObj(usuario);
-		obra.setIdiomaObj(idiomaBs.buscarPorId(Integer.parseInt(request.getParameter("idioma"))));
-		obra.setIdUsuario(usuario.getId());
-		obra.setNombre(request.getParameter("titulo"));
-		obra.setSinopsis(request.getParameter("sinopsis"));
-		obra.setIdIdioma(Integer.parseInt(request.getParameter("idioma")));
-		
-		obra = obraBs.guardar(obra);
-		
-		GeneroObra generoObra = new GeneroObra();
+		Obra obra = new Obra();		
 		Genero genero = new Genero();
-		List<Genero> generos=new ArrayList<Genero>(); ;
-		generoObra.setObraObj(obra);
-		generoObra.setIdObra(obra.getId());	
-		//generoObra.setGenerosObj(generoBs.todosLosGeneros());
-	
-		for(int i = 1; i<12; i++) {
-			String param = String.valueOf(i);
-			if(request.getParameter(param) == null) {
-				
-				
-			}else {
-				/*
-				generoObra.setIdGenero(i);
-				generoObraBs.guardar(generoObra);*/
-				genero = generoBs.buscarPorId(i);
-				generos.add(genero);
-				//System.out.println("estoy aqui");
-				
+		Idioma idiomaObj = new Idioma();
+		Alertas alerta = new Alertas();
+		SeguirUsuario seguirUsuario=new SeguirUsuario();
+		List<SeguirUsuario> seguidores = new ArrayList();
+		Usuario usuario = new Usuario();		
+		HttpSession session = request.getSession();
+		List<FileItem> partes = new ArrayList<>();
+		Integer size,numgeneros,idIdioma,idGenero;
+		Boolean flag;
+		Archivos manejoArchivos;
+		StringCodificador codificador = new StringCodificador();
+		String generoactual,contexto,titulo,sinopsis,idioma,nick;
 		
+		usuario = (Usuario)session.getAttribute("usuario");
+		contexto = (String) session.getAttribute("contexto");
+		manejoArchivos = new Archivos(contexto);
+		
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setSizeThreshold(5120);
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        
+        flag=true;
+		nick=usuario.getNick();
+		
+        try {
+			partes = upload.parseRequest(request);
+			titulo=codificador.codificar(partes.get(1).getString());
+			obra.setNombre(titulo);
+			if (partes.get(0).getSize() != 0) {
+				flag = manejoArchivos.guardarImagenEnArchivo(partes.get(0), nick+"/"+titulo, titulo + ".png");				
+			}else {
+				manejoArchivos.crearArchivo(nick+"/"+titulo);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			flag = false;
+		}
+		
+		if(flag) {
+			//Guardamos la obra
+			
+			size=partes.size();
+			numgeneros=size-4;
+			size=2+numgeneros;
+			obra.setIdUsuario(usuario.getId());
+			idioma = codificador.codificar(partes.get(2).getString());
+			idIdioma=Integer.valueOf(idioma);
+			sinopsis = codificador.codificar(partes.get(size+1).getString());
+			idiomaObj=idiomaBs.buscarPorId(idIdioma);
+			obra.setIdIdioma(idIdioma);
+			obra.setSinopsis(sinopsis);
+			obra.setUsuarioObj(usuario);
+			obra.setIdiomaObj(idiomaObj);
+			obra = obraBs.guardar(obra);
+			
+			//guardamos los géneros de la obra			
+			
+			for(int i = 3; i<size+1;i++) {
+				GeneroObra generoObra = new GeneroObra();				
+				generoObra.setIdObra(obra.getId());
+				generoObra.setObraObj(obra);
+				generoObra.setId(null);
+				generoactual=codificador.codificar(partes.get(i).getString());
+				idGenero=Integer.valueOf(generoactual);
+				genero=generoBs.buscarPorId(idGenero);
+				generoObra.setGenerosObj(genero);
+				generoObra.setIdGenero(idGenero);
+				generoObraBs.guardar(generoObra);
+				
+			}
+			
+			//creamos las notificaciones.
+			alerta.setIdObra(obra.getId());
+			alerta.setEstatus(false);
+			alerta.setObra(obra);
+			alerta.setTipoAlerta(1);
+			alerta.setUsuario(usuario);
+			
+			seguidores = seguirUsuarioBs.buscarPorIdUsuarioSeguido(usuario.getId());
+			if(!seguidores.isEmpty()) {
+				for(int i=0; i<seguidores.size();i++){
+					seguirUsuario = seguidores.get(i);
+					alerta.setIdUsuario(seguirUsuario.getIdUsuarioSigue());
+					alertasBs.guardar(alerta);
+				}
+			}
+			
 			
 		}
 		
-		generoObra.setGenerosObj(generos);		
-		generoObraBs.guardar(generoObra);
+		
+		
+		
+	
 		return obra;
 		
 	}
 	
-	/*private void registraGeneros(HttpServletRequest request, Obra obra) {
-		
-		GeneroObra generoObra = new GeneroObra();
-		Genero generos = new Genero();
-		
-		for(int i=1; i<12; i++) {
-			String parameter = String.valueOf(i);
-			if (request.getParameter(parameter) == null) {
-				
-			}else {
-				generoObra.setObraObj(obra);
-				generoObra.setGenerosObj(generoBs.buscarPorId(i));
-				generoObra.setIdObra(obra.getId());
-				generoObra.setIdGenero(i);
-				generoObraBs.guardar(generoObra);
-			}
-			
-		}
-		
-	}*/
-
 
 
 
