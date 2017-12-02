@@ -59,4 +59,14 @@ public class RankingUsuarioBs {
     public List<RankingUsuario> buscarUsuariosRankea(Integer idUsuarioRankeado){
     		return rankingUsuarioDao.buscarUsuariosRankea(idUsuarioRankeado);
     }
+    
+    @Transactional(readOnly = true)
+    public Boolean verificaRankeo(Integer idUsuarioRankea,Integer idUsuarioRankeado) {
+    		return rankingUsuarioDao.verificaRankeo(idUsuarioRankea, idUsuarioRankeado);
+    }
+    
+    @Transactional(readOnly = true)
+    public RankingUsuario obtenerRankeo(Integer idUsuarioRankea,Integer idUsuarioRankeado) {
+    		return rankingUsuarioDao.obtenerRankeo(idUsuarioRankea, idUsuarioRankeado);
+    }
 }

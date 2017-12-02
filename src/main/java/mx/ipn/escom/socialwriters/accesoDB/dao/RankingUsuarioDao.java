@@ -28,6 +28,7 @@ public class RankingUsuarioDao {
 	private SessionFactory sessionFactory;
     
     protected String QUERY1 = "select a from RankingUsuario a where idUsuarioRankeado = ?1";
+    protected String QUERY2 = "select a from RankingUsuario a where idUsuarioRankea = ?1 and idUsuarioRankeado = ?2";
     
     public RankingUsuario guardar(RankingUsuario rankingUsuario){
         sessionFactory.getCurrentSession().save(rankingUsuario);
@@ -57,5 +58,21 @@ public class RankingUsuarioDao {
     		resultado.setParameter(1, idUsuarioRankeado);
     		List<RankingUsuario> usuariosRankea = resultado.list();
     		return usuariosRankea.isEmpty()?new ArrayList<RankingUsuario>():usuariosRankea;
+    }
+    
+    public Boolean verificaRankeo(Integer idUsuarioRankea,Integer idUsuarioRankeado) {
+    		Query<RankingUsuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,RankingUsuario.class);
+    		resultado.setParameter(1, idUsuarioRankea);
+    		resultado.setParameter(2, idUsuarioRankeado);
+    		List<RankingUsuario> ranking = resultado.list();
+    		return !ranking.isEmpty();
+    }
+    
+    public RankingUsuario obtenerRankeo(Integer idUsuarioRankea,Integer idUsuarioRankeado) {
+    		Query<RankingUsuario> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,RankingUsuario.class);
+		resultado.setParameter(1, idUsuarioRankea);
+		resultado.setParameter(2, idUsuarioRankeado);
+		List<RankingUsuario> ranking = resultado.list();
+		return ranking.get(0);
     }
 }

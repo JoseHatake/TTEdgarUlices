@@ -25,6 +25,7 @@ import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.RankingUsuario;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
@@ -107,6 +108,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 6:
 				enriquecerAutoresSeguidos(request, response);
 				break;
+			case 7:
+				cambiarRanking(request, response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -118,6 +122,38 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		else {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
+		}
+	}
+
+	private void cambiarRanking(HttpServletRequest request, HttpServletResponse response) {
+		RankingUsuario ranking;
+		Usuario rankea,rankeado;
+		String usuarioRankea,usuarioRankeado;
+		Integer idUsuarioRankea,idUsuarioRankeado,estrellas;
+		
+		usuarioRankea = request.getParameter("usuarioRankea");
+		usuarioRankeado = request.getParameter("usuarioRankeado");
+		estrellas = Integer.parseInt(request.getParameter("estrellas"));
+		
+		rankea = usuarioBs.buscarUsuarioPorNick(usuarioRankea);
+		rankeado = usuarioBs.buscarUsuarioPorNick(usuarioRankeado);
+		
+		idUsuarioRankea = rankea.getId();
+		idUsuarioRankeado = rankeado.getId();
+		
+		if (rankingUsuarioBs.verificaRankeo(idUsuarioRankea, idUsuarioRankeado)) {
+			ranking = rankingUsuarioBs.obtenerRankeo(idUsuarioRankea, idUsuarioRankeado);
+			if (ranking.getEstrellas() != estrellas) {
+				ranking.setEstrellas(estrellas);
+				ranking = rankingUsuarioBs.actualizar(ranking);
+			}
+		}
+		else {
+			ranking = new RankingUsuario();
+			ranking.setEstrellas(estrellas);
+			ranking.setIdUsuarioRankea(idUsuarioRankea);
+			ranking.setIdUsuarioRankeado(idUsuarioRankeado);
+			ranking = rankingUsuarioBs.guardar(ranking);
 		}
 	}
 

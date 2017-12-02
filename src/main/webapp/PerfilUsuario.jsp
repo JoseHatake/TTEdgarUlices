@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/general.js"></script>
 	<script type="text/javascript" src="js/carga-cabecera.js"></script>
+	<script type="text/javascript" src="js/buscarInformacionAjax.js"></script>
 	<!-- JavaScript -->
 	<title>SocialWriters</title>
 </head>
@@ -79,7 +80,14 @@
 											<tbody>
 												<tr>
 													<c:forEach var="numeroEstrella" begin="1" end="5">
-														<td><span class="icon-star-empty estrella cursor-pointer centrar" id="estrella${numeroEstrella}" onclick="styleStarts('estrella',${numeroEstrella},'numeroEstrellas');"></span></td>
+														<c:choose>
+															<c:when test="${numeroEstrella <= estrellas}">
+																<td><span class="icon-star-empty estrellaActiva cursor-pointer centrar" id="estrella${numeroEstrella}" onclick="rankeaUsuario('estrella',${numeroEstrella},'numeroEstrellas','${usuario.nick}','${perfil.nick}');"></span></td>
+															</c:when>
+															<c:otherwise>
+																<td><span class="icon-star-empty estrella cursor-pointer centrar" id="estrella${numeroEstrella}" onclick="rankeaUsuario('estrella',${numeroEstrella},'numeroEstrellas','${usuario.nick}','${perfil.nick}');"></span></td>
+															</c:otherwise>
+														</c:choose>
 													</c:forEach>
 												</tr>
 											</tbody>

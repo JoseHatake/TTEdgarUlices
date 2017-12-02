@@ -74,3 +74,23 @@ function validaCorreoDisponible() {
 /**
  * Valida si el correo esta disponible
  * */
+
+/**
+ * Cambia el valor de ranking que da el usuario
+ * */
+function rankeaUsuario(colectionItemName,numItem,resultado,usuarioRankea,usuarioRankeado) {
+	ajax = new XMLHttpRequest();
+	styleStarts(colectionItemName,numItem,resultado);
+	
+	var estrellas = id(resultado).value;
+	var variables = "&estrellas=" + estrellas;
+	variables += "&usuarioRankea=" + usuarioRankea;
+	variables += "&usuarioRankeado=" + usuarioRankeado;
+	variables += "&esAjax=" + true;
+	
+	ajax.open("POST", "BuscarInformacionFormularios?metodoDeBusqueda=7" + variables, true);
+	ajax.send("");
+}
+/**
+ * Cambia el valor de ranking que da el usuario
+ * */

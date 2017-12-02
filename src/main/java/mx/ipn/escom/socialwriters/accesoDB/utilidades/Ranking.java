@@ -37,21 +37,14 @@ public class Ranking {
 	}
 	
 	private Integer redondeoEntero(Double cantidad) {
-		Integer enteroConvert,decimalConvert;
-		String entero,decimal;
-		String cadena[];
+		Integer enteroConvert;
+		String cadena;
 		
-		entero = "" + cantidad;
-		cadena = entero.split(".");
-		entero = cadena[0];
-		decimal = cadena[1].substring(0, 1);
+		cantidad += 0.5;
+		cadena = "" + cantidad;
+		cadena = cadena.substring(0, 1);
+		enteroConvert = Integer.parseInt(cadena);
 		
-		enteroConvert = Integer.parseInt(entero);
-		decimalConvert = Integer.parseInt(decimal);
-		
-		if (decimalConvert >= 55) {
-			enteroConvert++;
-		}
 		return enteroConvert;
 	}
 }
