@@ -51,8 +51,7 @@
 							<li>
 								<ul>
 									<c:forEach items="${generos}" var="genero">
-										<li><c:out value="${genero.generosObj.genero}"></c:out></li>
-										<li><spring:message code="label.genero${genero.genero.generosObj.id}"></spring:message></li>
+										<li><spring:message code="label.genero${genero.generosObj.id}"></spring:message></li>
 									</c:forEach>
 								</ul>
 							</li>
