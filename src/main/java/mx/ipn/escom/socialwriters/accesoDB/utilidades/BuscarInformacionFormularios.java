@@ -18,13 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.GeneroObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RedesSocialesBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.GeneroObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RankingUsuario;
@@ -60,7 +63,13 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	private SeguirUsuarioBs seguirUsuarioBs;
 	
 	@Autowired
+	private SeguirObraBs seguirObraBs;
+	
+	@Autowired
 	private ObraBs obraBs;
+	
+	@Autowired
+	private GeneroObraBs generoObraBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -119,6 +128,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 7:
 				cambiarRanking(request, response);
 				break;
+			case 8:
+				enriquecerPerfilObra(request, response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -131,6 +143,41 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
 		}
+	}
+
+	private void enriquecerPerfilObra(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		DetallesObra detallesObra;
+		List<GeneroObra> generos;
+		Obra obra;
+		Usuario usuario;
+		Integer idObra,idUsuario;
+		String titulo,portada,contexto,nickAutor;
+		Archivos archivo;
+		Boolean siguiendo;
+		
+		contexto = (String) session.getAttribute("contexto");
+		usuario = (Usuario) session.getAttribute("usuario");
+		idObra = Integer.parseInt(request.getParameter("idObra"));
+		obra = obraBs.buscarPorId(idObra);
+		archivo = new Archivos(contexto);
+		
+		idObra = obra.getId();
+		titulo = obra.getNombre();
+		idUsuario = obra.getIdUsuario();
+		nickAutor = obra.getUsuarioObj().getNick();
+		portada = null;
+		if (archivo.exiteDocumento(idUsuario.toString() + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO)) {
+			portada = archivo.obtenerImagenCodificada(idUsuario.toString() + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO);
+		}
+		detallesObra = new DetallesObra(idObra, titulo, portada, nickAutor);
+		generos = generoObraBs.buscarPorIdObra(idObra);
+		siguiendo = seguirObraBs.verificarSeguirObra(idObra, usuario.getId());
+		
+		request.setAttribute("detallesObra", detallesObra);
+		request.setAttribute("obra", obra);
+		request.setAttribute("generos", generos);
+		request.setAttribute("siguiendo", siguiendo);
 	}
 
 	private void cambiarRanking(HttpServletRequest request, HttpServletResponse response) {
@@ -233,9 +280,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		else {
 			imagenPerfil = null;
 			usuario = usuarioBs.buscarUsuarioPorNick(nickName);
-			if (seguirUsuarioBs.verficarSeguirUsuario(idUsuario, usuario.getId())) {
-				siguiendo = true;
-			}
+			siguiendo = seguirUsuarioBs.verficarSeguirUsuario(idUsuario, usuario.getId());
 			idUsuario = usuario.getId();
 			nickName = usuario.getNick();
 			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {

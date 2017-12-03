@@ -17,9 +17,11 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import mx.ipn.escom.socialwriters.accesoDB.bs.PerfilBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 
@@ -36,6 +38,9 @@ public class Acciones extends HttpServlet {
 	
 	@Autowired
 	private SeguirUsuarioBs seguirUsusarioBs;
+	
+	@Autowired
+	private SeguirObraBs seguirObraBs;
 	
 	@Autowired
 	private PerfilBs perfilBs;
@@ -95,12 +100,40 @@ public class Acciones extends HttpServlet {
 			case 6:
 				direccion = seguirUsuario(request, response);
 				break;
+			case 7:
+				direccion = seguirObra(request, response);
+				break;
 			default:
 				direccion = "index.jsp";
 				break;
 		}
 		rd = request.getRequestDispatcher(direccion);
 		rd.forward(request, response);
+	}
+
+	private String seguirObra(HttpServletRequest request, HttpServletResponse response) {
+		Usuario usuario;
+		SeguirObra seguirObra;
+		String nickName;
+		Integer idObra,idUsuario;
+		
+		idObra = Integer.parseInt(request.getParameter("idObra"));
+		nickName = request.getParameter("nickName");
+		usuario = usuarioBs.buscarUsuarioPorNick(nickName);
+		idUsuario = usuario.getId();
+		
+		if (!seguirObraBs.verificarSeguirObra(idObra, idUsuario)) {
+			seguirObra = new SeguirObra();
+			seguirObra.setIdObra(idObra);
+			seguirObra.setIdUsuario(idUsuario);
+			seguirObra = seguirObraBs.guardar(seguirObra);
+		}
+		else {
+			seguirObra = seguirObraBs.buscarPorObraUsuario(idObra, idUsuario);
+			seguirObraBs.eliminar(seguirObra);
+		}
+		
+		return "BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObra.jsp&idObra=" + idObra;
 	}
 
 	private String seguirUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -162,7 +162,7 @@
 						</a>
 					</c:if>
 					<c:forEach items="${obras}" var="obra">
-						<a href="index.jsp">
+						<a href="BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObra.jsp&idObra=${obra.idObra}">
 							<div class="libro">
 								<div class="portadaLibro">
 									<c:choose>

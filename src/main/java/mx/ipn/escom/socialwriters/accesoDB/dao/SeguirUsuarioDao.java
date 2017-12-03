@@ -74,5 +74,5 @@ public class SeguirUsuarioDao {
 		resultado.setParameter(1, id);
 		List<SeguirUsuario> sigue = resultado.list();
 		return sigue.isEmpty()?new ArrayList<SeguirUsuario>():sigue;
-}
+	}
 }

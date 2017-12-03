@@ -6,7 +6,12 @@
 package mx.ipn.escom.socialwriters.accesoDB.dao;
 
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.GeneroObra;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +26,8 @@ import org.springframework.stereotype.Service;
 public class GeneroObraDao {
     @Autowired
 	private SessionFactory sessionFactory;
+    
+    protected String QUERY1 = "select a from GeneroObra a where idObra = ?1";
     
     public GeneroObra guardar(GeneroObra generoObra){
         sessionFactory.getCurrentSession().save(generoObra);
@@ -43,5 +50,12 @@ public class GeneroObraDao {
     
     public GeneroObra buscarPorId(Integer id){
         return sessionFactory.getCurrentSession().load(GeneroObra.class, id);
+    }
+    
+    public List<GeneroObra> buscarPorIdObra(Integer idObra){
+    		Query<GeneroObra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,GeneroObra.class);
+    		resultado.setParameter(1, idObra);
+    		List<GeneroObra> generosObra = resultado.list();
+    		return generosObra.isEmpty()?new ArrayList<GeneroObra>():generosObra;
     }
 }

@@ -7,6 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.GeneroObraDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.GeneroObra;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -51,5 +54,10 @@ public class GeneroObraBs {
     @Transactional(readOnly = true)
     public GeneroObra buscarPorId(Integer id){
         return generoObraDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<GeneroObra> buscarPorIdObra(Integer idObra){
+    		return generoObraDao.buscarPorIdObra(idObra);
     }
 }

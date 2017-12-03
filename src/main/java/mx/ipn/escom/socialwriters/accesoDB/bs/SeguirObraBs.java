@@ -33,8 +33,6 @@ public class SeguirObraBs {
         SeguirObra model = seguirObraDao.buscarPorId(seguirObra.getId());
         model.setIdObra(seguirObra.getIdObra());
         model.setIdUsuario(seguirObra.getIdUsuario());
-        model.setObras(seguirObra.getObras());
-        model.setUsuarios(seguirObra.getUsuarios());
         return seguirObraDao.actualizar(model);
     }
     
@@ -51,5 +49,15 @@ public class SeguirObraBs {
     @Transactional(readOnly = true)
     public SeguirObra buscarPorId(Integer id){
         return seguirObraDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public Boolean verificarSeguirObra(Integer idObra,Integer idUsuario) {
+    		return seguirObraDao.verificarSeguirObra(idObra, idUsuario);
+    }
+    
+    @Transactional(readOnly = true)
+    public SeguirObra buscarPorObraUsuario(Integer idObra,Integer idUsuario) {
+    		return seguirObraDao.buscarPorObraUsuario(idObra, idUsuario);
     }
 }
