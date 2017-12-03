@@ -7,6 +7,10 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.SeguirObraDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirObra;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -51,5 +55,10 @@ public class SeguirObraBs {
     @Transactional(readOnly = true)
     public SeguirObra buscarPorId(Integer id){
         return seguirObraDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<SeguirObra> buscarPorIdObra(Integer id) {
+    		return seguirObraDao.buscarPorIdObra(id);
     }
 }

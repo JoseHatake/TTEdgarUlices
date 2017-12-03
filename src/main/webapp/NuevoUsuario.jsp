@@ -33,7 +33,7 @@
 				<table class="form-config">
 					<thead>
 						<tr>
-							<th><h1><spring:message code="label.crearc" /></h1></th>
+							<th><h2><spring:message code="label.crearc" /></h2></th>
 						</tr>
 					</thead>
 					<tbody>
