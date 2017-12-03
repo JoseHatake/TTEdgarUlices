@@ -170,7 +170,7 @@
 											<img alt="libro" src="data:image/jpeg;base64,${obra.portada}">
 										</c:when>
 										<c:otherwise>
-											<img alt="libro" src="img/agregarObra.png">
+											<img alt="libro" src="img/pd.png">
 										</c:otherwise>
 									</c:choose>
 								</div>
