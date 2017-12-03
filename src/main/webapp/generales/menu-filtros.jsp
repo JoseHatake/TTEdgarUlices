@@ -36,18 +36,9 @@
 					<li class="subopcion-menu-margenes oculto" id="genero">
 						<select name="genero">
 							<option value=""><spring:message code="label.selgenero" /></option>
-							<option value="1"><spring:message code="label.comedia" /></option>
-							<option value="2"><spring:message code="label.cuento" /></option>
-							<option value="3"><spring:message code="label.drama" /></option>
-							<option value="4"><spring:message code="label.fantasia" /></option>
-							<option value="5"><spring:message code="label.sci-fi" /></option>
-							<option value="6"><spring:message code="label.historico" /></option>
-							<option value="7"><spring:message code="label.misterio" /></option>
-							<option value="8"><spring:message code="label.suspenso" /></option>
-							<option value="9"><spring:message code="label.terror" /></option>
-							<option value="10"><spring:message code="label.tragedia" /></option>
-							<option value="11"><spring:message code="label.romance" /></option>
-							<option value="12"><spring:message code="label.poesia" /></option>
+							<c:forEach var="id" begin="1" end="12">
+								<option value="${id}"><spring:message code="label.genero${id}"/></option>
+							</c:forEach>
 						</select>
 					</li>
 				</ul>
