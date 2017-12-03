@@ -30,6 +30,7 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<form action="CrearCapitulo" class="centrar">
+				<input type="hidden" name="idLibro" id="idLibro" value="${param.idLibro}">
 				<table class="form-config">
 					<thead>
 						<tr>
@@ -38,26 +39,25 @@
 					</thead>
 					<tbody>
 						<tr>
-						    <input type="hidden" name="idLibro" id="idLibro" value= "<%= request.getParameter("idLibro") %>">						   
-							<td class="form-espacio"><input type="text" name="numeroCapitulo" id="numeroCapitulo" class="form-input-text" placeholder="<spring:message code="label.numcap" />" minlength="1" maxlength="3"  required></td>				
-						</tr>
-													
-						<tr>
-						    <td class="form-espacio"><input type="text" name="tituloCapitulo" class="form-input-text" placeholder="<spring:message code="label.titulocap" />" maxlength="60" required ></td>
+							<td class="form-espacio"><input type="text" name="numeroCapitulo" id="numeroCapitulo" class="form-input-text" placeholder="<spring:message code="label.numcap" />" minlength="1" maxlength="3" required></td>
 						</tr>
 						<tr>
-						 <td>
-						   <h3><spring:message code="label.capitulo" /></h3>
-						   <textarea name="capitulo" id="capitulo" class="form-input-text" cols="50" rows="25" wrap="hard" required></textarea>
-						</td>
+							<td class="form-espacio"><input type="text" name="tituloCapitulo" class="form-input-text" placeholder="<spring:message code="label.titulocap" />" maxlength="60" required></td>
+						</tr>
+						<tr>
+							<td>
+								<h3><spring:message code="label.capitulo" /></h3>
+								<textarea name="capitulo" id="capitulo" class="form-input-text" cols="50" rows="25" wrap="hard" required></textarea>
+							</td>
 						</tr>
 					</tbody>
 					<tfoot>
-						
-						<td style="padding-left: 30%; padding-top: 20px;"><a href="index.jsp"><input type="button" class="boton-formulario" value="<spring:message code="label.cancelar" />"></a>
-						<input type="submit" class="boton-formulario" id="itemSubmit" value="<spring:message code="label.guardar" />"></td>							
-						    
-						
+						<tr>
+							<td style="padding-left: 30%; padding-top: 20px;">
+								<a href="index.jsp"><input type="button" class="boton-formulario" value="<spring:message code="label.cancelar" />"></a>
+								<input type="submit" class="boton-formulario" id="itemSubmit" value="<spring:message code="label.guardar" />">
+							</td>
+						</tr>
 					</tfoot>
 				</table>
 			</form>
