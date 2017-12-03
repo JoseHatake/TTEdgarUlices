@@ -76,6 +76,11 @@
     <servlet-name>CrearObra</servlet-name>
     <servlet-class>mx.ipn.escom.socialwriters.accesoDB.control.usuario.CrearObra</servlet-class>
   </servlet>
+  <servlet>
+    <display-name>CrearCapitulo</display-name>
+    <servlet-name>CrearCapitulo</servlet-name>
+    <servlet-class>mx.ipn.escom.socialwriters.accesoDB.control.usuario.CrearCapitulo</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>BuscarInformacionFormularios</servlet-name>
   	<url-pattern>/BuscarInformacionFormularios</url-pattern>
@@ -91,6 +96,10 @@
   <servlet-mapping>
   	<servlet-name>CrearObra</servlet-name>
   	<url-pattern>/CrearObra</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CrearCapitulo</servlet-name>
+  	<url-pattern>/CrearCapitulo</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>EditarPerfil</servlet-name>

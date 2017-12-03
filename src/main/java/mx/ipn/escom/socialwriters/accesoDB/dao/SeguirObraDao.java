@@ -7,6 +7,7 @@ package mx.ipn.escom.socialwriters.accesoDB.dao;
 
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirObra;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -25,8 +26,9 @@ import org.springframework.stereotype.Service;
 public class SeguirObraDao {
     @Autowired
 	private SessionFactory sessionFactory;
-    
-    protected String QUERY1 = "select a from SeguirObra a where idObra = ?1 and idUsuario = ?2";
+
+    protected String QUERY1 = "select a from SeguirObra a where idObra = ?1";
+    protected String QUERY2 = "select a from SeguirObra a where idObra = ?1 and idUsuario = ?2";
     
     public SeguirObra guardar(SeguirObra seguirObra){
         sessionFactory.getCurrentSession().save(seguirObra);
@@ -51,8 +53,15 @@ public class SeguirObraDao {
         return sessionFactory.getCurrentSession().load(SeguirObra.class, id);
     }
     
+    public List<SeguirObra> buscarPorIdObra(Integer id) {
+		Query<SeguirObra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,SeguirObra.class);
+		resultado.setParameter(1, id);
+		List<SeguirObra> sigue = resultado.list();
+		return sigue.isEmpty()?new ArrayList<SeguirObra>():sigue;
+    }
+    
     public Boolean verificarSeguirObra(Integer idObra,Integer idUsuario) {
-    		Query<SeguirObra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,SeguirObra.class);
+    		Query<SeguirObra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,SeguirObra.class);
     		resultado.setParameter(1, idObra);
     		resultado.setParameter(2, idUsuario);
     		List<SeguirObra> siguiendo = resultado.list();
@@ -60,7 +69,7 @@ public class SeguirObraDao {
     }
     
     public SeguirObra buscarPorObraUsuario(Integer idObra,Integer idUsuario) {
-    		Query<SeguirObra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY1,SeguirObra.class);
+    		Query<SeguirObra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,SeguirObra.class);
 		resultado.setParameter(1, idObra);
 		resultado.setParameter(2, idUsuario);
 		List<SeguirObra> siguiendo = resultado.list();

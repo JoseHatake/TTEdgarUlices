@@ -31,7 +31,7 @@
 		<div class="contenido">
 			<div class="fondoFormato">
 				<form action="EditarPerfil" enctype="multipart/form-data" method="POST">
-				<h1><spring:message code="label.editarp" /></h1>
+				<h1> <spring:message code="label.editarp" /> </h1>
 					<div style="height: 550px;">
 						<div style="margin-right: 50px; margin-bottom: 50px;" class="img-perfil-normal izquierda">
 							<c:choose>

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import org.apache.commons.io.FileUtils;
 
 import org.apache.commons.fileupload.FileItem;
 
@@ -73,9 +74,9 @@ public class Archivos {
 		return fileAntes.renameTo(fileDespues);
 	}
 	
-	public Boolean renombrarDocumento(String archivo,String documentoBiejo, String documentoNuevo) {
+	public Boolean renombrarDocumento(String archivo,String documentoViejo, String documentoNuevo) {
 		File fileAntes,fileDespues;
-		fileAntes = new File(contexto + ARCHIVERO + "/" + archivo + "/" + documentoBiejo);
+		fileAntes = new File(contexto + ARCHIVERO + "/" + archivo + "/" + documentoViejo);
 		fileDespues = new File(contexto + ARCHIVERO + "/" + archivo,documentoNuevo);
 		return fileAntes.renameTo(fileDespues);
 	}
@@ -87,5 +88,20 @@ public class Archivos {
 		filePath = Paths.get(contexto + ARCHIVERO + "/" + archivo + "/" + file.getName());
         byte[] bytes = Base64.getEncoder().encode(Files.readAllBytes(filePath));
         return new String(bytes, "UTF-8");
+	}
+	
+	public void guardarCapitulo(String archivo, String capitulo)throws IOException {
+				
+		File file;
+		file = new File(contexto + ARCHIVERO + "/" + archivo);
+		try {
+			
+			FileUtils.writeStringToFile(file,capitulo,"UTF-8");
+			
+		}catch(Exception e){			
+			e.printStackTrace();
+			
+		}
+		
 	}
 }
