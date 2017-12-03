@@ -94,7 +94,7 @@ public class CrearCapitulo extends HttpServlet{
 		Alertas alerta = new Alertas();
 		
 		
-		String textoCapitulo, contexto, idCapitulo,rutaCapitulo,tituloCapitulo;
+		String textoCapitulo, contexto, idCapitulo,rutaCapitulo,tituloCapitulo,capituloCodificado;
 		Integer idLibro,numeroCapitulo;
 		Boolean guardado;
 		guardado = true;
@@ -118,9 +118,10 @@ public class CrearCapitulo extends HttpServlet{
 		capituloBs.guardar(capitulo);
 		
 		rutaCapitulo=usuario.getId()+"/"+capitulo.getIdObra()+"/"+capitulo.getId()+".txt";
+		capituloCodificado = manejoArchivos.codificaCapitulo(textoCapitulo);
 		
 		try{
-			manejoArchivos.guardarCapitulo(rutaCapitulo, textoCapitulo);
+			manejoArchivos.guardarCapitulo(rutaCapitulo, capituloCodificado);
 		}catch(Exception e) {
 			guardado=false;
 			e.printStackTrace();			

@@ -104,4 +104,19 @@ public class Archivos {
 		}
 		
 	}
+	
+	public String codificaCapitulo(String capitulo) {
+		String capituloCodificado;
+		String[] parrafos;
+		
+		parrafos = capitulo.split("\n");
+		capituloCodificado="";
+		
+		for(int i =0; i<parrafos.length;i++) {
+			capituloCodificado+="<p>";
+			capituloCodificado+=parrafos[i]+"</p>";			
+		}
+		
+		return capituloCodificado;
+	}
 }
