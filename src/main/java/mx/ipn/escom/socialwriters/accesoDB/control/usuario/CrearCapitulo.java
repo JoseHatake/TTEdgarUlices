@@ -123,7 +123,7 @@ public class CrearCapitulo extends HttpServlet{
 		
 		//Si se creó, mandamos notificaciones
 		if(guardado) {
-			System.out.println(idLibro);
+			
 			seguidores = seguirObraBs.buscarPorIdObra(idLibro);
 			if(!seguidores.isEmpty()) {
 				

@@ -54,38 +54,38 @@
 									<table style="width: 100%" class="generos-form">
 										<tr>
 											<td><input type="checkbox" class="checador" name="1" value="1" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.comedia" /><br></td>
+												<spring:message code="label.genero1" /><br></td>
 											<td><input type="checkbox" class="checador" name="2" value="2" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.cuento" /><br></td>
+												<spring:message code="label.genero2" /><br></td>
 											<td><input type="checkbox" class="checador" name="3" value="3" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.drama" /><br></td>
+												<spring:message code="label.genero3" /><br></td>
 										</tr>
 
 										<tr>
 											<td><input type="checkbox" class="checador" name="4" value="4" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.fantasia" /><br></td>
+												<spring:message code="label.genero4" /><br></td>
 											<td><input type="checkbox" class="checador" name="5"
-												value="5" required> <spring:message code="label.sci-fi" /><br></td>
+												value="5" required> <spring:message code="label.genero5" /><br></td>
 											<td><input type="checkbox" class="checador" name="6" value="6" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.historico" /><br></td>
+												<spring:message code="label.genero6" /><br></td>
 										</tr>
 
 										<tr>
 											<td><input type="checkbox" class="checador" name="7" value="7" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.misterio" /><br></td>
+												<spring:message code="label.genero7" /><br></td>
 											<td><input type="checkbox" class="checador" name="8" value="8" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.suspenso" /><br></td>
+												<spring:message code="label.genero8" /><br></td>
 											<td><input type="checkbox" class="checador" name="9" value="9" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.terror" /><br></td>
+												<spring:message code="label.genero9" /><br></td>
 										</tr>
 
 										<tr>
 											<td><input type="checkbox" class="checador" name="10" value="10" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.tragedia" /><br></td>
+												<spring:message code="label.genero10" /><br></td>
 											<td><input type="checkbox" class="checador" name="11" value="11" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.romance" /><br></td>
+												<spring:message code="label.genero11" /><br></td>
 											<td><input type="checkbox" class="checador" name="12" value="12" onclick="checarCheckbox('checador');" required>
-												<spring:message code="label.poesia" /><br></td>
+												<spring:message code="label.genero12" /><br></td>
 										</tr>
 									</table>
 								</li>
