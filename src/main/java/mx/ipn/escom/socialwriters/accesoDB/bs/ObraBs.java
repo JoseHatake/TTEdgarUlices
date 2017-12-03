@@ -7,6 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.ObraDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -53,5 +56,10 @@ public class ObraBs {
     @Transactional(readOnly = true)
     public Obra buscarPorId(Integer id){
         return obraDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Obra> obrasPorIdUsuario(Integer idUsuario){
+    		return obraDao.obrasPorIdUsuario(idUsuario);
     }
 }

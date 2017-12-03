@@ -44,6 +44,8 @@ import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
 public class CrearObra extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
+	protected String NOMBRE_FOTO_PERFIL_LIBRO = "fotoPerfilLibro.png";
+	
 	@Autowired
 	private ObraBs obraBs;
 	
@@ -93,21 +95,20 @@ public class CrearObra extends HttpServlet{
 	}
 	
 	private Obra registraObra(HttpServletRequest request)throws ServletException, IOException {
-		
 		Obra obra = new Obra();		
 		Genero genero = new Genero();
 		Idioma idiomaObj = new Idioma();
 		Alertas alerta = new Alertas();
 		SeguirUsuario seguirUsuario=new SeguirUsuario();
-		List<SeguirUsuario> seguidores = new ArrayList();
+		List<SeguirUsuario> seguidores = new ArrayList<SeguirUsuario>();
 		Usuario usuario = new Usuario();		
 		HttpSession session = request.getSession();
 		List<FileItem> partes = new ArrayList<>();
-		Integer size,numgeneros,idIdioma,idGenero;
+		Integer size,numgeneros,idIdioma,idGenero,idUsuario,idObra;
 		Boolean flag;
 		Archivos manejoArchivos;
 		StringCodificador codificador = new StringCodificador();
-		String generoactual,contexto,titulo,sinopsis,idioma,nick;
+		String generoactual,contexto,titulo,sinopsis,idioma;
 		
 		usuario = (Usuario)session.getAttribute("usuario");
 		contexto = (String) session.getAttribute("contexto");
@@ -117,18 +118,13 @@ public class CrearObra extends HttpServlet{
         factory.setSizeThreshold(5120);
         ServletFileUpload upload = new ServletFileUpload(factory);
         
-        flag=true;
-		nick=usuario.getNick();
+        flag = true;
+		idUsuario = usuario.getId();
 		
         try {
 			partes = upload.parseRequest(request);
-			titulo=codificador.codificar(partes.get(1).getString());
+			titulo = codificador.codificar(partes.get(1).getString());
 			obra.setNombre(titulo);
-			if (partes.get(0).getSize() != 0) {
-				flag = manejoArchivos.guardarImagenEnArchivo(partes.get(0), nick+"/"+titulo, titulo + ".png");				
-			}else {
-				manejoArchivos.crearArchivo(nick+"/"+titulo);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag = false;
@@ -139,17 +135,23 @@ public class CrearObra extends HttpServlet{
 			
 			size=partes.size();
 			numgeneros=size-4;
-			size=2+numgeneros;
+			size = 2 + numgeneros;
 			obra.setIdUsuario(usuario.getId());
 			idioma = codificador.codificar(partes.get(2).getString());
 			idIdioma=Integer.valueOf(idioma);
 			sinopsis = codificador.codificar(partes.get(size+1).getString());
-			idiomaObj=idiomaBs.buscarPorId(idIdioma);
+			idiomaObj = idiomaBs.buscarPorId(idIdioma);
 			obra.setIdIdioma(idIdioma);
 			obra.setSinopsis(sinopsis);
 			obra.setUsuarioObj(usuario);
 			obra.setIdiomaObj(idiomaObj);
 			obra = obraBs.guardar(obra);
+			
+			idObra = obra.getId();
+			manejoArchivos.crearArchivo(idUsuario + "/" + idObra);
+			if (partes.get(0).getSize() != 0) {
+				flag = manejoArchivos.guardarImagenEnArchivo(partes.get(0), idUsuario + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO);				
+			}
 			
 			//guardamos los géneros de la obra			
 			
@@ -164,7 +166,6 @@ public class CrearObra extends HttpServlet{
 				generoObra.setGenerosObj(genero);
 				generoObra.setIdGenero(idGenero);
 				generoObraBs.guardar(generoObra);
-				
 			}
 			
 			//creamos las notificaciones.
@@ -174,7 +175,7 @@ public class CrearObra extends HttpServlet{
 			alerta.setTipoAlerta(1);
 			alerta.setUsuario(usuario);
 			
-			seguidores = seguirUsuarioBs.buscarPorIdUsuarioSeguido(usuario.getId());
+			seguidores = seguirUsuarioBs.buscarPorIdUsuarioSeguido(idUsuario);
 			if(!seguidores.isEmpty()) {
 				for(int i=0; i<seguidores.size();i++){
 					seguirUsuario = seguidores.get(i);
@@ -182,19 +183,7 @@ public class CrearObra extends HttpServlet{
 					alertasBs.guardar(alerta);
 				}
 			}
-			
-			
 		}
-		
-		
-		
-		
-	
 		return obra;
-		
 	}
-	
-
-
-
 }

@@ -40,6 +40,8 @@ import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
 public class EditarPerfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	protected String NOMBRE_FOTO_PERFIL = "fotoPerfil.png";
+	
 	@Autowired
 	private PaisesBs paisesBs;
 	
@@ -89,9 +91,9 @@ public class EditarPerfil extends HttpServlet {
 		List<RedesSociales> redesSociales;
 		FormaContacto aux;
 		Fechas fecha = new Fechas();
-		String usuario,usuario1,nombre,aPaterno,aMaterno,correo,fechaNacimiento,sexo,descripcion,urlRedSocial,contexto;
+		String usuario,nombre,aPaterno,aMaterno,correo,fechaNacimiento,sexo,descripcion,urlRedSocial,contexto,fotoPerfil;
 		StringCodificador codificador = new StringCodificador();
-		Integer pais,contRedes;
+		Integer pais,contRedes,idUsuario;
 		Boolean flag;
 		Archivos manejoArchivos;
 		
@@ -105,17 +107,26 @@ public class EditarPerfil extends HttpServlet {
         
 		flag = true;
 		usuario = usuarioObj.getNick();
-		usuario1 = usuarioObj.getNick();
+		idUsuario = usuarioObj.getId();
         try {
 			partes = upload.parseRequest(request);
-			if (partes.get(0).getSize() != 0) {
-				flag = manejoArchivos.guardarImagenEnArchivo(partes.get(0), usuario, usuario + ".png");
-				session.setAttribute("fotoPerfil", manejoArchivos.obtenerImagenCodificada(usuario, usuario + ".png"));
-			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag = false;
 		}
+        
+        if (partes.get(0).getSize() != 0) {
+			flag = manejoArchivos.guardarImagenEnArchivo(partes.get(0), idUsuario.toString(), NOMBRE_FOTO_PERFIL);
+			fotoPerfil = manejoArchivos.obtenerImagenCodificada(idUsuario.toString(), NOMBRE_FOTO_PERFIL);
+		}
+        else {
+        		if (manejoArchivos.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
+        			fotoPerfil = manejoArchivos.obtenerImagenCodificada(idUsuario.toString(), NOMBRE_FOTO_PERFIL);
+			}
+        		else
+        			fotoPerfil = null;
+        }
         
         if (flag) {
 			usuario = codificador.codificar(partes.get(1).getString());
@@ -176,17 +187,10 @@ public class EditarPerfil extends HttpServlet {
 	    				}
 	    			}
 	    		}
-	    		if (manejoArchivos.existeArchivo(usuario1)) {
-				if (!usuario.equals(usuario1)) {
-					manejoArchivos.renombrarArchivo(usuario1,usuario);
-					if (manejoArchivos.exiteDocumento(usuario, usuario1 + ".png")) {
-						manejoArchivos.renombrarDocumento(usuario, usuario1 + ".png", usuario + ".png");
-					}
-				}
-			}
 		}
 		
 		session.setAttribute("usuario", usuarioObj);
+		session.setAttribute("fotoPerfil", fotoPerfil);
 		response.sendRedirect("BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=" + usuarioObj.getNick());
 	}
 }

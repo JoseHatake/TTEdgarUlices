@@ -94,8 +94,7 @@
 					</div>
 					<div class="contenido45 formato-texto">
 						<h3><spring:message code="label.sinopsis" /></h3>
-						<textarea name="sinopsis" id="sinopsis" class="form-input-text" cols="50" rows="5" wrap="hard" maxlength="250">
-						</textarea>
+						<textarea name="sinopsis" id="sinopsis" class="form-input-text" cols="50" rows="5" wrap="hard" maxlength="250"></textarea>
 					</div>
 					<div class="contenedor-boton">
 						<input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.crearo" />">

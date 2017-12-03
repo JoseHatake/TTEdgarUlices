@@ -18,12 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RedesSocialesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RankingUsuario;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
@@ -35,6 +37,9 @@ import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
  */
 public class BuscarInformacionFormularios extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	protected String NOMBRE_FOTO_PERFIL = "fotoPerfil.png";
+	protected String NOMBRE_FOTO_PERFIL_LIBRO = "fotoPerfilLibro.png";
 	
 	@Autowired
 	private UsuarioBs usuarioBs;
@@ -53,6 +58,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private SeguirUsuarioBs seguirUsuarioBs;
+	
+	@Autowired
+	private ObraBs obraBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -166,7 +174,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		Archivos archivo;
 		Ranking ranking;
 		String contexto,nick,imagenPerfil;
-		Integer estrellas;
+		Integer estrellas,idUsuario;
 		
 		usuario = (Usuario) session.getAttribute("usuario");
 		contexto = (String) session.getAttribute("contexto");
@@ -178,11 +186,12 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		for (SeguirUsuario seguirUsuario : seguirUsuarios) {
 			usuario = usuarioBs.buscarPorId(seguirUsuario.getIdUsuarioSeguido());
 			nick = usuario.getNick();
-			ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(usuario.getId()));
+			idUsuario = usuario.getId();
+			ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
 			estrellas = ranking.getEstrellas();
 			imagenPerfil = null;
-			if (archivo.exiteDocumento(nick, nick + ".png")) {
-				imagenPerfil = archivo.obtenerImagenCodificada(nick, nick + ".png");
+			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
+				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);
 			}
 			contacto = new Contacto(nick, imagenPerfil,estrellas);
 			contactos.add(contacto);
@@ -200,12 +209,14 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	private void enriquecerPerfilUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
 		List<FormaContacto> formaContactos;
+		List<Obra> obras;
+		List<DetallesObra> detallesObras;
 		Ranking ranking;
 		Usuario usuario;
 		Contacto contacto;
 		Archivos archivo;
-		Integer idUsuario,estrellas;
-		String nickName,contexto,imagenPerfil;
+		Integer idUsuario,estrellas,idObra;
+		String nickName,contexto,imagenPerfil,titulo,portada;
 		Boolean siguiendo;
 		
 		usuario = (Usuario) session.getAttribute("usuario");
@@ -214,12 +225,12 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		idUsuario = usuario.getId();
 		siguiendo = false;
 		contacto = new Contacto();
+		archivo = new Archivos(contexto);
 		
 		if (usuario.getNick().equals(nickName)) {
 			idUsuario = usuario.getId();
 		}
 		else {
-			archivo = new Archivos(contexto);
 			imagenPerfil = null;
 			usuario = usuarioBs.buscarUsuarioPorNick(nickName);
 			if (seguirUsuarioBs.verficarSeguirUsuario(idUsuario, usuario.getId())) {
@@ -227,17 +238,30 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			}
 			idUsuario = usuario.getId();
 			nickName = usuario.getNick();
-			if (archivo.exiteDocumento(nickName, nickName + ".png")) {
-				imagenPerfil = archivo.obtenerImagenCodificada(nickName, nickName + ".png");
+			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
+				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);
 			}
 			contacto.setNickName(nickName);
 			contacto.setImgPerfil(imagenPerfil);
+		}
+		
+		obras = obraBs.obrasPorIdUsuario(idUsuario);
+		detallesObras = new ArrayList<DetallesObra>();
+		for (Obra obra: obras) {
+			idObra = obra.getId();
+			titulo = obra.getNombre();
+			portada = null;
+			if (archivo.exiteDocumento(idUsuario.toString() + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO)) {
+				portada = archivo.obtenerImagenCodificada(idUsuario.toString() + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO);
+			}
+			detallesObras.add(new DetallesObra(idObra, titulo, portada, nickName));
 		}
 		
 		ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
 		estrellas = ranking.getEstrellas();
 		
 		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
+		request.setAttribute("obras", detallesObras);
 		request.setAttribute("contacto", contacto);
 		request.setAttribute("siguiendo", siguiendo);
 		request.setAttribute("redes", formaContactos);

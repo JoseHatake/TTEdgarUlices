@@ -29,6 +29,8 @@ import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 public class Acciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	protected String NOMBRE_FOTO_PERFIL = "fotoPerfil.png";
+	
 	@Autowired
 	private UsuarioBs usuarioBs;
 	
@@ -202,17 +204,18 @@ public class Acciones extends HttpServlet {
 		Archivos archivos;
 		Usuario usuario;
 		String nick,contexto,fotoPerfil;
-		Integer clave;
+		Integer clave,idUsuario;
 		
 		contexto = this.getServletConfig().getServletContext().getRealPath("/");
 		nick = request.getParameter("usuario");
 		clave = Integer.parseInt(request.getParameter("clave"));
 		
 		usuario = usuarioBs.validaLogIn(nick, clave);
+		idUsuario = usuario.getId();
 		archivos = new Archivos(contexto);
 		fotoPerfil = null;
-		if (archivos.exiteDocumento(nick, nick + ".png")) {
-			fotoPerfil = archivos.obtenerImagenCodificada(nick, nick + ".png");
+		if (archivos.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
+			fotoPerfil = archivos.obtenerImagenCodificada(idUsuario.toString(), NOMBRE_FOTO_PERFIL);
 		}
 		
 		if (usuario.esNuevoUsuario()) {
@@ -237,7 +240,7 @@ public class Acciones extends HttpServlet {
 		Usuario usuario,usrTmp;
 		List<Contacto> contactos;
 		String contexto,imagenPerfil,nick;
-		Integer contador,estrellas;
+		Integer contador,estrellas,idUsuario;
 		List<SeguirUsuario> seguirUsuarios;
 		
 		usuario = (Usuario) session.getAttribute("usuario");
@@ -250,11 +253,12 @@ public class Acciones extends HttpServlet {
 		for (SeguirUsuario seguirUsuario : seguirUsuarios) {
 			usrTmp = usuarioBs.buscarPorId(seguirUsuario.getIdUsuarioSeguido());
 			nick = usrTmp.getNick();
+			idUsuario = usrTmp.getId();
 			ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(usrTmp.getId()));
 			estrellas = ranking.getEstrellas();
 			imagenPerfil = null;
-			if (archivo.exiteDocumento(nick, nick + ".png")) {
-				imagenPerfil = archivo.obtenerImagenCodificada(nick, nick + ".png");
+			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
+				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);
 			}
 			contactos.add(new Contacto(nick,imagenPerfil,estrellas));
 			if (contador++ == 4)

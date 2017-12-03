@@ -161,6 +161,25 @@
 							</div>
 						</a>
 					</c:if>
+					<c:forEach items="${obras}" var="obra">
+						<a href="index.jsp">
+							<div class="libro">
+								<div class="portadaLibro">
+									<c:choose>
+										<c:when test="${obra.portada != null}">
+											<img alt="libro" src="data:image/jpeg;base64,${obra.portada}">
+										</c:when>
+										<c:otherwise>
+											<img alt="libro" src="img/agregarObra.png">
+										</c:otherwise>
+									</c:choose>
+								</div>
+								<div class="descripcionLibro">
+									<p><c:out value="${obra.titulo}"></c:out></p>
+								</div>
+							</div>
+						</a>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
