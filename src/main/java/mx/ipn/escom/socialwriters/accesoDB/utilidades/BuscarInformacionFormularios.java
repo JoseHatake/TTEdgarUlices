@@ -184,9 +184,11 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	private void cargarCapitulo(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		List<Capitulo> capitulos;
+		Capitulo capituloTmp;
 		Archivos archvio;
 		Usuario usuario;
-		String contexto,capitulo;
+		String contexto;
+		List<String> listaTextoCapitulo;
 		Integer idUsuario,idObra,idCapitulo;
 		
 		contexto = (String) session.getAttribute("contexto");
@@ -194,12 +196,25 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		
 		idUsuario = usuario.getId();
 		idObra = Integer.parseInt(request.getParameter("idObra"));
-		idCapitulo = idObra = Integer.parseInt(request.getParameter("idCapitulo"));
+		idCapitulo = Integer.parseInt(request.getParameter("idCapitulo"));
 		
 		archvio = new Archivos(contexto);
 		capitulos = capituloBs.buscarPorIdObra(idObra);
-		if (idCapitulo !=  null) {
+		if (idCapitulo == 0) {
+			idCapitulo = capitulos.get(0).getId();
 		}
+		capituloTmp = capituloBs.buscarPorId(idCapitulo);
+		for (Capitulo capitulo2 : capitulos) {
+			if (capitulo2.getId() == idCapitulo) {
+				capituloTmp = capitulo2;
+				break;
+			}
+		}
+		listaTextoCapitulo = archvio.cargaCapitulo(idUsuario + "/" + idObra + "/" + idCapitulo + ".txt");
+		
+		request.setAttribute("capituloListaTexto", listaTextoCapitulo);
+		request.setAttribute("capitulosObra", capitulos);
+		request.setAttribute("capitulo", capituloTmp);
 	}
 
 	private void enriquecerPerfilObra(HttpServletRequest request, HttpServletResponse response) throws IOException {

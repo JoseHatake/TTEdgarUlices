@@ -25,8 +25,8 @@ public class CapituloDao {
     @Autowired
 	private SessionFactory sessionFactory;
     
-    protected String QUERY1 = "select a from Capitulo where nombre like concat('%',?1,'%')";
-    protected String QUERY2 = "select a from Capitulo where idObra = ?1";
+    protected String QUERY1 = "select a from Capitulo a where nombre like concat('%',?1,'%')";
+    protected String QUERY2 = "select a from Capitulo a where idObra = ?1";
     
     public Capitulo guardar(Capitulo capitulo){
         sessionFactory.getCurrentSession().save(capitulo);
