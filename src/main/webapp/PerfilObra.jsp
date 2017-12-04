@@ -68,13 +68,13 @@
 														<td><span
 															class="icon-star-empty estrellaActiva cursor-pointer centrar"
 															id="estrella${numeroEstrella}"
-															onclick="rankeaObraUsuario('estrella',${numeroEstrella},'numeroEstrellas','${usuario.nick}','${obra.id}');"></span></td>
+															onclick="rankeaObraUsuario('estrella',${numeroEstrella},'numeroEstrellas','${usuario.id}','${obra.id}');"></span></td>
 													</c:when>
 													<c:otherwise>
 														<td><span
 															class="icon-star-empty estrella cursor-pointer centrar"
 															id="estrella${numeroEstrella}"
-															onclick="rankeaObraUsuario('estrella',${numeroEstrella},'numeroEstrellas','${usuario.nick}','${obra.id}');"></span></td>
+															onclick="rankeaObraUsuario('estrella',${numeroEstrella},'numeroEstrellas','${usuario.id}','${obra.id}');"></span></td>
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
