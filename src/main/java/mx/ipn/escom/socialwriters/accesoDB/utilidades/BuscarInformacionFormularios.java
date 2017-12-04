@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import mx.ipn.escom.socialwriters.accesoDB.bs.CapituloBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.GeneroObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
@@ -26,6 +27,7 @@ import mx.ipn.escom.socialwriters.accesoDB.bs.RedesSocialesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Capitulo;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.GeneroObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
@@ -70,6 +72,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private GeneroObraBs generoObraBs;
+	
+	@Autowired
+	private CapituloBs capituloBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -131,6 +136,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 8:
 				enriquecerPerfilObra(request, response);
 				break;
+			case 9:
+				enriquecerLeerObra(request, response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -142,6 +150,55 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		else {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
+		}
+	}
+
+	private void enriquecerLeerObra(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		Obra obra;
+		Usuario usuario;
+		DetallesObra detallesObra;
+		Integer idObra,idUsuario;
+		String portada,nickName,contexto;
+		Archivos archvio;
+		
+		contexto = (String) session.getAttribute("contexto");
+		idObra = Integer.parseInt(request.getParameter("idObra"));
+		obra = obraBs.buscarPorId(idObra);
+		usuario = obra.getUsuarioObj();
+		idUsuario = usuario.getId();
+		nickName = usuario.getNick();
+		portada = null;
+		archvio = new Archivos(contexto);
+		if (archvio.exiteDocumento(idUsuario + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO)) {
+			portada = archvio.obtenerImagenCodificada(idUsuario + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO);
+		}
+		
+		detallesObra = new DetallesObra(idObra, obra.getNombre(), portada, nickName);
+		
+		cargarCapitulo(request,response);
+		request.setAttribute("detallesObra", detallesObra);
+		request.setAttribute("obra", obra);
+	}
+
+	private void cargarCapitulo(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		List<Capitulo> capitulos;
+		Archivos archvio;
+		Usuario usuario;
+		String contexto,capitulo;
+		Integer idUsuario,idObra,idCapitulo;
+		
+		contexto = (String) session.getAttribute("contexto");
+		usuario = (Usuario) session.getAttribute("usuario");
+		
+		idUsuario = usuario.getId();
+		idObra = Integer.parseInt(request.getParameter("idObra"));
+		idCapitulo = idObra = Integer.parseInt(request.getParameter("idCapitulo"));
+		
+		archvio = new Archivos(contexto);
+		capitulos = capituloBs.buscarPorIdObra(idObra);
+		if (idCapitulo !=  null) {
 		}
 	}
 

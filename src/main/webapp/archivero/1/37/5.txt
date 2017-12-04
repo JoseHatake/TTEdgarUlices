@@ -1,4 +1,0 @@
-Este es un capitulo de prueba en el que se prentende notar la diferencia en guardado entre un softwrap y un hardwrap.
-
-
-kakakakakakakajka

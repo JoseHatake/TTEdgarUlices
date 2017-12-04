@@ -59,6 +59,9 @@
 							<li><c:out value="${obra.sinopsis}"></c:out></li>
 						</ul>
 					</div>
+					<form action="BuscarInformacionFormularios?metodoDeBusqueda=9&esAjax=false&direccion=LeerObra.jsp&idObra=${detallesObra.idObra}" method="POST" class="derecha">
+						<input type="submit" class="boton-formulario centrar" value="Leer obra">
+					</form>
 					<c:choose>
 						<c:when test="${detallesObra.nickAutor == usuario.nick}">
 							<form action="BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObraEditable.jsp&idObra=${detallesObra.idObra}" method="POST" class="derecha">
