@@ -29,8 +29,8 @@
 	<div class="menu-filtros" id="menu-lista-filtros"></div>
 	<div class="contenedor">
 		<div class="contenido">
-			<form action="HacerDenuncia" class="centrar">
-				<input type="hidden" name="idLibro" id="idLibro" value="${param.idLibro}">
+			<form action="HacerDenuncia" class="centrar" method="POST">
+				<input type="hidden" name="idLibro" id="idLibro" value="${param.idObra}">
 				<table class="form-config">
 					<thead>
 						<tr>

@@ -33,7 +33,7 @@ public class CharacterEncoding implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding(ENCODING);
+		request.setCharacterEncoding(ENCODING);		
 		chain.doFilter(request, response);
 	}
 
