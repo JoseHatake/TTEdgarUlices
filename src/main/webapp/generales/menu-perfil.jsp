@@ -44,7 +44,7 @@
             <ul>
                 <a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${usuario.nick}"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p><spring:message code="label.perfil" /></p></div></li></a>
                 <a href="NuevaObra.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p><spring:message code="label.nobra" /></p></div></li></a>
-                <a href="CreaCapitulo.jsp?idObra=37"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p><spring:message code="label.ncapitulo" /></p></div></li></a>
+                <a href="BuscarInformacionFormularios?metodoDeBusqueda=11&esAjax=false&direccion=ObraAgregarCapitulo.jsp&idUsuario=${usuario.id}"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p><spring:message code="label.ncapitulo" /></p></div></li></a>
                 <a href="CambiarClave.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p><spring:message code="label.cambiarcon" /></p></div></li></a>
                 <a href="Acciones?accion=3&direccion=index.jsp"><li class="padding-menu"><div class="texto-centro opciones-menu-altura izquierda"><p><spring:message code="label.cerrarsesion" /></p></div></li></a>
             </ul>

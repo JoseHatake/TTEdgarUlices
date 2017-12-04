@@ -5,13 +5,15 @@ public class DetallesObra {
 	private String titulo;
 	private String portada;
 	private String nickAutor;
+	private Integer estrellas;
 	
 	public DetallesObra() {
 		super();
 		idObra = null;
 		titulo = null;
 		portada = null;
-		nickAutor =null;
+		nickAutor = null;
+		estrellas = null;
 	}
 
 	public DetallesObra(Integer idObra, String titulo, String portada, String nickAutor) {
@@ -52,5 +54,13 @@ public class DetallesObra {
 
 	public void setNickAutor(String nickAutor) {
 		this.nickAutor = nickAutor;
+	}
+
+	public Integer getEstrellas() {
+		return estrellas;
+	}
+
+	public void setEstrellas(Integer estrellas) {
+		this.estrellas = estrellas;
 	}
 }

@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.persistence.Enumerated;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -146,6 +148,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 				break;
 			case 10:
 				cambiarRankingObraUsuario(request, response);
+				break;
+			case 11:
+				cargaObrasDeUsuario(request,response);
 				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
@@ -375,14 +380,12 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	private void enriquecerPerfilUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
 		List<FormaContacto> formaContactos;
-		List<Obra> obras;
-		List<DetallesObra> detallesObras;
 		Ranking ranking;
 		Usuario usuario;
 		Contacto contacto;
 		Archivos archivo;
-		Integer idUsuario,estrellas,idObra;
-		String nickName,contexto,imagenPerfil,titulo,portada;
+		Integer idUsuario,estrellas;
+		String nickName,contexto,imagenPerfil;
 		Boolean siguiendo;
 		
 		usuario = (Usuario) session.getAttribute("usuario");
@@ -408,9 +411,42 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			contacto.setNickName(nickName);
 			contacto.setImgPerfil(imagenPerfil);
 		}
+		request.setAttribute("idUsuario", idUsuario);
+		cargaObrasDeUsuario(request,response);
 		
+		ranking = new Ranking();
+		estrellas = ranking.getEstrellasUsuario(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
+		
+		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
+		request.setAttribute("contacto", contacto);
+		request.setAttribute("siguiendo", siguiendo);
+		request.setAttribute("redes", formaContactos);
+		request.setAttribute("perfil", usuario);
+		request.setAttribute("estrellas", estrellas);
+	}
+
+	private void cargaObrasDeUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		List<DetallesObra> detallesObras;
+		List<Obra> obras;
+		DetallesObra tmp;
+		Ranking ranking;
+		Archivos archivo;
+		Usuario usuario;
+		String titulo,portada,nickName,contexto;
+		Integer idObra,idUsuario,estrellas;
+		
+		contexto = (String) session.getAttribute("contexto");
+		idUsuario = (Integer)request.getAttribute("idUsuario");
+		if (idUsuario == null) {
+			idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+		}
 		obras = obraBs.obrasPorIdUsuario(idUsuario);
+		usuario = usuarioBs.buscarPorId(idUsuario);
 		detallesObras = new ArrayList<DetallesObra>();
+		archivo = new Archivos(contexto);
+		nickName = usuario.getNick();
+		
 		for (Obra obra: obras) {
 			idObra = obra.getId();
 			titulo = obra.getNombre();
@@ -418,19 +454,13 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			if (archivo.exiteDocumento(idUsuario.toString() + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO)) {
 				portada = archivo.obtenerImagenCodificada(idUsuario.toString() + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO);
 			}
-			detallesObras.add(new DetallesObra(idObra, titulo, portada, nickName));
+			tmp = new DetallesObra(idObra, titulo, portada, nickName);
+			ranking = new Ranking();
+			estrellas = ranking.getEstrellasObra(rankingObraBs.buscarRankingPorIdObra(idObra));
+			tmp.setEstrellas(estrellas);
+			detallesObras.add(tmp);
 		}
-		
-		ranking = new Ranking();
-		estrellas = ranking.getEstrellasUsuario(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
-		
-		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
 		request.setAttribute("obras", detallesObras);
-		request.setAttribute("contacto", contacto);
-		request.setAttribute("siguiendo", siguiendo);
-		request.setAttribute("redes", formaContactos);
-		request.setAttribute("perfil", usuario);
-		request.setAttribute("estrellas", estrellas);
 	}
 
 	private void enriquecerNuevoUsuario(HttpServletRequest request, HttpServletResponse response) {
