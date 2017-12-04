@@ -30,24 +30,36 @@
 		<div class="menu-filtros" id="menu-lista-filtros"></div>
 		<div class="contenedor">
 			<div class="contenido">
-			<form action="CrearObra" enctype="multipart/form-data" class="centrar" method="POST">
+			<form action="EditarObra" enctype="multipart/form-data" class="centrar" method="POST">
+				<input type="hidden" name="idObraEditar" value="${detallesObra.idObra}">
 				<div class="fondoFormato">
 					<div style="height: 350px">
 						<div class="izquierda" id="obra-portada">
-							<img src="img/pd.png" id="portada" alt="default">
+							<c:choose>
+								<c:when test="${detallesObra.portada != null}">
+									<img id="portada" alt="default" src="data:image/jpeg;base64,${detallesObra.portada}">
+								</c:when>
+								<c:otherwise>
+									<img src="img/pd.png" id="portada" alt="default">
+								</c:otherwise>
+							</c:choose>
 							<input type="file" accept="image/*" id="origenFoto" name="foto" onchange="cambiaFoto('origenFoto','portada');">
 						</div>
 						<div class="derecha" id="nueva-obra">
 							<ul>
-								<li class="form-espacio"><input type="text" name="titulo"
-									id="titulo" class="form-input-text" placeholder="<spring:message code="label.titulo" />"
-									minlength="1" maxlength="50" required></li>
-
-								<li class="form-espacio"><select class="form-input-lista"
-									name="idioma" id="idioma" required>
+								<li class="form-espacio"><input type="text" name="titulo" id="titulo" value="${obra.nombre}" class="form-input-text" placeholder="<spring:message code="label.titulo" />" minlength="1" maxlength="50" required></li>
+								<li class="form-espacio"><select class="form-input-lista" name="idioma" id="idioma" required>
 										<option value=""><spring:message code="label.idioma" /></option>
-										<option value="1"><spring:message code="label.español" /></option>
-										<option value="2"><spring:message code="label.ingles" /></option>
+										<c:choose>
+											<c:when test="${obra.idiomaObj.id == 1}">
+												<option value="1" selected><spring:message code="label.español" /></option>
+												<option value="2"><spring:message code="label.ingles" /></option>
+											</c:when>
+											<c:otherwise>
+												<option value="1"><spring:message code="label.español" /></option>
+												<option value="2" selected><spring:message code="label.ingles" /></option>
+											</c:otherwise>
+										</c:choose>
 								</select></li>
 								<li class="form-espacio"><h3><spring:message code="label.genero" /></h3></li>
 								<li>
@@ -56,7 +68,18 @@
 										<c:forEach begin="1" end="4" var="fila">
 											<tr>
 												<c:forEach begin="${contador}" end="${contador+2}" var="columna">
-													<td><input type="checkbox" class="checador" name="${columna}" value="${columna}" onclick="checarCheckbox('checador');" required> <spring:message code="label.genero${columna}" /><br></td>
+													<c:set value="true" var="flag"></c:set>
+													<c:forEach items="${generos}" var="genero">
+														<c:choose>
+															<c:when test="${genero.generosObj.id == columna}">
+																<td><input type="checkbox" class="checador" name="${columna}" value="${columna}" onclick="checarCheckbox('checador');" checked required> <spring:message code="label.genero${columna}" /><br></td>
+																<c:set value="false" var="flag"></c:set>
+															</c:when>
+														</c:choose>
+													</c:forEach>
+													<c:if test="${flag}">
+														<td><input type="checkbox" class="checador" name="${columna}" value="${columna}" onclick="checarCheckbox('checador');"> <spring:message code="label.genero${columna}" /><br></td>
+													</c:if>
 												</c:forEach>
 												<c:set value="${contador+3}" var="contador"></c:set>
 											</tr>
@@ -68,7 +91,7 @@
 					</div>
 					<div class="contenido45 formato-texto">
 						<h3><spring:message code="label.sinopsis" /></h3>
-						<textarea name="sinopsis" id="sinopsis" class="form-input-text" cols="50" rows="5" wrap="hard" maxlength="250"></textarea>
+						<textarea name="sinopsis" id="sinopsis" class="form-input-text" cols="50" rows="5" wrap="hard" maxlength="250"><c:out value="${obra.sinopsis}"></c:out></textarea>
 					</div>
 					<div class="contenedor-boton">
 						<input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.crearo" />">
