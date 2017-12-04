@@ -22,6 +22,7 @@ import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.GeneroObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.RankingObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RedesSocialesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirObraBs;
@@ -32,6 +33,7 @@ import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.GeneroObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Paises;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.RankingObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RankingUsuario;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.RedesSociales;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
@@ -51,6 +53,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private RankingUsuarioBs rankingUsuarioBs;
+	
+	@Autowired
+	private RankingObraBs rankingObraBs;
 	
 	@Autowired
 	private PaisesBs paisesBs;
@@ -131,13 +136,16 @@ public class BuscarInformacionFormularios extends HttpServlet {
 				enriquecerAutoresSeguidos(request, response);
 				break;
 			case 7:
-				cambiarRanking(request, response);
+				cambiarRankingUsuario(request, response);
 				break;
 			case 8:
 				enriquecerPerfilObra(request, response);
 				break;
 			case 9:
 				enriquecerLeerObra(request, response);
+				break;
+			case 10:
+				cambiarRankingObraUsuario(request, response);
 				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
@@ -150,6 +158,30 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		else {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
+		}
+	}
+
+	private void cambiarRankingObraUsuario(HttpServletRequest request, HttpServletResponse response) {
+		RankingObra ranking;
+		Integer idUsuario,idObra,estrellas;
+		
+		idObra = Integer.parseInt(request.getParameter("idObra"));
+		idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+		estrellas = Integer.parseInt(request.getParameter("estrellas"));
+		
+		if (rankingObraBs.verificaRankeo(idObra, idUsuario)) {
+			ranking = rankingObraBs.obtenerRankeo(idObra, idUsuario);
+			if (ranking.getEstrellas() != estrellas) {
+				ranking.setEstrellas(estrellas);
+				ranking = rankingObraBs.actualizar(ranking);
+			}
+		}
+		else {
+			ranking = new RankingObra();
+			ranking.setEstrellas(estrellas);
+			ranking.setIdObra(idObra);;
+			ranking.setIdUsuario(idUsuario);
+			ranking = rankingObraBs.guardar(ranking);
 		}
 	}
 
@@ -200,17 +232,27 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		
 		archvio = new Archivos(contexto);
 		capitulos = capituloBs.buscarPorIdObra(idObra);
-		if (idCapitulo == 0) {
-			idCapitulo = capitulos.get(0).getId();
-		}
-		capituloTmp = capituloBs.buscarPorId(idCapitulo);
-		for (Capitulo capitulo2 : capitulos) {
-			if (capitulo2.getId() == idCapitulo) {
-				capituloTmp = capitulo2;
-				break;
+		if (!capitulos.isEmpty()) {
+			if (idCapitulo == 0) {
+				idCapitulo = capitulos.get(0).getId();
 			}
+			capituloTmp = capituloBs.buscarPorId(idCapitulo);
+			for (Capitulo capitulo2 : capitulos) {
+				if (capitulo2.getId() == idCapitulo) {
+					capituloTmp = capitulo2;
+					break;
+				}
+			}
+			listaTextoCapitulo = archvio.cargaCapitulo(idUsuario + "/" + idObra + "/" + idCapitulo + ".txt");
 		}
-		listaTextoCapitulo = archvio.cargaCapitulo(idUsuario + "/" + idObra + "/" + idCapitulo + ".txt");
+		else {
+			listaTextoCapitulo = new ArrayList<String>();
+			capituloTmp = new Capitulo();
+			capituloTmp.setId(-1);
+			capituloTmp.setIdObra(idObra);
+			capituloTmp.setNombre(null);
+			capituloTmp.setNumero(0);
+		}
 		
 		request.setAttribute("capituloListaTexto", listaTextoCapitulo);
 		request.setAttribute("capitulosObra", capitulos);
@@ -223,9 +265,10 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		List<GeneroObra> generos;
 		Obra obra;
 		Usuario usuario;
-		Integer idObra,idUsuario;
+		Integer idObra,idUsuario,estrellas;
 		String titulo,portada,contexto,nickAutor;
 		Archivos archivo;
+		Ranking ranking;
 		Boolean siguiendo;
 		
 		contexto = (String) session.getAttribute("contexto");
@@ -246,13 +289,17 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		generos = generoObraBs.buscarPorIdObra(idObra);
 		siguiendo = seguirObraBs.verificarSeguirObra(idObra, usuario.getId());
 		
+		ranking = new Ranking();
+		estrellas = ranking.getEstrellasObra(rankingObraBs.buscarRankingPorIdObra(idObra));
+		
 		request.setAttribute("detallesObra", detallesObra);
 		request.setAttribute("obra", obra);
 		request.setAttribute("generos", generos);
 		request.setAttribute("siguiendo", siguiendo);
+		request.setAttribute("estrellas", estrellas);
 	}
 
-	private void cambiarRanking(HttpServletRequest request, HttpServletResponse response) {
+	private void cambiarRankingUsuario(HttpServletRequest request, HttpServletResponse response) {
 		RankingUsuario ranking;
 		Usuario rankea,rankeado;
 		String usuarioRankea,usuarioRankeado;
@@ -306,8 +353,8 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			usuario = usuarioBs.buscarPorId(seguirUsuario.getIdUsuarioSeguido());
 			nick = usuario.getNick();
 			idUsuario = usuario.getId();
-			ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
-			estrellas = ranking.getEstrellas();
+			ranking = new Ranking();
+			estrellas = ranking.getEstrellasUsuario(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
 			imagenPerfil = null;
 			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
 				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);
@@ -374,8 +421,8 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			detallesObras.add(new DetallesObra(idObra, titulo, portada, nickName));
 		}
 		
-		ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
-		estrellas = ranking.getEstrellas();
+		ranking = new Ranking();
+		estrellas = ranking.getEstrellasUsuario(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
 		
 		formaContactos = formaContactoBs.buscarFormasContactoPorIdUsuario(idUsuario);
 		request.setAttribute("obras", detallesObras);

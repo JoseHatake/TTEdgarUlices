@@ -176,6 +176,13 @@
 	border-radius: 10px;
 	background-color: #FCFCFC;
 }
+.form-config-completo{
+	width: 100%;
+	margin-top: 50px;
+	padding: 30px;
+	border-radius: 10px;
+	background-color: #FCFCFC;
+}
 .form-input-text{
 	width: 100%;
 	height: 100%;

@@ -247,9 +247,6 @@ public class Acciones extends HttpServlet {
 		idUsuario = usuario.getId();
 		archivos = new Archivos(contexto);
 		fotoPerfil = null;
-		if (archivos.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
-			fotoPerfil = archivos.obtenerImagenCodificada(idUsuario.toString(), NOMBRE_FOTO_PERFIL);
-		}
 		
 		if (usuario.esNuevoUsuario()) {
 			usuario.setNick(nick);
@@ -258,6 +255,11 @@ public class Acciones extends HttpServlet {
 			usuario = new Usuario();
 			usuario.setNick(nick);
 			usuario.setEstadoCuenta(0);
+		}
+		else {
+			if (archivos.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
+				fotoPerfil = archivos.obtenerImagenCodificada(idUsuario.toString(), NOMBRE_FOTO_PERFIL);
+			}
 		}
 
 		session.setAttribute("fotoPerfil", fotoPerfil);
@@ -287,8 +289,8 @@ public class Acciones extends HttpServlet {
 			usrTmp = usuarioBs.buscarPorId(seguirUsuario.getIdUsuarioSeguido());
 			nick = usrTmp.getNick();
 			idUsuario = usrTmp.getId();
-			ranking = new Ranking(rankingUsuarioBs.buscarUsuariosRankea(usrTmp.getId()));
-			estrellas = ranking.getEstrellas();
+			ranking = new Ranking();
+			estrellas = ranking.getEstrellasUsuario(rankingUsuarioBs.buscarUsuariosRankea(usrTmp.getId()));
 			imagenPerfil = null;
 			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
 				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);

@@ -41,6 +41,49 @@
 								</c:otherwise>
 							</c:choose>
 						</div>
+						<table>
+							<c:choose>
+								<c:when test="${detallesObra.nickAutor == usuario.nick}">
+									<tbody>
+										<tr>
+											<c:forEach var="activa" begin="1" end="5">
+												<c:choose>
+													<c:when test="${activa <= estrellas}">
+														<td><span class="icon-star-empty estrellaActiva centrar" id="estrella${activa}"></span></td>
+													</c:when>
+													<c:otherwise>
+														<td><span class="icon-star-empty estrella centrar" id="estrella${activa}"></span></td>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</tr>
+									</tbody>
+								</c:when>
+								<c:otherwise>
+									<tbody>
+										<tr>
+											<c:forEach var="numeroEstrella" begin="1" end="5">
+												<c:choose>
+													<c:when test="${numeroEstrella <= estrellas}">
+														<td><span
+															class="icon-star-empty estrellaActiva cursor-pointer centrar"
+															id="estrella${numeroEstrella}"
+															onclick="rankeaObraUsuario('estrella',${numeroEstrella},'numeroEstrellas','${usuario.nick}','${obra.id}');"></span></td>
+													</c:when>
+													<c:otherwise>
+														<td><span
+															class="icon-star-empty estrella cursor-pointer centrar"
+															id="estrella${numeroEstrella}"
+															onclick="rankeaObraUsuario('estrella',${numeroEstrella},'numeroEstrellas','${usuario.nick}','${obra.id}');"></span></td>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</tr>
+									</tbody>
+								</c:otherwise>
+							</c:choose>
+						</table>
+						<input type="hidden" id="numeroEstrellas" name="estrellas" value="${estrellas}">
 					</div>
 					<div class="derecha" id="perfil-info-edit">
 						<ul>

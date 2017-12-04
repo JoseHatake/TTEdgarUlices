@@ -1,8 +1,6 @@
 package mx.ipn.escom.socialwriters.accesoDB.control.usuario;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,31 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import mx.ipn.escom.socialwriters.accesoDB.bs.AlertasBs;
-import mx.ipn.escom.socialwriters.accesoDB.bs.CapituloBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.DenunciaBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.DenunciaMotivoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.EstadoDenunciaBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PaisesBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PersonaBs;
-import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirObraBs;
-import mx.ipn.escom.socialwriters.accesoDB.mapeo.Alertas;
-import mx.ipn.escom.socialwriters.accesoDB.mapeo.Capitulo;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Denuncia;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.DenunciaMotivo;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
-import mx.ipn.escom.socialwriters.accesoDB.mapeo.Persona;
-import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
-import mx.ipn.escom.socialwriters.accesoDB.utilidades.Archivos;
-import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
 
 
 
@@ -128,10 +114,7 @@ public class HacerDenuncia extends HttpServlet{
 		denuncia.setObraObj(obraBs.buscarPorId(idObra));
 		denuncia.setEstadoDenunciaObj(estadoDenunciaBs.buscarPorId(1));
 		
-		
-		
 		denunciaBs.guardar(denuncia);
-		
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,7 @@ import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
  * Servlet implementation class RegistrarUsuario
  */
 @WebServlet("/CrearObra")
+@MultipartConfig
 public class CrearObra extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	

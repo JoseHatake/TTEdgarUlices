@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,7 @@ import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
  * Servlet implementation class RegistrarUsuario
  */
 @WebServlet("/CrearCapitulo")
+@MultipartConfig
 public class CrearCapitulo extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
@@ -91,13 +93,13 @@ public class CrearCapitulo extends HttpServlet{
 		HttpSession session = request.getSession();
 		Archivos manejoArchivos;
 		Capitulo capitulo = new Capitulo();
-		List<SeguirObra> seguidores = new ArrayList();
+		List<SeguirObra> seguidores = new ArrayList<SeguirObra>();
 		Alertas alerta = new Alertas();
 		List<FileItem> partes = new ArrayList<>();
 		StringCodificador codificador = new StringCodificador();
 		
 		
-		String textoCapitulo, contexto, idCapitulo,rutaCapitulo,tituloCapitulo,capituloCodificado,numcap,idObraAux;
+		String textoCapitulo, contexto,rutaCapitulo,tituloCapitulo,numcap,idObraAux;
 		idObraAux="";
 		Integer idObra,numeroCapitulo;
 		Boolean guardado,flag;
@@ -149,14 +151,9 @@ public class CrearCapitulo extends HttpServlet{
 		
 			 //Si se creó, mandamos notificaciones
 			 if(guardado) {
-			
 				 seguidores = seguirObraBs.buscarPorIdObra(idObra);
 				 if(!seguidores.isEmpty()) {		
-				
-				
-				
 					 for(int i=0; i<seguidores.size();i++) {
-					
 						 SeguirObra seguirObra = new SeguirObra();
 						 seguirObra = seguidores.get(i);
 						 alerta.setIdObra(idObra);
@@ -166,13 +163,9 @@ public class CrearCapitulo extends HttpServlet{
 						 alerta.setUsuario(usuario);
 						 alerta.setObra(obra);
 						 alertasBs.guardar(alerta);
-					
 					 }
-				
 				 }
-			
 			 }
-		
 		 }
 		 return idObraAux;
 	}

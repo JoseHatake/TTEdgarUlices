@@ -94,3 +94,23 @@ function rankeaUsuario(colectionItemName,numItem,resultado,usuarioRankea,usuario
 /**
  * Cambia el valor de ranking que da el usuario
  * */
+
+/**
+ * Cambia el valor de ranking que da el usuario a la obra
+ * */
+function rankeaObraUsuario(colectionItemName,numItem,resultado,usuarioRankea,obraRankeada) {
+	ajax = new XMLHttpRequest();
+	styleStarts(colectionItemName,numItem,resultado);
+	
+	var estrellas = id(resultado).value;
+	var variables = "&estrellas=" + estrellas;
+	variables += "&idUsuario=" + usuarioRankea;
+	variables += "&idObra=" + obraRankeada;
+	variables += "&esAjax=" + true;
+	
+	ajax.open("POST", "BuscarInformacionFormularios?metodoDeBusqueda=10" + variables, true);
+	ajax.send("");
+}
+/**
+ * Cambia el valor de ranking que da el usuario a la obra
+ * */

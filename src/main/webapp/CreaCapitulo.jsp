@@ -17,8 +17,6 @@
 	<script type="text/javascript" src="js/general.js"></script>
 	<script type="text/javascript" src="js/carga-cabecera.js"></script>
 	<script type="text/javascript" src="js/buscarInformacionAjax.js"></script>
-	<script type="text/javascript" src="js/validaciones.js"></script>
-	<script type="text/javascript" src="js/fechas.js"></script>
 	<!-- JavaScript -->
 	<title>SocialWriters</title>
 </head>
@@ -31,7 +29,7 @@
 		<div class="contenido">
 			<form action="CrearCapitulo" enctype="multipart/form-data" class="centrar" method="POST">
 				<input type="hidden" name="idLibro" id="idLibro" value="${param.idObra}">
-				<table class="form-config">
+				<table class="form-config-completo">
 					<thead>
 						<tr>
 							<th><h2><spring:message code="label.agregarcap" /></h2></th>
@@ -47,7 +45,7 @@
 						<tr>
 							<td>
 								<h3><spring:message code="label.capitulo" /></h3>
-								<textarea name="capitulo" id="capitulo" wrap="hard" class="form-input-text" cols="50" rows="25"  required></textarea>
+								<textarea name="capitulo" id="capitulo" class="form-input-text" cols="50" rows="25"  required></textarea>
 							</td>
 						</tr>
 					</tbody>
