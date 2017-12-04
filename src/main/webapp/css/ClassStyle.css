@@ -269,3 +269,8 @@
 .siguiendo:hover{
 	background-color: #FF7375;
 }
+.cabeceraCapitulos{
+	width: auto;
+	height: 120px;
+	display: block;
+}

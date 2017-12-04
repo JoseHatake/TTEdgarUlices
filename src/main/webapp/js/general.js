@@ -129,3 +129,7 @@ function checarCheckbox(nameClass) {
 		checkbox[i].required = flag;
 	}
 }
+function cargarCapitulo(selectItem) {
+	var option = id(selectItem);
+	window.location = "BuscarInformacionFormularios?metodoDeBusqueda=9&esAjax=false&direccion=LeerObra.jsp&" + option.value;
+}
