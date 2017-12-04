@@ -61,7 +61,7 @@
 					</div>
 					<c:choose>
 						<c:when test="${detallesObra.nickAutor == usuario.nick}">
-							<form action="BuscarInformacionFormularios?metodoDeBusqueda=5&esAjax=false&direccion=PerfilUsuarioEditable.jsp&nickName=${usuario.nick}" method="POST" class="derecha">
+							<form action="BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObraEditable.jsp&idObra=${detallesObra.idObra}" method="POST" class="derecha">
 								<input type="submit" class="boton-formulario centrar" value="Editar obra">
 							</form>
 						</c:when>

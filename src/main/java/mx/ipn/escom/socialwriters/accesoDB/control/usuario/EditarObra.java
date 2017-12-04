@@ -34,14 +34,11 @@ import mx.ipn.escom.socialwriters.accesoDB.mapeo.Usuario;
 import mx.ipn.escom.socialwriters.accesoDB.utilidades.Archivos;
 import mx.ipn.escom.socialwriters.accesoDB.utilidades.StringCodificador;
 
-
-
-
 /**
- * Servlet implementation class RegistrarUsuario
+ * Servlet implementation class EditarObra
  */
-@WebServlet("/CrearObra")
-public class CrearObra extends HttpServlet{
+@WebServlet("/EditarObra")
+public class EditarObra extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected String NOMBRE_FOTO_PERFIL_LIBRO = "fotoPerfilLibro.png";
@@ -69,11 +66,11 @@ public class CrearObra extends HttpServlet{
 		super.init(config);
 		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
 	}
-	
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CrearObra() {
+    public EditarObra() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -84,17 +81,18 @@ public class CrearObra extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-	
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Obra obra = registraObra(request);
+		Obra obra = editarObra(request);
 		response.sendRedirect("BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObra.jsp&idObra=" + obra.getId());
 	}
-	
-	private Obra registraObra(HttpServletRequest request)throws ServletException, IOException {
-		Obra obra = new Obra();		
+
+	private Obra editarObra(HttpServletRequest request)throws ServletException, IOException {
+		List<GeneroObra> generosObra;
+		Obra obra;	
 		Genero genero = new Genero();
 		Idioma idiomaObj = new Idioma();
 		Alertas alerta = new Alertas();
@@ -103,7 +101,7 @@ public class CrearObra extends HttpServlet{
 		Usuario usuario = new Usuario();		
 		HttpSession session = request.getSession();
 		List<FileItem> partes = new ArrayList<>();
-		Integer size,numgeneros,idIdioma,idGenero,idUsuario,idObra;
+		Integer size,numgeneros,idIdioma,idGenero,idUsuario,idObra,id;
 		Boolean flag;
 		Archivos manejoArchivos;
 		StringCodificador codificador = new StringCodificador();
@@ -119,68 +117,56 @@ public class CrearObra extends HttpServlet{
         
         flag = true;
 		idUsuario = usuario.getId();
-		
         try {
 			partes = upload.parseRequest(request);
-			titulo = codificador.codificar(partes.get(1).getString());
-			obra.setNombre(titulo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag = false;
 		}
 		
+        titulo = codificador.codificar(partes.get(2).getString());
+		obra = obraBs.buscarPorId(Integer.parseInt(partes.get(0).getString()));
+		obra.setNombre(titulo);
+		
 		if(flag) {
 			//Guardamos la obra
 			
-			size=partes.size();
-			numgeneros=size-4;
-			size = 2 + numgeneros;
+			size = partes.size();
+			numgeneros = size-5;
+			size = 3 + numgeneros;
 			obra.setIdUsuario(usuario.getId());
-			idioma = codificador.codificar(partes.get(2).getString());
-			idIdioma=Integer.valueOf(idioma);
+			idioma = codificador.codificar(partes.get(3).getString());
+			idIdioma = Integer.valueOf(idioma);
 			sinopsis = codificador.codificar(partes.get(size+1).getString());
 			idiomaObj = idiomaBs.buscarPorId(idIdioma);
 			obra.setIdIdioma(idIdioma);
 			obra.setSinopsis(sinopsis);
 			obra.setUsuarioObj(usuario);
 			obra.setIdiomaObj(idiomaObj);
-			obra = obraBs.guardar(obra);
+			obra = obraBs.actualizar(obra);
 			
 			idObra = obra.getId();
-			manejoArchivos.crearArchivo(idUsuario + "/" + idObra);
-			if (partes.get(0).getSize() != 0) {
-				flag = manejoArchivos.guardarImagenEnArchivo(partes.get(0), idUsuario + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO);				
+			if (partes.get(1).getSize() != 0) {
+				flag = manejoArchivos.guardarImagenEnArchivo(partes.get(1), idUsuario + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO);				
 			}
 			
-			//guardamos los géneros de la obra			
+			generosObra = generoObraBs.buscarPorIdObra(idObra);
+			for (GeneroObra generoOb : generosObra) {
+				generoObraBs.eliminar(generoOb);
+			}
 			
-			for(int i = 3; i<size+1;i++) {
+			//guardamos los géneros de la obra
+			
+			for(int i = 4; i<size+1;i++) {
 				GeneroObra generoObra = new GeneroObra();				
 				generoObra.setIdObra(obra.getId());
 				generoObra.setObraObj(obra);
-				generoObra.setId(null);
-				generoactual=codificador.codificar(partes.get(i).getString());
-				idGenero=Integer.valueOf(generoactual);
-				genero=generoBs.buscarPorId(idGenero);
+				generoactual = codificador.codificar(partes.get(i).getString());
+				idGenero = Integer.valueOf(generoactual);
+				genero = generoBs.buscarPorId(idGenero);
 				generoObra.setGenerosObj(genero);
 				generoObra.setIdGenero(idGenero);
 				generoObraBs.guardar(generoObra);
-			}
-			
-			//creamos las notificaciones.
-			alerta.setIdObra(obra.getId());
-			alerta.setEstatus(false);
-			alerta.setObra(obra);
-			alerta.setTipoAlerta(1);
-			alerta.setUsuario(usuario);
-			
-			seguidores = seguirUsuarioBs.buscarPorIdUsuarioSeguido(idUsuario);
-			if(!seguidores.isEmpty()) {
-				for(int i=0; i<seguidores.size();i++){
-					seguirUsuario = seguidores.get(i);
-					alerta.setIdUsuario(seguirUsuario.getIdUsuarioSigue());
-					alertasBs.guardar(alerta);
-				}
 			}
 		}
 		return obra;
