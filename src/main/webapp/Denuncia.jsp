@@ -29,25 +29,29 @@
 	<div class="menu-filtros" id="menu-lista-filtros"></div>
 	<div class="contenedor">
 		<div class="contenido">
-			<form action="CrearCapitulo" class="centrar">
+			<form action="HacerDenuncia" class="centrar">
 				<input type="hidden" name="idLibro" id="idLibro" value="${param.idLibro}">
 				<table class="form-config">
 					<thead>
 						<tr>
-							<th><h2><spring:message code="label.agregarcap" /></h2></th>
+							<th><h2><spring:message code="label.reportarobra" /></h2></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td class="form-espacio"><input type="text" name="numeroCapitulo" id="numeroCapitulo" class="form-input-text" placeholder="<spring:message code="label.numcap" />" minlength="1" maxlength="3" required></td>
-						</tr>
-						<tr>
-							<td class="form-espacio"><input type="text" name="tituloCapitulo" class="form-input-text" placeholder="<spring:message code="label.titulocap" />" maxlength="60" required></td>
-						</tr>
+							<td>
+								<select class="form-input-lista" name="razon" id="razon" required>
+											<option value=""><spring:message code="label.razondenuncia" /></option>
+											<c:forEach var="id" begin="1" end="2">
+												<option value="${id}"><spring:message code="label.razon${id}" /></option>
+											</c:forEach>										
+								</select>
+							</td>	
+						</tr>						
 						<tr>
 							<td>
-								<h3><spring:message code="label.capitulo" /></h3>
-								<textarea name="capitulo" id="capitulo" class="form-input-text" cols="50" rows="25" wrap="hard" required></textarea>
+								<h3><spring:message code="label.descripcion" /></h3>
+								<textarea name="descripcion" id="descripcion" placeholder="<spring:message code="label.mensajedenuncia" />" class="form-input-text" cols="50" rows="25" required></textarea>
 							</td>
 						</tr>
 					</tbody>
@@ -55,7 +59,7 @@
 						<tr>
 							<td style="padding-left: 30%; padding-top: 20px;">
 								<a href="index.jsp"><input type="button" class="boton-formulario" value="<spring:message code="label.cancelar" />"></a>
-								<input type="submit" class="boton-formulario" id="itemSubmit" value="<spring:message code="label.guardar" />">
+								<input type="submit" class="boton-formulario" id="itemSubmit" value="<spring:message code="label.reportar" />">
 							</td>
 						</tr>
 					</tfoot>
