@@ -270,7 +270,7 @@
 	background-color: #FF7375;
 }
 .cabeceraCapitulos{
-	width: 100%;
+	width: auto;
+	height: 120px;
 	display: block;
-	position: fixed;
 }

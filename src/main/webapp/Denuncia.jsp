@@ -58,7 +58,7 @@
 					<tfoot>
 						<tr>
 							<td style="padding-left: 30%; padding-top: 20px;">
-								<a href="index.jsp"><input type="button" class="boton-formulario" value="<spring:message code="label.cancelar" />"></a>
+								<a href="BuscarInformacionFormularios?metodoDeBusqueda=9&esAjax=false&direccion=LeerObra.jsp&idObra=${param.idObra}&idCapitulo=${param.idCapitulo}"><input type="button" class="boton-formulario" value="<spring:message code="label.cancelar" />"></a>
 								<input type="submit" class="boton-formulario" id="itemSubmit" value="<spring:message code="label.reportar" />">
 							</td>
 						</tr>

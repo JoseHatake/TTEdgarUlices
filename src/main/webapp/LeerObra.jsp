@@ -25,9 +25,10 @@
 		<div id="cabecera"></div>
 	</header>
 	<div class="menu-filtros" id="menu-lista-filtros"></div>
-		<div class="contenedor">
-			<div class="cabeceraCapitulos">
-				<div class="izquierda" style="width: 100px;">
+	<div class="contenedor">
+		<div class="cabeceraCapitulos">
+			<div class="izquierda" style="height: 150px;">
+				<a href="BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObra.jsp&idObra=${obra.id}">
 					<c:choose>
 						<c:when test="${detallesObra.portada != null}">
 							<img alt="Imagen de perfil" src="data:image/jpeg;base64,${detallesObra.portada}">
@@ -36,30 +37,31 @@
 							<img src="img/pd.png" alt="default">
 						</c:otherwise>
 					</c:choose>
-				</div>
-				<div class="izquierda">
-					<ul>
-						<li><h1><spring:message code="label.titulo"></spring:message> <c:out value="${detallesObra.titulo}"></c:out></h1></li>
-						<li><b><spring:message code="label.sinopsis"></spring:message></b></li>
-						<li><c:out value="${obra.sinopsis}"></c:out></li>
-					</ul>
-				</div>
-				<div class="izquierda">
-					<select>
-						<c:forEach items="${capitulosObra}" var="capituloSig">
-							<option><a href="BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObraEditable.jsp&idObra=${detallesObra.idObra}&idCapitulo=${capituloSig.id}"><c:out value="${capituloSig.id} ${capituloSig.nombre}"></c:out></a></option>
-						</c:forEach>
-					</select>
-				</div>
-				<div class="izquierda">
-					<form action="Denuncia.jsp&idObra=${detallesObra.idObra}" method="POST" class="derecha">
-						<input type="submit" class="boton-formulario centrar" value="Denunciar obra">
-					</form>
-				</div>
+				</a>
 			</div>
+			<div class="izquierda">
+				<ul>
+					<li><h1><spring:message code="label.titulo"></spring:message> <a href="BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObra.jsp&idObra=${obra.id}"><c:out value="${detallesObra.titulo}"></c:out></a></h1></li>
+					<li><b><spring:message code="label.sinopsis"></spring:message></b></li>
+					<li><c:out value="${obra.sinopsis}"></c:out></li>
+				</ul>
+			</div>
+			<div class="izquierda">
+				<select name="idCapitulo" id="capitulosItem" onchange="cargarCapitulo('capitulosItem');">
+					<c:forEach items="${capitulosObra}" var="capituloSig">
+						<option value="idObra=${detallesObra.idObra}&idCapitulo=${capituloSig.id}"><c:out value="${capituloSig.id} ${capituloSig.nombre}"></c:out></option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="izquierda">
+				<form action="Denuncia.jsp?idObra=${detallesObra.idObra}&idCapitulo=${capitulo.id}" method="POST" class="derecha">
+					<input type="submit" class="boton-formulario centrar" value="Denunciar obra">
+				</form>
+			</div>
+		</div>
 		<div class="contenido">
 			<div class="fondoFormato">
-				<h1 class="centrar"><c:out value="${capituloSig.id} ${capituloSig.nombre}"></c:out></h1>
+				<h1 class="centrar"><c:out value="${capitulo.id} ${capitulo.nombre}"></c:out></h1>
 				<br>
 				<c:forEach items="${capituloListaTexto}" var="parrafo">
 					<p><c:out value="${parrafo}"></c:out></p>
