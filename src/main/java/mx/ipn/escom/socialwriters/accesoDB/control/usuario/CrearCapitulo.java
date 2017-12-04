@@ -78,12 +78,13 @@ public class CrearCapitulo extends HttpServlet{
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		guardaCapitulo(request,response);	
-		response.sendRedirect("index.jsp");
+		String idObra;
+		idObra=guardaCapitulo(request,response);	
+		response.sendRedirect("BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObra.jsp&idObra="+idObra);
 		
 	}
 	
-	private void guardaCapitulo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+	private String guardaCapitulo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		
 		Usuario usuario = new Usuario();
 		Obra obra = new Obra();
@@ -97,6 +98,7 @@ public class CrearCapitulo extends HttpServlet{
 		
 		
 		String textoCapitulo, contexto, idCapitulo,rutaCapitulo,tituloCapitulo,capituloCodificado,numcap,idObraAux;
+		idObraAux="";
 		Integer idObra,numeroCapitulo;
 		Boolean guardado,flag;
 		guardado = true;
@@ -172,6 +174,7 @@ public class CrearCapitulo extends HttpServlet{
 			 }
 		
 		 }
+		 return idObraAux;
 	}
 
 }

@@ -28,7 +28,7 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<div class="fondoFormato">
-				<h1>Perfil de obra</h1>
+				<h1><spring:message code="label.obrap" /></h1>
 				<div style="height: 300px">
 					<div class="izquierda" id="perfil-imagen-edit">
 						<div class="img-perfil-normal">
@@ -44,10 +44,10 @@
 					</div>
 					<div class="derecha" id="perfil-info-edit">
 						<ul>
-							<li><b>Título de la obra:</b> <c:out value="${obra.nombre}"></c:out></li>
-							<li><b>Idioma: </b><c:out value="${obra.idiomaObj.idioma}"></c:out></li>
-							<li><b>Autor: </b><a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${detallesObra.nickAutor}"><c:out value="${obra.usuarioObj.nick}"></c:out></a></li>
-							<li><b>Generos:</b></li>
+							<li><b><spring:message code="label.titulo" />:</b> <c:out value="${obra.nombre}"></c:out></li>
+							<li><b><spring:message code="label.idioma" />: </b><c:out value="${obra.idiomaObj.idioma}"></c:out></li>
+							<li><b><spring:message code="label.autor" />: </b><a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${detallesObra.nickAutor}"><c:out value="${obra.usuarioObj.nick}"></c:out></a></li>
+							<li><b><spring:message code="label.generos" />:</b></li>
 							<li>
 								<ul>
 									<c:forEach items="${generos}" var="genero">
@@ -55,17 +55,17 @@
 									</c:forEach>
 								</ul>
 							</li>
-							<li><b>Sinopsis:</b></li>
+							<li><b><spring:message code="label.sinopsis" />:</b></li>
 							<li><c:out value="${obra.sinopsis}"></c:out></li>
 						</ul>
 					</div>
 					<c:choose>
 						<c:when test="${detallesObra.nickAutor == usuario.nick}">
 							<form action="BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObraEditable.jsp&idObra=${detallesObra.idObra}" method="POST" class="derecha">
-								<input type="submit" class="boton-formulario centrar" value="Editar obra">
+								<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.editarobra" />">
 							</form>
 							<form action="CreaCapitulo.jsp?&idObra=${detallesObra.idObra}" method="POST" class="derecha">
-								<input type="submit" class="boton-formulario centrar" value="Agregar Capítulo">
+								<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.agregarcapitulo" />">
 							</form>
 						</c:when>
 						<c:otherwise>
@@ -83,7 +83,7 @@
 					</c:choose>
 				</div>
 				<form action="BuscarInformacionFormularios?metodoDeBusqueda=9&esAjax=false&direccion=LeerObra.jsp&idObra=${detallesObra.idObra}&idCapitulo=0" method="POST">
-					<input type="submit" class="boton-formulario centrar" value="Leer obra">
+					<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.leer" />">
 				</form>
 			</div>
 		</div>

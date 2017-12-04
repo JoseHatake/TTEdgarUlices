@@ -93,9 +93,14 @@
 						<h3><spring:message code="label.sinopsis" /></h3>
 						<textarea name="sinopsis" id="sinopsis" class="form-input-text" cols="50" rows="5" maxlength="250"><c:out value="${obra.sinopsis}"></c:out></textarea>
 					</div>
-					<div class="contenedor-boton">
-						<input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.crearo" />">
-					</div>
+					<table style="margin-top: 20px;">
+						<tbody>
+								<tr>
+									<td style="padding-right: 10px;"><a href="BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObra.jsp&idObra=${detallesObra.idObra}"><input type="button" class="boton-formulario centrar" value="<spring:message code="label.cancelar" />"></a></td>
+									<td style="padding-left: 10px;"><input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.guardar" />"></td>
+								</tr>
+						</tbody>
+					</table>
 				</div>
 				</form>
 			</div>
