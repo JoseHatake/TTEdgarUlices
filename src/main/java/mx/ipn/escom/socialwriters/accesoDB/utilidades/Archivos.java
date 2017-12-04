@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 
 import org.apache.commons.fileupload.FileItem;
@@ -120,21 +123,28 @@ public class Archivos {
 		return capituloCodificado;
 	}
 	
-	public String cargaCapitulo(String archivo) {
+	public List<String> cargaCapitulo(String archivo) {
 		String capitulo="";
+		String[] aux;
+		List<String> parrafos = new ArrayList();
 		File file;
 		file = new File(contexto + ARCHIVERO + "/" + archivo);
 		
 		try {
 			
 			capitulo = FileUtils.readFileToString(file,"UTF-8");
+			aux = capitulo.split("\n");
+			for(int i=0; i< aux.length;i++) {
+				parrafos.add(aux[i]);
+				
+			}
 			
 		}catch(Exception e){			
 			e.printStackTrace();
 			
 		}
 		
-		return capitulo;
+		return parrafos;
 		
 	}
 }
