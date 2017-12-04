@@ -99,7 +99,7 @@ public class HacerDenuncia extends HttpServlet{
 	
 	private void hazDenuncia(HttpServletRequest request, HttpServletResponse response) {
 		
-
+        
 		Usuario usuario = new Usuario();
 		Obra obra = new Obra();	
 		Denuncia denuncia = new Denuncia();
@@ -107,17 +107,17 @@ public class HacerDenuncia extends HttpServlet{
 		HttpSession session = request.getSession();
 		
 		String denunciaContenido;
-		Integer idLibro, idMotivo;
+		Integer idObra, idMotivo;
 		
 		usuario = (Usuario)session.getAttribute("usuario");
 		
 		
-		idLibro=Integer.valueOf(request.getParameter("idLibro"));
+		idObra=Integer.valueOf(request.getParameter("idObra"));
 		idMotivo = Integer.valueOf(request.getParameter("razon"));
 		denunciaContenido = request.getParameter("descripcion");
 		
 		denuncia.setIdEstadoDenuncia(1);
-		denuncia.setIdObra(idLibro);
+		denuncia.setIdObra(idObra);
 		denuncia.setIdDenunciaMotivo(idMotivo);
 		denuncia.setIdUsuarioDenunciante(usuario.getId());
 		denuncia.setIdPais(usuario.getIdPais());
@@ -125,10 +125,10 @@ public class HacerDenuncia extends HttpServlet{
 		denuncia.setUsuarioDenuncianteObj(usuario);
 		denuncia.setDenunciaMotivoObj(denunciaMotivoBs.buscarPorId(idMotivo));
 		denuncia.setPaisObj(paisesBs.buscarPorId(usuario.getIdPais()));
-		denuncia.setObraObj(obraBs.buscarPorId(idLibro));
+		denuncia.setObraObj(obraBs.buscarPorId(idObra));
 		denuncia.setEstadoDenunciaObj(estadoDenunciaBs.buscarPorId(1));
 		
-		System.out.println(denunciaContenido);
+		
 		
 		denunciaBs.guardar(denuncia);
 		

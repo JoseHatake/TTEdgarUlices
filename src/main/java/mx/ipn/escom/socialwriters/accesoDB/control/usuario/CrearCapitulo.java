@@ -83,7 +83,7 @@ public class CrearCapitulo extends HttpServlet{
 		
 	}
 	
-	private void guardaCapitulo(HttpServletRequest request, HttpServletResponse response) {
+	private void guardaCapitulo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		
 		Usuario usuario = new Usuario();
 		Obra obra = new Obra();
@@ -92,67 +92,86 @@ public class CrearCapitulo extends HttpServlet{
 		Capitulo capitulo = new Capitulo();
 		List<SeguirObra> seguidores = new ArrayList();
 		Alertas alerta = new Alertas();
+		List<FileItem> partes = new ArrayList<>();
+		StringCodificador codificador = new StringCodificador();
 		
 		
-		String textoCapitulo, contexto, idCapitulo,rutaCapitulo,tituloCapitulo,capituloCodificado;
-		Integer idLibro,numeroCapitulo;
-		Boolean guardado;
+		String textoCapitulo, contexto, idCapitulo,rutaCapitulo,tituloCapitulo,capituloCodificado,numcap,idObraAux;
+		Integer idObra,numeroCapitulo;
+		Boolean guardado,flag;
 		guardado = true;
+		flag=true;
 		
 		usuario = (Usuario)session.getAttribute("usuario");
 		contexto = (String) session.getAttribute("contexto");
 		manejoArchivos = new Archivos(contexto);
 		
-		numeroCapitulo=Integer.valueOf(request.getParameter("numeroCapitulo"));
-		tituloCapitulo = request.getParameter("tituloCapitulo");
-		idLibro=Integer.valueOf(request.getParameter("idLibro"));
-		textoCapitulo=request.getParameter("capitulo");
-		obra = obraBs.buscarPorId(idLibro);
-		capitulo.setNumero(numeroCapitulo);
-		capitulo.setNombre(tituloCapitulo);
-		capitulo.setIdObra(idLibro);
-		
-		
-		//Guardamos el capitulo
-		
-		capituloBs.guardar(capitulo);
-		
-		rutaCapitulo=usuario.getId()+"/"+capitulo.getIdObra()+"/"+capitulo.getId()+".txt";
-		capituloCodificado = manejoArchivos.codificaCapitulo(textoCapitulo);
-		
-		try{
-			manejoArchivos.guardarCapitulo(rutaCapitulo, capituloCodificado);
-		}catch(Exception e) {
-			guardado=false;
-			e.printStackTrace();			
-		}
-		
-		//Si se creó, mandamos notificaciones
-		if(guardado) {
-			
-			seguidores = seguirObraBs.buscarPorIdObra(idLibro);
-			if(!seguidores.isEmpty()) {		
-				
-				
-				
-				for(int i=0; i<seguidores.size();i++) {
-					
-					SeguirObra seguirObra = new SeguirObra();
-					seguirObra = seguidores.get(i);
-					alerta.setIdObra(idLibro);
-					alerta.setIdUsuario(seguirObra.getIdUsuario());
-					alerta.setEstatus(false);
-					alerta.setTipoAlerta(2);
-					alerta.setUsuario(usuario);
-					alerta.setObra(obra);
-					alertasBs.guardar(alerta);
-					
-				}
-				
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setSizeThreshold(5120);
+        ServletFileUpload upload = new ServletFileUpload(factory);
+                
+		 try {
+				partes = upload.parseRequest(request);								
+			} catch (Exception e) {
+				e.printStackTrace();
+				flag = false;
 			}
-			
-		}
 		
+		 if(flag) {
+			 numcap= codificador.codificar(partes.get(1).getString());
+			 numeroCapitulo = Integer.valueOf(numcap);
+			 tituloCapitulo = codificador.codificar(partes.get(2).getString());
+			 idObraAux=codificador.codificar(partes.get(0).getString());
+			 idObra=Integer.valueOf(idObraAux);
+			 textoCapitulo=codificador.codificar(partes.get(3).getString());
+			 obra = obraBs.buscarPorId(idObra);
+			 capitulo.setNumero(numeroCapitulo);
+			 capitulo.setNombre(tituloCapitulo);
+			 capitulo.setIdObra(idObra);
+		
+		
+			 //Guardamos el capitulo
+		
+			 capituloBs.guardar(capitulo);
+		
+		 
+			 rutaCapitulo=usuario.getId()+"/"+capitulo.getIdObra()+"/"+capitulo.getId()+".txt";
+			 capituloCodificado = manejoArchivos.codificaCapitulo(textoCapitulo);
+		
+			 try{
+				 manejoArchivos.guardarCapitulo(rutaCapitulo, capituloCodificado);
+			 }catch(Exception e) {
+				 guardado=false;
+				 e.printStackTrace();			
+			 }
+		
+			 //Si se creó, mandamos notificaciones
+			 if(guardado) {
+			
+				 seguidores = seguirObraBs.buscarPorIdObra(idObra);
+				 if(!seguidores.isEmpty()) {		
+				
+				
+				
+					 for(int i=0; i<seguidores.size();i++) {
+					
+						 SeguirObra seguirObra = new SeguirObra();
+						 seguirObra = seguidores.get(i);
+						 alerta.setIdObra(idObra);
+						 alerta.setIdUsuario(seguirObra.getIdUsuario());
+						 alerta.setEstatus(false);
+						 alerta.setTipoAlerta(2);
+						 alerta.setUsuario(usuario);
+						 alerta.setObra(obra);
+						 alertasBs.guardar(alerta);
+					
+					 }
+				
+				 }
+			
+			 }
+		
+		 }
 	}
 
 }

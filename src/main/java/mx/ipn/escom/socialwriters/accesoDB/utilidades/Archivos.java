@@ -119,4 +119,22 @@ public class Archivos {
 		
 		return capituloCodificado;
 	}
+	
+	public String cargaCapitulo(String archivo) {
+		String capitulo="";
+		File file;
+		file = new File(contexto + ARCHIVERO + "/" + archivo);
+		
+		try {
+			
+			capitulo = FileUtils.readFileToString(file,"UTF-8");
+			
+		}catch(Exception e){			
+			e.printStackTrace();
+			
+		}
+		
+		return capitulo;
+		
+	}
 }
