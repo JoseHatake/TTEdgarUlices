@@ -20,6 +20,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import mx.ipn.escom.socialwriters.accesoDB.bs.AlertasBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.CapituloBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Alertas;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Capitulo;
@@ -48,6 +49,9 @@ public class CrearCapitulo extends HttpServlet{
 	
 	@Autowired
 	private CapituloBs capituloBs;
+	
+	@Autowired
+	private ObraBs obraBs;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -81,7 +85,8 @@ public class CrearCapitulo extends HttpServlet{
 	
 	private void guardaCapitulo(HttpServletRequest request, HttpServletResponse response) {
 		
-		Usuario usuario = new Usuario();		
+		Usuario usuario = new Usuario();
+		Obra obra = new Obra();
 		HttpSession session = request.getSession();
 		Archivos manejoArchivos;
 		Capitulo capitulo = new Capitulo();
@@ -102,7 +107,7 @@ public class CrearCapitulo extends HttpServlet{
 		tituloCapitulo = request.getParameter("tituloCapitulo");
 		idLibro=Integer.valueOf(request.getParameter("idLibro"));
 		textoCapitulo=request.getParameter("capitulo");
-		
+		obra = obraBs.buscarPorId(idLibro);
 		capitulo.setNumero(numeroCapitulo);
 		capitulo.setNombre(tituloCapitulo);
 		capitulo.setIdObra(idLibro);
@@ -125,10 +130,9 @@ public class CrearCapitulo extends HttpServlet{
 		if(guardado) {
 			
 			seguidores = seguirObraBs.buscarPorIdObra(idLibro);
-			if(!seguidores.isEmpty()) {
+			if(!seguidores.isEmpty()) {		
 				
-				Usuario usuarioVacio = new Usuario();
-				Obra obraVacia = new Obra();
+				
 				
 				for(int i=0; i<seguidores.size();i++) {
 					
@@ -138,8 +142,8 @@ public class CrearCapitulo extends HttpServlet{
 					alerta.setIdUsuario(seguirObra.getIdUsuario());
 					alerta.setEstatus(false);
 					alerta.setTipoAlerta(2);
-					alerta.setUsuario(usuarioVacio);
-					alerta.setObra(obraVacia);
+					alerta.setUsuario(usuario);
+					alerta.setObra(obra);
 					alertasBs.guardar(alerta);
 					
 				}
