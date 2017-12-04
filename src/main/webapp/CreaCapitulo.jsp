@@ -47,7 +47,7 @@
 						<tr>
 							<td>
 								<h3><spring:message code="label.capitulo" /></h3>
-								<textarea name="capitulo" id="capitulo" class="form-input-text" cols="50" rows="25"  required></textarea>
+								<textarea name="capitulo" id="capitulo" wrap="hard" class="form-input-text" cols="50" rows="25"  required></textarea>
 							</td>
 						</tr>
 					</tbody>
