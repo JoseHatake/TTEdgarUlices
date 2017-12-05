@@ -15,11 +15,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import mx.ipn.escom.socialwriters.accesoDB.bs.ComentariosBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.PerfilBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.RankingUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Comentarios;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Perfil;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.SeguirUsuario;
@@ -35,6 +39,12 @@ public class Acciones extends HttpServlet {
 	
 	@Autowired
 	private UsuarioBs usuarioBs;
+	
+	@Autowired
+	private ObraBs obrsBs;
+	
+	@Autowired
+	private ComentariosBs comentarioBs;
 	
 	@Autowired
 	private SeguirUsuarioBs seguirUsusarioBs;
@@ -103,12 +113,37 @@ public class Acciones extends HttpServlet {
 			case 7:
 				direccion = seguirObra(request, response);
 				break;
+			case 8:
+				direccion = agregarComentario(request, response);
+				break;
 			default:
 				direccion = "index.jsp";
 				break;
 		}
 		rd = request.getRequestDispatcher(direccion);
 		rd.forward(request, response);
+	}
+
+	private String agregarComentario(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		Comentarios comentarioObj;
+		Usuario usuario;
+		Integer idObra,idUsuario;
+		String comentario;
+		
+		usuario = (Usuario) session.getAttribute("usuario");
+		idUsuario = usuario.getId();
+		idObra = Integer.parseInt(request.getParameter("idObra"));
+		comentario = request.getParameter("comentario");
+		
+		comentarioObj = new Comentarios();
+		comentarioObj.setIdObra(idObra);
+		comentarioObj.setIdUsuario(idUsuario);
+		comentarioObj.setComentario(comentario);
+		
+		comentarioObj = comentarioBs.guardar(comentarioObj);
+		
+		return "BuscarInformacionFormularios?metodoDeBusqueda=8&esAjax=false&direccion=PerfilObra.jsp&idObra="+idObra;
 	}
 
 	private String seguirObra(HttpServletRequest request, HttpServletResponse response) {

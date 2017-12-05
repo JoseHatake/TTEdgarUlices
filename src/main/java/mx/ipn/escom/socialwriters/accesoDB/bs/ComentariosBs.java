@@ -7,6 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.bs;
 
 import mx.ipn.escom.socialwriters.accesoDB.dao.ComentariosDao;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Comentarios;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -35,8 +38,6 @@ public class ComentariosBs {
         model.setFechaHora(comentarios.getFechaHora());
         model.setIdObra(comentarios.getIdObra());
         model.setIdUsuario(comentarios.getIdUsuario());
-        model.setObraObj(comentarios.getObraObj());
-        model.setUsuario(comentarios.getUsuario());
         return comentariosDao.actualizar(model);
     }
     
@@ -53,5 +54,10 @@ public class ComentariosBs {
     @Transactional(readOnly = true)
     public Comentarios buscarPorId(Integer id){
         return comentariosDao.buscarPorId(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Comentarios> buscarComentariosPorIdObra(Integer idObra){
+    		return comentariosDao.buscarComentariosPorIdObra(idObra);
     }
 }

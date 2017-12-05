@@ -7,12 +7,9 @@ package mx.ipn.escom.socialwriters.accesoDB.mapeo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -38,14 +35,6 @@ public class Comentarios {
     
     @Column(name = "idUsuario")
     private Integer idUsuario;
-    
-    @OneToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "idObra",referencedColumnName = "idObra",insertable = false,updatable = false)
-    private Obra obraObj;
-    
-    @OneToOne(fetch = FetchType.EAGER,optional = false)
-    @JoinColumn(name = "idUsuario",referencedColumnName = "idUsuario",insertable = false,updatable = false)
-    private Usuario usuario;
 
     public Integer getId() {
         return id;
@@ -85,21 +74,5 @@ public class Comentarios {
 
     public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    public Obra getObraObj() {
-        return obraObj;
-    }
-
-    public void setObraObj(Obra obraObj) {
-        this.obraObj = obraObj;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 }

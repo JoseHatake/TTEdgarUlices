@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import mx.ipn.escom.socialwriters.accesoDB.bs.CapituloBs;
+import mx.ipn.escom.socialwriters.accesoDB.bs.ComentariosBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.FormaContactoBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.GeneroObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.ObraBs;
@@ -29,6 +30,7 @@ import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirObraBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.SeguirUsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.bs.UsuarioBs;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Capitulo;
+import mx.ipn.escom.socialwriters.accesoDB.mapeo.Comentarios;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.FormaContacto;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.GeneroObra;
 import mx.ipn.escom.socialwriters.accesoDB.mapeo.Obra;
@@ -80,6 +82,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 	
 	@Autowired
 	private CapituloBs capituloBs;
+	
+	@Autowired
+	private ComentariosBs comentariosBs;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -317,10 +322,13 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		HttpSession session = request.getSession();
 		DetallesObra detallesObra;
 		List<GeneroObra> generos;
+		List<Comentarios> comentariosDB;
+		List<mx.ipn.escom.socialwriters.accesoDB.utilidades.Comentarios> comentarios;
 		Obra obra;
 		Usuario usuario;
+		Contacto contacto;
 		Integer idObra,idUsuario,estrellas;
-		String titulo,portada,contexto,nickAutor;
+		String titulo,portada,contexto,nickAutor,nick,imagenPerfil;
 		Archivos archivo;
 		Ranking ranking;
 		Boolean siguiendo;
@@ -349,8 +357,24 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		
 		ranking = new Ranking();
 		estrellas = ranking.getEstrellasObra(rankingObraBs.buscarRankingPorIdObra(idObra));
+		comentariosDB = comentariosBs.buscarComentariosPorIdObra(idObra);
+		comentarios = new ArrayList<mx.ipn.escom.socialwriters.accesoDB.utilidades.Comentarios>();
+		for (Comentarios comentarios2 : comentariosDB) {
+			usuario = usuarioBs.buscarPorId(comentarios2.getIdUsuario());
+			nick = usuario.getNick();
+			idUsuario = usuario.getId();
+			ranking = new Ranking();
+			estrellas = ranking.getEstrellasUsuario(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
+			imagenPerfil = null;
+			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
+				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);
+			}
+			contacto = new Contacto(nick, imagenPerfil,estrellas);
+			comentarios.add(new mx.ipn.escom.socialwriters.accesoDB.utilidades.Comentarios(contacto,comentarios2.getComentario(),comentarios2.getFechaHora()));
+		}
 		
 		request.setAttribute("detallesObra", detallesObra);
+		request.setAttribute("comentarios", comentarios);
 		request.setAttribute("obra", obra);
 		request.setAttribute("generos", generos);
 		request.setAttribute("siguiendo", siguiendo);

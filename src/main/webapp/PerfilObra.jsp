@@ -29,7 +29,7 @@
 		<div class="contenido">
 			<div class="fondoFormato">
 				<h1><spring:message code="label.obrap" /></h1>
-				<div style="height: 300px">
+				<div style="height: 250px;">
 					<div class="izquierda" id="perfil-imagen-edit">
 						<div class="img-perfil-normal">
 							<c:choose>
@@ -130,6 +130,34 @@
 				<form action="BuscarInformacionFormularios?metodoDeBusqueda=9&esAjax=false&direccion=LeerObra.jsp&idObra=${detallesObra.idObra}&idCapitulo=0" method="POST">
 					<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.leer" />">
 				</form>
+				<div class="contenedor-comentarios">
+					<c:if test="${usuario != null}">
+						<form action="Acciones?accion=8&direccion=PerfilObra.jsp&idObra=${detallesObra.idObra}" method="POST">
+							<textarea name="comentario" style="width: 100%; height: 60px; margin-bottom: 20px;" maxlength="250"></textarea>
+							<input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.guardar" />">
+						</form>
+					</c:if>
+					<div class="comentarios">
+						<c:forEach items="${comentarios}" var="comentario">
+							<div class="comentario-individual">
+								<div class="img-perfil-mini">
+									<c:choose>
+										<c:when test="${comentario.contacto.imgPerfil != null}">
+											<img src="data:image/jpeg;base64,${comentario.contacto.imgPerfil}" class="img-circulo" alt="default">
+										</c:when>
+										<c:otherwise>
+											<img src="img/default.jpg" class="img-circulo" alt="default">
+										</c:otherwise>
+									</c:choose>
+								</div>
+								<div>
+									<p class="fecha-comentario"><a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${comentario.contacto.nickName}"><c:out value="${comentario.contacto.nickName}"></c:out></a> <c:out value="${comentario.fecha}"></c:out></p>
+								</div>
+								<p><c:out value="${comentario.comentario}"></c:out></p>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
