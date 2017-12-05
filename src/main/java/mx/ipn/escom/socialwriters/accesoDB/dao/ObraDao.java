@@ -28,6 +28,7 @@ public class ObraDao {
 	private SessionFactory sessionFactory;
     
     protected String QUERY1 = "select a from Obra a where idUsuario = ?1";
+    protected String QUERY2 = "select a from Obra a";
     
     public Obra guardar(Obra obra){
         sessionFactory.getCurrentSession().save(obra);
@@ -57,5 +58,11 @@ public class ObraDao {
     		resultado.setParameter(1, idUsuario);
     		List<Obra> obras = resultado.list();
     		return obras.isEmpty()?new ArrayList<Obra>():obras;
+    }
+    
+    public List<Obra> todasLasObras(){
+		Query<Obra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,Obra.class);
+		List<Obra> obras = resultado.list();
+		return obras.isEmpty()?new ArrayList<Obra>():obras;
     }
 }

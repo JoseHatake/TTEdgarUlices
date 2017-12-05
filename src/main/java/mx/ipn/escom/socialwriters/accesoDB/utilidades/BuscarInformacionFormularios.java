@@ -152,6 +152,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 11:
 				cargaObrasDeUsuario(request,response);
 				break;
+			case 12:
+				cargaObrasIndex(request,response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -164,6 +167,55 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
 		}
+	}
+
+	private void cargaObrasIndex(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		List<Obra> obras;
+		List<DetallesObra> detallesObras;
+		String contexto;
+		
+		contexto = this.getServletConfig().getServletContext().getRealPath("/");
+		
+		obras = obraBs.todasLasObras();
+		detallesObras = this.obtenerDetallesObraPorObras(obras,contexto);
+		
+		request.setAttribute("obras", detallesObras);
+		session.setAttribute("contexto", contexto);
+	}
+	
+	private DetallesObra obtenerDetalleObraPorObra(Obra obra,String contexto) throws IOException {
+		DetallesObra detalles;
+		Usuario usuario;
+		Archivos archivo;
+		Ranking ranking;
+		String portada,nickName,titulo;
+		Integer idUsuario,idObra,estrellas;
+		
+		usuario = obra.getUsuarioObj();
+		idObra = obra.getId();
+		idUsuario = usuario.getId();
+		titulo = obra.getNombre();
+		nickName = usuario.getNick();
+		archivo = new Archivos(contexto);
+		portada = null;
+		if (archivo.exiteDocumento(idUsuario.toString() + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO)) {
+			portada = archivo.obtenerImagenCodificada(idUsuario.toString() + "/" + idObra, NOMBRE_FOTO_PERFIL_LIBRO);
+		}
+		ranking = new Ranking();
+		estrellas = ranking.getEstrellasObra(rankingObraBs.buscarRankingPorIdObra(idObra));
+		
+		detalles = new DetallesObra(idObra, titulo, portada, nickName);
+		detalles.setEstrellas(estrellas);
+		return detalles;
+	}
+	
+	private List<DetallesObra> obtenerDetallesObraPorObras(List<Obra> obras,String contexto) throws IOException{
+		List<DetallesObra> detallesObras = new ArrayList<DetallesObra>();
+		for (Obra obra:obras) {
+			detallesObras.add(this.obtenerDetalleObraPorObra(obra,contexto));
+		}
+		return detallesObras;
 	}
 
 	private void cambiarRankingObraUsuario(HttpServletRequest request, HttpServletResponse response) {

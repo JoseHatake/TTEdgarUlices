@@ -62,4 +62,9 @@ public class ObraBs {
     public List<Obra> obrasPorIdUsuario(Integer idUsuario){
     		return obraDao.obrasPorIdUsuario(idUsuario);
     }
+    
+    @Transactional(readOnly = true)
+    public List<Obra> todasLasObras(){
+    		return obraDao.todasLasObras();
+    }
 }

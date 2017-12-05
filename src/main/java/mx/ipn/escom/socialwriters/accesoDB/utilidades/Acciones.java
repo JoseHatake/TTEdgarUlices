@@ -239,7 +239,7 @@ public class Acciones extends HttpServlet {
 		String nick,contexto,fotoPerfil;
 		Integer clave,idUsuario;
 		
-		contexto = this.getServletConfig().getServletContext().getRealPath("/");
+		contexto = (String) session.getAttribute("contexto");
 		nick = request.getParameter("usuario");
 		clave = Integer.parseInt(request.getParameter("clave"));
 		
@@ -264,7 +264,6 @@ public class Acciones extends HttpServlet {
 
 		session.setAttribute("fotoPerfil", fotoPerfil);
 		session.setAttribute("usuario", usuario);
-		session.setAttribute("contexto", contexto);
 		cargarContactos(request,response);
 	}
 
