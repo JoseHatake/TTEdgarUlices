@@ -67,4 +67,9 @@ public class ObraBs {
     public List<Obra> todasLasObras(){
     		return obraDao.todasLasObras();
     }
+    
+    @Transactional(readOnly = true)
+    public List<Obra> buscarObrasPorNombre(String nombre){
+    		return obraDao.buscarObrasPorNombre(nombre);
+    }
 }

@@ -29,6 +29,7 @@ public class ObraDao {
     
     protected String QUERY1 = "select a from Obra a where idUsuario = ?1";
     protected String QUERY2 = "select a from Obra a";
+    protected String QUERY3 = "select a from Obra a where nombre like concat('%',?1,'%')";
     
     public Obra guardar(Obra obra){
         sessionFactory.getCurrentSession().save(obra);
@@ -62,6 +63,13 @@ public class ObraDao {
     
     public List<Obra> todasLasObras(){
 		Query<Obra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,Obra.class);
+		List<Obra> obras = resultado.list();
+		return obras.isEmpty()?new ArrayList<Obra>():obras;
+    }
+    
+    public List<Obra> buscarObrasPorNombre(String nombre){
+		Query<Obra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY3,Obra.class);
+		resultado.setParameter(1, nombre);
 		List<Obra> obras = resultado.list();
 		return obras.isEmpty()?new ArrayList<Obra>():obras;
     }

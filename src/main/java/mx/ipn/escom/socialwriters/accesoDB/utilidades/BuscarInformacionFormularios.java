@@ -158,6 +158,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 12:
 				cargaObrasIndex(request,response);
 				break;
+			case 13:
+				buscarObras(request,response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -170,6 +173,25 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
 		}
+	}
+
+	private void buscarObras(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		List<Obra> obras;
+		List<DetallesObra> detallesObras;
+		DetallesObra detallesObra;
+		String contexto,busqueda;
+		
+		busqueda = request.getParameter("buscarObra");
+		contexto = (String) session.getAttribute("contexto");
+		obras = obraBs.buscarObrasPorNombre(busqueda);
+		detallesObras = new ArrayList<DetallesObra>();
+		for (Obra obra: obras) {
+			detallesObra = this.obtenerDetalleObraPorObra(obra, contexto);
+			detallesObras.add(detallesObra);
+		}
+		System.out.println("Si llega");
+		request.setAttribute("obras", detallesObras);
 	}
 
 	private void cargaObrasIndex(HttpServletRequest request, HttpServletResponse response) throws IOException {

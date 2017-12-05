@@ -6,8 +6,8 @@
 			<th align="center"><span class="icon-menu centrar" id="menu-filtros"></span></th>
 			<th align="center"><a href="index.jsp"><img id="logotipo" src="img/logo.png" alt="logotipo"></a></th>
 			<th align="center">
-				<form id="formulario-busqueda" accept="" method="POST">
-					<input type="text" class="izquierda" id="input-buscar" placeholder="<spring:message code="label.buscar" />" maxlength="100">
+				<form id="formulario-busqueda" action="BuscarInformacionFormularios?metodoDeBusqueda=13&esAjax=false&direccion=DespliegaBusqueda.jsp" method="POST">
+					<input type="text" name="buscarObra" class="izquierda" id="input-buscar" placeholder="<spring:message code="label.buscar" />" maxlength="100">
 					<button class="derecha" id="button-buscar" onclick="id('formulario-busqueda').submit();">
 						<span class="icon-search"></span>
 					</button>
