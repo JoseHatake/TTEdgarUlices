@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
-import javax.persistence.Enumerated;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -275,17 +273,16 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		List<Capitulo> capitulos;
 		Capitulo capituloTmp;
 		Archivos archvio;
-		Usuario usuario;
+		Obra obra;
 		String contexto;
 		List<String> listaTextoCapitulo;
 		Integer idUsuario,idObra,idCapitulo;
 		
 		contexto = (String) session.getAttribute("contexto");
-		usuario = (Usuario) session.getAttribute("usuario");
-		
-		idUsuario = usuario.getId();
 		idObra = Integer.parseInt(request.getParameter("idObra"));
 		idCapitulo = Integer.parseInt(request.getParameter("idCapitulo"));
+		obra = obraBs.buscarPorId(idObra);
+		idUsuario = obra.getUsuarioObj().getId();
 		
 		archvio = new Archivos(contexto);
 		capitulos = capituloBs.buscarPorIdObra(idObra);
@@ -344,7 +341,11 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		}
 		detallesObra = new DetallesObra(idObra, titulo, portada, nickAutor);
 		generos = generoObraBs.buscarPorIdObra(idObra);
-		siguiendo = seguirObraBs.verificarSeguirObra(idObra, usuario.getId());
+		if (usuario != null) {
+			siguiendo = seguirObraBs.verificarSeguirObra(idObra, usuario.getId());
+		}else {
+			siguiendo = null;
+		}
 		
 		ranking = new Ranking();
 		estrellas = ranking.getEstrellasObra(rankingObraBs.buscarRankingPorIdObra(idObra));
@@ -443,10 +444,14 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		usuario = (Usuario) session.getAttribute("usuario");
 		contexto = (String) session.getAttribute("contexto");
 		nickName = request.getParameter("nickName");
-		idUsuario = usuario.getId();
 		siguiendo = false;
 		contacto = new Contacto();
 		archivo = new Archivos(contexto);
+		
+		if (usuario == null) {
+			usuario = new Usuario();
+			usuario.setNick("");
+		}
 		
 		if (usuario.getNick().equals(nickName)) {
 			idUsuario = usuario.getId();
@@ -454,9 +459,10 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		else {
 			imagenPerfil = null;
 			usuario = usuarioBs.buscarUsuarioPorNick(nickName);
-			siguiendo = seguirUsuarioBs.verficarSeguirUsuario(idUsuario, usuario.getId());
 			idUsuario = usuario.getId();
 			nickName = usuario.getNick();
+			siguiendo = seguirUsuarioBs.verficarSeguirUsuario(idUsuario, usuario.getId());
+			
 			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
 				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);
 			}

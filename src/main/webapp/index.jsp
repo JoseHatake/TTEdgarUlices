@@ -36,7 +36,7 @@
 											<img alt="Imagen de perfil" src="data:image/jpeg;base64,${obra.portada}">
 										</c:when>
 										<c:otherwise>
-											<img src="img/default.jpg" alt="default">
+											<img src="img/pd.png" alt="default">
 										</c:otherwise>
 									</c:choose>
 								</div>

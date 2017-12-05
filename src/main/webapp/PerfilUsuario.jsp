@@ -60,7 +60,7 @@
 							<li>
 								<table>
 									<c:choose>
-										<c:when test="${perfil.nick == usuario.nick}">
+										<c:when test="${perfil.nick == usuario.nick || usuario == null}">
 											<tbody>
 												<tr>
 													<c:forEach var="activa" begin="1" end="5">
@@ -131,16 +131,18 @@
 							</form>
 						</c:when>
 						<c:otherwise>
-							<form action="Acciones?accion=6&direccion=PerfilUsuario.jsp&seguir=${perfil.nick}" method="POST" class="derecha">
-								<c:choose>
-									<c:when test="${siguiendo}">
-										<input type="submit" class="boton-formulario centrar siguiendo" value="<spring:message code="label.dseguirp" />">
-									</c:when>
-									<c:otherwise>
-										<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.seguirp" />">
-									</c:otherwise>
-								</c:choose>
-							</form>
+							<c:if test="${usuario != null}">
+								<form action="Acciones?accion=6&direccion=PerfilUsuario.jsp&seguir=${perfil.nick}" method="POST" class="derecha">
+									<c:choose>
+										<c:when test="${siguiendo}">
+											<input type="submit" class="boton-formulario centrar siguiendo" value="<spring:message code="label.dseguirp" />">
+										</c:when>
+										<c:otherwise>
+											<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.seguirp" />">
+										</c:otherwise>
+									</c:choose>
+								</form>
+							</c:if>
 						</c:otherwise>
 					</c:choose>
 				</div>

@@ -86,10 +86,10 @@ public class Acciones extends HttpServlet {
 				activarCuenta(request, response);
 				break;
 			case 2:
-				iniciarSesion(request, response);
+				direccion = iniciarSesion(request, response);
 				break;
 			case 3:
-				cerrarSesion(request, response);
+				direccion = cerrarSesion(request, response);
 				break;
 			case 4:
 				recuperarClave(request, response);
@@ -226,13 +226,14 @@ public class Acciones extends HttpServlet {
 	}
 
 	
-	private void cerrarSesion(HttpServletRequest request, HttpServletResponse response) {
+	private String cerrarSesion(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("fotoPerfil");
 		session.removeAttribute("usuario");
+		return "BuscarInformacionFormularios?metodoDeBusqueda=12&esAjax=false&direccion=index.jsp";
 	}
 
-	private void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private String iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
 		Archivos archivos;
 		Usuario usuario;
@@ -265,6 +266,7 @@ public class Acciones extends HttpServlet {
 		session.setAttribute("fotoPerfil", fotoPerfil);
 		session.setAttribute("usuario", usuario);
 		cargarContactos(request,response);
+		return "BuscarInformacionFormularios?metodoDeBusqueda=12&esAjax=false&direccion=index.jsp";
 	}
 
 	private void cargarContactos(HttpServletRequest request, HttpServletResponse response) throws IOException {
