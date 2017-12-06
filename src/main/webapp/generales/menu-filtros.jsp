@@ -1,12 +1,12 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<form action="FiltradoLibros" class="opciones-menu">
+<form action="BuscarInformacionFormularios?metodoDeBusqueda=14&esAjax=false&direccion=DespliegaBusqueda.jsp" method="POST" class="opciones-menu">
 	<nav>
 		<ul>
 			<li>
 				<div class="opciones-menu-altura padding-menu">
 					<div class="texto-centro opciones-menu-altura izquierda">
-						<input type="text" id="input-buscar-filtrado" placeholder="<spring:message code="label.buscar" />" maxlength="100">
+						<input type="text" name="buscarFiltro" id="input-buscar-filtrado" placeholder="<spring:message code="label.buscar" />" maxlength="100">
 					</div>
 				</div>
 			</li>
@@ -19,9 +19,9 @@
 				<ul>
 					<li class="subopcion-menu-margenes oculto" id="idioma">
 						<select name="idioma">
-							<option value=""><spring:message code="label.selidioma" /></option>
-							<option value="es"><spring:message code="label.español" /></option>
-							<option value="en"><spring:message code="label.ingles" /></option>
+							<option value="0"><spring:message code="label.selidioma" /></option>
+							<option value="1"><spring:message code="label.español" /></option>
+							<option value="2"><spring:message code="label.ingles" /></option>
 						</select>
 					</li>
 				</ul>
@@ -35,7 +35,7 @@
 				<ul>
 					<li class="subopcion-menu-margenes oculto" id="genero">
 						<select name="genero">
-							<option value=""><spring:message code="label.selgenero" /></option>
+							<option value="0"><spring:message code="label.selgenero" /></option>
 							<c:forEach var="id" begin="1" end="12">
 								<option value="${id}"><spring:message code="label.genero${id}"/></option>
 							</c:forEach>
@@ -71,7 +71,7 @@
 				</div>
 				<ul>
 					<li class="subopcion-menu-margenes oculto" id="capitulos">
-						<input type="text" name="capitulos" placeholder="<spring:message code="label.numero" />">	
+						<input type="text" name="capitulos" value="0" placeholder="<spring:message code="label.numero" />">	
 					</li>
 				</ul>
 			</li>
@@ -87,11 +87,11 @@
 							<tbody>
 								<tr>
 									<c:forEach var="numeroEstrellaPopularidad" begin="1" end="5">
-										<td><span class="icon-star-empty estrella cursor-pointer centrar" id="popularidadEstrella${numeroEstrellaPopularidad}" onclick="styleStarts('popularidadEstrella',${numeroEstrellaPopularidad},'popularidad');"></span></td>
+										<td><span class="icon-star-empty estrella cursor-pointer centrar" id="popularidadEstrella${numeroEstrellaPopularidad}" onclick="styleStarts('popularidadEstrella',${numeroEstrellaPopularidad},'popularidad2');"></span></td>
 									</c:forEach>
 								</tr>
 							</tbody>
-						</table> <input type="hidden" id="popularidad" name="popularidad" value="0">
+						</table> <input type="hidden" id="popularidad2" name="rankingObra" value="0">
 					</li>
 				</ul>
 			</li>

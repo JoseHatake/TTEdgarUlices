@@ -60,4 +60,9 @@ public class GeneroObraBs {
     public List<GeneroObra> buscarPorIdObra(Integer idObra){
     		return generoObraDao.buscarPorIdObra(idObra);
     }
+    
+    @Transactional(readOnly = true)
+    public Boolean verificarObraPorGenero(Integer idObra,Integer idGenero){
+    		return generoObraDao.verificarObraPorGenero(idObra, idGenero);
+    }
 }

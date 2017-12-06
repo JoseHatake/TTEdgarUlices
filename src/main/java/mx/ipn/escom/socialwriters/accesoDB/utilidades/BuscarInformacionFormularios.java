@@ -161,6 +161,9 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			case 13:
 				buscarObras(request,response);
 				break;
+			case 14:
+				buscarObrasFiltradas(request,response);
+				break;
 			default:
 				rd = request.getRequestDispatcher("index.jsp");
 				break;
@@ -173,6 +176,111 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			rd = request.getRequestDispatcher(direccion);
 			rd.forward(request, response);
 		}
+	}
+
+	private void buscarObrasFiltradas(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		List<Obra> obras,tmp1,tmp2;
+		List<GeneroObra> generos;
+		List<DetallesObra> detallesObras;
+		List<RankingUsuario> rankingUsuarioList;
+		List<RankingObra> rankingObraList;
+		List<Capitulo> capitulosList;
+		DetallesObra detallesObra;
+		String contexto,busqueda;
+		Integer idObra,idIdioma,idGenero,rankingAutor,numCapitulos,rankingObra,numEstrellas,numeroCapObra;
+		Ranking ranking;
+		
+		busqueda = request.getParameter("buscarFiltro");
+		idIdioma = Integer.parseInt(request.getParameter("idioma"));
+		idGenero = Integer.parseInt(request.getParameter("genero"));
+		rankingAutor = Integer.parseInt(request.getParameter("estrellasRankingFiltro"));
+		numCapitulos = Integer.parseInt(request.getParameter("capitulos"));
+		rankingObra = Integer.parseInt(request.getParameter("rankingObra"));
+		
+		contexto = (String) session.getAttribute("contexto");
+		if (busqueda != null) {
+			obras = obraBs.buscarObrasPorNombre(busqueda);
+		}
+		else {
+			obras = obraBs.todasLasObras();
+		}
+		ranking = new Ranking();
+		
+		tmp1 = new ArrayList<Obra>();
+		if (idIdioma != 0) {
+			for (Obra obra: obras) {
+				if (obra.getIdIdioma() == idIdioma) {
+					tmp1.add(obra);
+				}
+			}
+		}
+		else {
+			tmp1 = obras;
+		}
+		
+		tmp2 = new ArrayList<Obra>();
+		if (idGenero != 0) {
+			for (Obra obra: tmp1) {
+				idObra = obra.getId();
+				if (generoObraBs.verificarObraPorGenero(idObra, idGenero)) {
+					tmp2.add(obra);
+				}
+			}
+		}
+		else {
+			tmp2 = tmp1;
+		}
+		
+		tmp1 = new ArrayList<Obra>();
+		if (rankingAutor != 0) {
+			for (Obra obra: tmp2) {
+				rankingUsuarioList = rankingUsuarioBs.buscarUsuariosRankea(obra.getIdUsuario());
+				numEstrellas = ranking.getEstrellasUsuario(rankingUsuarioList);
+				if (numEstrellas == rankingAutor) {
+					tmp1.add(obra);
+				}
+			}
+		}
+		else {
+			tmp1 = tmp2;
+		}
+		
+		tmp2 = new ArrayList<Obra>();
+		if (numCapitulos != 0) {
+			for (Obra obra: tmp1) {
+				capitulosList = capituloBs.buscarPorIdObra(obra.getId());
+				numeroCapObra = capitulosList.size();
+				if (numCapitulos <= numeroCapObra) {
+					tmp2.add(obra);
+				}
+			}
+		}
+		else {
+			tmp2 = tmp1;
+		}
+		
+		tmp1 = new ArrayList<Obra>();
+		if (rankingObra != 0) {
+			for (Obra obra: tmp2) {
+				rankingObraList = rankingObraBs.buscarRankingPorIdObra(obra.getId());
+				numEstrellas = ranking.getEstrellasObra(rankingObraList);
+				if (rankingObra == numEstrellas) {
+					tmp1.add(obra);
+				}
+			}
+		}
+		else {
+			tmp1 = tmp2;
+		}
+		
+		obras = tmp1;
+		detallesObras = new ArrayList<DetallesObra>();
+		for (Obra obra: obras) {
+			detallesObra = this.obtenerDetalleObraPorObra(obra, contexto);
+			detallesObras.add(detallesObra);
+		}
+		request.setAttribute("obras", detallesObras);
 	}
 
 	private void buscarObras(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -190,7 +298,6 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			detallesObra = this.obtenerDetalleObraPorObra(obra, contexto);
 			detallesObras.add(detallesObra);
 		}
-		System.out.println("Si llega");
 		request.setAttribute("obras", detallesObras);
 	}
 

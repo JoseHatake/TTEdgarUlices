@@ -28,6 +28,7 @@ public class GeneroObraDao {
 	private SessionFactory sessionFactory;
     
     protected String QUERY1 = "select a from GeneroObra a where idObra = ?1";
+    protected String QUERY2 = "select a from GeneroObra a where idObra = ?1 and idGenero = ?2";
     
     public GeneroObra guardar(GeneroObra generoObra){
         sessionFactory.getCurrentSession().save(generoObra);
@@ -57,5 +58,13 @@ public class GeneroObraDao {
     		resultado.setParameter(1, idObra);
     		List<GeneroObra> generosObra = resultado.list();
     		return generosObra.isEmpty()?new ArrayList<GeneroObra>():generosObra;
+    }
+    
+    public Boolean verificarObraPorGenero(Integer idObra,Integer idGenero){
+		Query<GeneroObra> resultado = sessionFactory.getCurrentSession().createQuery(QUERY2,GeneroObra.class);
+		resultado.setParameter(1, idObra);
+		resultado.setParameter(2, idGenero);
+		List<GeneroObra> generosObra = resultado.list();
+		return !generosObra.isEmpty();
     }
 }

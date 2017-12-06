@@ -57,6 +57,31 @@
 				<form action="Denuncia.jsp?idObra=${detallesObra.idObra}&idCapitulo=${capitulo.id}" method="POST" class="derecha">
 					<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.reportarobra" />">
 				</form>
+				<div id="fb-root"></div>
+				<script>
+					(function(d, s, id) {
+						var js, fjs = d.getElementsByTagName(s)[0];
+						if (d.getElementById(id))
+							return;
+						js = d.createElement(s);
+						js.id = id;
+						js.src = 'https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.11';
+						fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));
+				</script>
+				<div class="fb-share-button"
+					data-href="http://localhost:8080/SocialWriters/BuscarInformacionFormularios?metodoDeBusqueda=8&amp;esAjax=false&amp;direccion=PerfilObra.jsp&amp;idObra=${obra.id}"
+					data-layout="button" data-size="small" data-mobile-iframe="true">
+					<a class="fb-xfbml-parse-ignore" target="_blank"
+						href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A8080%2FSocialWriters%2FBuscarInformacionFormularios%3FmetodoDeBusqueda%3D8%26esAjax%3Dfalse%26direccion%3DPerfilObra.jsp%26idObra&amp;src=sdkpreparse">Compartir</a>
+				</div>
+				<a href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+					class="twitter-share-button" data-show-count="false">Tweet</a>
+				<script async src="https://platform.twitter.com/widgets.js"
+					charset="utf-8"></script>
+				<div class="g-plus" data-action="share"
+					data-href="http://localhost:8080/SocialWriters/BuscarInformacionFormularios?metodoDeBusqueda=8&amp;esAjax=false&amp;direccion=PerfilObra.jsp&amp;idObra=${obra.id}"></div>
+				<script src="https://apis.google.com/js/platform.js" async defer>{lang: 'es'}</script>
 			</div>
 		</div>
 		<div class="contenido">
