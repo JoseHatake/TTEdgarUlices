@@ -27,7 +27,7 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<div class="fondoFormato">
-				<h1>Selecciona obra para agregar capítulo</h1>
+				<h1><spring:message code="label.selecObraCap" /></h1>
 				<div class="contenedor-libros">
 					<c:forEach items="${obras}" var="obra">
 						<a href="CreaCapitulo.jsp?idObra=${obra.idObra}">

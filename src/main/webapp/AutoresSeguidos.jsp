@@ -27,7 +27,7 @@
 	<div class="contenedor">
 		<div class="contenido">
 			<div class="fondoFormato">
-				<h1>Autores seguidos</h1>
+				<h1><spring:message code="label.autoresSeguidos" /></h1>
 				<div class="contenedor-libros">
 					<c:forEach items="${listaContactos}" var="contacto">
 						<a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${contacto.nickName}">

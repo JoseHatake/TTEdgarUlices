@@ -1,5 +1,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -45,7 +46,7 @@
 						<tr>
 							<td>
 								<h3><spring:message code="label.capitulo" /></h3>
-								<textarea name="capitulo" id="capitulo" class="form-input-text" cols="50" rows="25"  required></textarea>
+								<textarea name="capitulo" id="capitulo" class="form-input-text" cols="50" rows="25" required></textarea>
 							</td>
 						</tr>
 					</tbody>

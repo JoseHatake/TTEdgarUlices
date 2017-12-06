@@ -2,6 +2,7 @@ package mx.ipn.escom.socialwriters.accesoDB.utilidades;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -146,5 +147,13 @@ public class Archivos {
 		
 		return parrafos;
 		
+	}
+	
+	public void guardaCapitulofile(String archivo, String capitulo)throws IOException {
+		File file;
+		file = new File(contexto + ARCHIVERO + "/" + archivo);
+		PrintWriter pw = new PrintWriter(file);
+		pw.write(capitulo);
+		pw.close();
 	}
 }

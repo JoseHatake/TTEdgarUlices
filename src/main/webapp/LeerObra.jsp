@@ -92,13 +92,14 @@
 						<h1><c:out value="${capitulo.numero}.- ${capitulo.nombre}"></c:out></h1>
 					</c:when>
 					<c:otherwise>
-						<h1>Sin capitulos aun</h1>
+						<h1><spring:message code="label.obraVacia"/></h1>
 					</c:otherwise>
 				</c:choose>
 				</p>
 				<br>
 				<c:forEach items="${capituloListaTexto}" var="parrafo">
 					<p><c:out value="${parrafo}"></c:out></p>
+					<br>
 				</c:forEach>
 			</div>
 		</div>

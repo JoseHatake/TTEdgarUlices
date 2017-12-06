@@ -162,7 +162,7 @@
 					<c:if test="${usuario != null}">
 						<form action="Acciones?accion=8&direccion=PerfilObra.jsp&idObra=${detallesObra.idObra}" method="POST">
 							<textarea name="comentario" style="width: 100%; height: 60px; margin-bottom: 20px;" maxlength="250"></textarea>
-							<input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.guardar" />">
+							<input type="submit" class="boton-formulario centrar" id="itemSubmit" value="<spring:message code="label.comentar" />">
 						</form>
 					</c:if>
 					<div class="comentarios">
