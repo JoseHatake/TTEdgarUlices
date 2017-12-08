@@ -17,7 +17,7 @@
 				<table class="derecha">
 					<tbody>
 						<tr>
-							<th><span class="icon-bell notificacion centrar"></span></th>
+<!-- 							<th><span class="icon-bell notificacion centrar"></span></th> -->
 							<th>
 							<c:if test="${usuario.id == null && usuario.nick != null}">
 							    		<c:set var="styleOpen" value="openMenuPerfil"></c:set>

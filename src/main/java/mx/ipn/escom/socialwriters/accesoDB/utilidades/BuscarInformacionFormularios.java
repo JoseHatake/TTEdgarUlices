@@ -456,7 +456,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		Obra obra;
 		Usuario usuario;
 		Contacto contacto;
-		Integer idObra,idUsuario,estrellas;
+		Integer idObra,idUsuario,estrellas1,estrellas2;
 		String titulo,portada,contexto,nickAutor,nick,imagenPerfil;
 		Archivos archivo;
 		Ranking ranking;
@@ -485,7 +485,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		}
 		
 		ranking = new Ranking();
-		estrellas = ranking.getEstrellasObra(rankingObraBs.buscarRankingPorIdObra(idObra));
+		estrellas1 = ranking.getEstrellasObra(rankingObraBs.buscarRankingPorIdObra(idObra));
 		comentariosDB = comentariosBs.buscarComentariosPorIdObra(idObra);
 		comentarios = new ArrayList<mx.ipn.escom.socialwriters.accesoDB.utilidades.Comentarios>();
 		for (Comentarios comentarios2 : comentariosDB) {
@@ -493,12 +493,12 @@ public class BuscarInformacionFormularios extends HttpServlet {
 			nick = usuario.getNick();
 			idUsuario = usuario.getId();
 			ranking = new Ranking();
-			estrellas = ranking.getEstrellasUsuario(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
+			estrellas2 = ranking.getEstrellasUsuario(rankingUsuarioBs.buscarUsuariosRankea(idUsuario));
 			imagenPerfil = null;
 			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
 				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);
 			}
-			contacto = new Contacto(nick, imagenPerfil,estrellas);
+			contacto = new Contacto(nick, imagenPerfil,estrellas2);
 			comentarios.add(new mx.ipn.escom.socialwriters.accesoDB.utilidades.Comentarios(contacto,comentarios2.getComentario(),comentarios2.getFechaHora()));
 		}
 		
@@ -507,7 +507,7 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		request.setAttribute("obra", obra);
 		request.setAttribute("generos", generos);
 		request.setAttribute("siguiendo", siguiendo);
-		request.setAttribute("estrellas", estrellas);
+		request.setAttribute("estrellas", estrellas1);
 	}
 
 	private void cambiarRankingUsuario(HttpServletRequest request, HttpServletResponse response) {
@@ -611,10 +611,11 @@ public class BuscarInformacionFormularios extends HttpServlet {
 		}
 		else {
 			imagenPerfil = null;
-			usuario = usuarioBs.buscarUsuarioPorNick(nickName);
 			idUsuario = usuario.getId();
+			usuario = usuarioBs.buscarUsuarioPorNick(nickName);
 			nickName = usuario.getNick();
 			siguiendo = seguirUsuarioBs.verficarSeguirUsuario(idUsuario, usuario.getId());
+			idUsuario = usuario.getId();
 			
 			if (archivo.exiteDocumento(idUsuario.toString(), NOMBRE_FOTO_PERFIL)) {
 				imagenPerfil = archivo.obtenerImagenCodificada(idUsuario.toString(),NOMBRE_FOTO_PERFIL);

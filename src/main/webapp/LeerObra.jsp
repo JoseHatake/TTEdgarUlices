@@ -54,9 +54,11 @@
 				</select>
 			</div>
 			<div class="izquierda">
-				<form action="Denuncia.jsp?idObra=${detallesObra.idObra}&idCapitulo=${capitulo.id}" method="POST" class="derecha">
-					<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.reportarobra" />">
-				</form>
+				<c:if test="${usuario != null}">
+					<form action="Denuncia.jsp?idObra=${detallesObra.idObra}&idCapitulo=${capitulo.id}" method="POST" class="derecha">
+						<input type="submit" class="boton-formulario centrar" value="<spring:message code="label.reportarobra" />">
+					</form>
+				</c:if>
 				<div id="fb-root"></div>
 				<script>
 					(function(d, s, id) {
@@ -99,7 +101,6 @@
 				<br>
 				<c:forEach items="${capituloListaTexto}" var="parrafo">
 					<p><c:out value="${parrafo}"></c:out></p>
-					<br>
 				</c:forEach>
 			</div>
 		</div>

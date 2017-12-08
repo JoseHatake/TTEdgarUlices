@@ -31,8 +31,8 @@
 				<div class="contenedor-libros">
 					<c:forEach items="${listaContactos}" var="contacto">
 						<a href="BuscarInformacionFormularios?metodoDeBusqueda=4&esAjax=false&direccion=PerfilUsuario.jsp&nickName=${contacto.nickName}">
-							<div class="libro">
-								<div class="portadaLibro">
+							<div class="perfil-todos-usuarios">
+								<div>
 									<c:choose>
 										<c:when test="${contacto.imgPerfil != null}">
 											<img alt="Imagen de perfil" src="data:image/jpeg;base64,${contacto.imgPerfil}" class="img-circulo">

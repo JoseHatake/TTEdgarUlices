@@ -170,20 +170,20 @@ public class CrearObra extends HttpServlet{
 			}
 			
 			//creamos las notificaciones.
-			alerta.setIdObra(obra.getId());
-			alerta.setEstatus(false);
-			alerta.setObra(obra);
-			alerta.setTipoAlerta(1);
-			alerta.setUsuario(usuario);
-			
-			seguidores = seguirUsuarioBs.buscarPorIdUsuarioSeguido(idUsuario);
-			if(!seguidores.isEmpty()) {
-				for(int i=0; i<seguidores.size();i++){
-					seguirUsuario = seguidores.get(i);
-					alerta.setIdUsuario(seguirUsuario.getIdUsuarioSigue());
-					alertasBs.guardar(alerta);
-				}
-			}
+//			alerta.setIdObra(obra.getId());
+//			alerta.setEstatus(false);
+//			alerta.setObra(obra);
+//			alerta.setTipoAlerta(1);
+//			alerta.setUsuario(usuario);
+//			
+//			seguidores = seguirUsuarioBs.buscarPorIdUsuarioSeguido(idUsuario);
+//			if(!seguidores.isEmpty()) {
+//				for(int i=0; i<seguidores.size();i++){
+//					seguirUsuario = seguidores.get(i);
+//					alerta.setIdUsuario(seguirUsuario.getIdUsuarioSigue());
+//					alertasBs.guardar(alerta);
+//				}
+//			}
 		}
 		return obra;
 	}
